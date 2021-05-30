@@ -33,7 +33,7 @@
 }
 
 .loginBox {
-  height: 300px;
+  /* height: 300px; */
   padding: 20px;
   background-color: white;
   border-radius: 10px;
@@ -81,6 +81,7 @@
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
+  align-self: center;
 }
 .loginRegisterButtonText {
   text-decoration: none;

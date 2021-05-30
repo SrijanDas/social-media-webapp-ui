@@ -12,7 +12,7 @@ export default function Rightbar({ user }) {
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(
-    currentUser.following.includes(user?.id)
+    currentUser.following.includes(user?._id)
   );
 
   useEffect(() => {
@@ -68,29 +68,25 @@ export default function Rightbar({ user }) {
     return (
       <>
         {user.username !== currentUser.username && (
-          <button className="rightbarFollowButton" onClick={handleClick}>
-            {followed ? "Unfollow" : "Follow"}
-            {followed ? <Remove /> : <Add />}
-          </button>
+          <div style={{ marginTop: "22px" }}>
+            <button className="rightbarFollowButton" onClick={handleClick}>
+              {followed ? "Unfollow" : "Follow"}
+              {followed ? <Remove /> : <Add />}
+            </button>
+          </div>
         )}
         <h4 className="rightbarTitle">User information</h4>
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{user.city}</span>
+            <span className="rightbarInfoValue">
+              {user.city ? user.city : "No information"}
+            </span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{user.from}</span>
-          </div>
-          <div className="rightbarInfoItem">
-            <span className="rightbarInfoKey">Relationship:</span>
             <span className="rightbarInfoValue">
-              {user.relationship === 1
-                ? "Single"
-                : user.relationship === 1
-                ? "Married"
-                : "-"}
+              {user.from ? user.from : "No information"}
             </span>
           </div>
         </div>
