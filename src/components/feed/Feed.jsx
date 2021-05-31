@@ -27,7 +27,6 @@ export default function Feed({ username }) {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {/* {currentUser._id === username ? <Share /> : <> </>} */}
         {(!username || username === currentUser.username) && <Share />}
 
         {posts.map((p) => (

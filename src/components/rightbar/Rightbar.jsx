@@ -1,8 +1,7 @@
 import "./rightbar.css";
-import { Users } from "../../dummyData";
 import Online from "../online/Online";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Add, Remove } from "@material-ui/icons";
@@ -11,23 +10,27 @@ export default function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
-  const [followed, setFollowed] = useState(
-    currentUser.following.includes(user?._id)
-  );
+  const [followed, setFollowed] = useState(false);
+
+  useEffect(() => {
+    setFollowed(currentUser.following.includes(user?._id));
+  }, [currentUser, user?._id]);
 
   useEffect(() => {
     const getFriends = async () => {
-      try {
-        const friendList = await axios.get("/users/friends/" + user._id);
-        setFriends(friendList.data);
-      } catch (err) {
-        console.log(err);
-      }
+      await axios
+        .get("/users/friends/" + currentUser._id)
+        .then((res) => {
+          setFriends(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
     getFriends();
-  }, [user]);
+  }, [currentUser]);
 
-  const handleClick = async () => {
+  const handleFollow = async () => {
     try {
       if (followed) {
         await axios.put(`/users/${user._id}/unfollow`, {
@@ -56,8 +59,14 @@ export default function Rightbar({ user }) {
         <img className="rightbarAd" src="assets/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
-          {Users.map((u) => (
-            <Online key={u.id} user={u} />
+          {friends.map((friend) => (
+            <Link
+              key={friend._id}
+              to={"/profile/" + friend.username}
+              style={{ textDecoration: "none" }}
+            >
+              <Online key={friend._id} user={friend} />
+            </Link>
           ))}
         </ul>
       </>
@@ -68,8 +77,8 @@ export default function Rightbar({ user }) {
     return (
       <>
         {user.username !== currentUser.username && (
-          <div style={{ marginTop: "22px" }}>
-            <button className="rightbarFollowButton" onClick={handleClick}>
+          <div>
+            <button className="rightbarFollowButton" onClick={handleFollow}>
               {followed ? "Unfollow" : "Follow"}
               {followed ? <Remove /> : <Add />}
             </button>
@@ -101,7 +110,7 @@ export default function Rightbar({ user }) {
                 <img
                   src={
                     friend.profilePicture
-                      ? PF + friend.profilePicture
+                      ? PF + "/person/" + friend.profilePicture
                       : PF + "person/noAvatar.png"
                   }
                   alt=""
