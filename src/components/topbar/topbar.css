@@ -1,20 +1,21 @@
 .topbar {
   height: auto;
   /* width: 100%; */
-  background-color: #1877f2;
+  background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 0px 10px;
+  border-bottom: 1px solid lightgray;
 }
 .topbarFirstRow {
-  padding: 10px;
+  padding: 12px 20px;
   display: flex;
   justify-content: space-between;
+  background-color: #1877f2;
   align-items: center;
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
   cursor: pointer;
@@ -45,15 +46,23 @@
 
 .topbarSecondRow {
   margin-top: 5px;
-  padding: 10px;
+  padding: 12px 20px;
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .topbarIconItem {
   cursor: pointer;
   position: relative;
-  color: white;
+  color: #1877f2;
+}
+
+.topbarIconItem a {
+  text-decoration: none;
 }
 
 .topbarIconBadge {
