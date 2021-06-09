@@ -3,20 +3,13 @@ import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
-import { logoutCall } from "../../apiCalls";
 import Avatar from "@material-ui/core/Avatar";
 import RssFeedIcon from "@material-ui/icons/RssFeed";
-import MoreIcon from "@material-ui/icons/More";
+import ReorderIcon from "@material-ui/icons/Reorder";
 
 export default function Topbar() {
-  const { user, dispatch } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
-  const logOut = (e) => {
-    e.preventDefault();
-    logoutCall(dispatch);
-    localStorage.clear();
-  };
 
   return (
     <div className="topbar">
@@ -62,15 +55,25 @@ export default function Topbar() {
             <span className="topbarIconBadge">1</span>
           </div>
           <div className="topbarIconItem">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
+            <Link
+              to="/messenger"
+              style={{ textDecoration: "none", color: "#1877f2" }}
+            >
+              <Chat />
+              <span className="topbarIconBadge">2</span>
+            </Link>
           </div>
           <div className="topbarIconItem">
             <Notifications />
             <span className="topbarIconBadge">1</span>
           </div>
           <div className="topbarIconItem">
-            <MoreIcon />
+            <Link
+              to="/options"
+              style={{ textDecoration: "none", color: "#1877f2" }}
+            >
+              <ReorderIcon />
+            </Link>
           </div>
         </div>
       </div>

@@ -2,23 +2,26 @@
   width: 100vw;
   height: 100vh;
   background-color: #f0f2f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.loginWrapper {
-  width: 70%;
-  height: 70%;
-  display: flex;
-}
-
-.loginLeft,
-.loginRight {
-  flex: 1;
+.loginContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.loginLeft {
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .loginContainer {
+    display: flex;
+    flex-direction: row;
+    max-width: 850px;
+    margin: auto;
+  }
 }
 
 .loginLogo {
@@ -26,35 +29,41 @@
   font-weight: 800;
   color: #1775ee;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .loginDesc {
   font-size: 24px;
+  text-align: center;
 }
 
-.loginBox {
-  /* height: 300px; */
+.loginRight {
   padding: 20px;
   background-color: white;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.loginInput {
+.login__formContainer {
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login__form input {
   height: 50px;
   border-radius: 10px;
   border: 1px solid gray;
   font-size: 18px;
   padding-left: 20px;
+  margin-bottom: 10px;
 }
 
-.loginInput:focus {
+.login__form input:focus {
   outline: none;
 }
 
-.loginButton {
+.login__btn {
   height: 50px;
   border-radius: 10px;
   border: none;
@@ -65,15 +74,42 @@
   cursor: pointer;
 }
 
-.loginForgot {
+.login__Forgot {
   text-align: center;
   color: #1775ee;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
+
+.login__RegisterButtonContainer {
+  align-self: center;
+}
+
+.login__RegisterButton {
+  width: 15rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #42b72a;
+  padding: 20px;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* 
+
+
+
+
+
+
 
 .loginRegisterButton {
   width: 60%;
   align-self: center !important;
-  height: 50px;
+
   border-radius: 10px;
   border: none;
   background-color: #42b72a;
@@ -81,9 +117,9 @@
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
-  align-self: center;
 }
 .loginRegisterButtonText {
   text-decoration: none;
+
   color: white;
-}
+} */

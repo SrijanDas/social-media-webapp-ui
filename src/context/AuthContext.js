@@ -22,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
         user: state.user,
         isFetching: state.isFetching,
         error: state.error,
-        profilePicture: state.profilePicture,
+        // profilePicture: state.profilePicture,
         dispatch,
       }}
     >

@@ -5,7 +5,7 @@ import {
   PlayCircleFilledOutlined,
   Group,
 } from "@material-ui/icons";
-// import CloseFriend from "../closeFriend/CloseFriend";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -31,12 +31,25 @@ export default function Sidebar() {
         </ul>
         <button className="sidebarButton">Show More</button>
         <hr className="sidebarHr" />
-        <ul className="sidebarFriendList">
-          {/* {Users.map((u) => (
-            <CloseFriend key={u.id} user={u} />
-          ))} */}
+        <ul className="sidebarFriendList">Online Friends</ul>
+        <hr className="sidebarHr" />
+        <ul className="sidebar__FooterLinks">
+          <li>
+            <Link to="/about" style={{ textDecoration: "none" }}>
+              About
+            </Link>
+          </li>
+          <li>
+            <Link style={{ textDecoration: "none" }} to="#">
+              Contact
+            </Link>
+          </li>
+          <li>
+            <Link style={{ textDecoration: "none" }} to="#">
+              Report a Problem
+            </Link>
+          </li>
         </ul>
-        <p>Made with ❤ by Srijan</p>
         <p> &copy; 2021</p>
       </div>
     </div>

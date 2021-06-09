@@ -14,20 +14,26 @@ export default function Post({ post }) {
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
-    setIsLiked(post.likes.includes(currentUser._id));
+    setIsLiked(post.likes.includes(currentUser?._id));
   }, [currentUser._id, post.likes]);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
-      setUser(res.data);
+      await axios
+        .get(`/users?userId=${post.userId}`)
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
     fetchUser();
   }, [post.userId]);
 
   const likeHandler = () => {
     try {
-      axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+      axios.put("/posts/" + post._id + "/like", { userId: currentUser?._id });
     } catch (error) {
       console.log(error);
     }
@@ -39,14 +45,18 @@ export default function Post({ post }) {
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <Link to={`/profile/${user.username}`}>
+            <Link to={`/profile/${user?.username}`}>
               <img
                 className="postProfileImg"
-                src={PF + "person/" + user.profilePicture}
+                src={
+                  user?.profilePicture
+                    ? PF + "person/" + user.profilePicture
+                    : PF + "person/noAvatar.png"
+                }
                 alt=""
               />
             </Link>
-            <span className="postUsername">{user.username}</span>
+            <span className="postUsername">{user?.username}</span>
             <span className="postDate">{format(post.createdAt)}</span>
           </div>
           <div className="postTopRight">
@@ -54,8 +64,12 @@ export default function Post({ post }) {
           </div>
         </div>
         <div className="postCenter">
-          <span className="postText">{post?.desc}</span>
-          <img className="postImg" src={PF + post.img} alt="" />
+          <span className="postText">{post.desc}</span>
+          {post.img ? (
+            <img className="postImg" src={PF + post.img} alt="" />
+          ) : (
+            ""
+          )}
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
