@@ -43,46 +43,65 @@ function Options() {
                 <ListItemText primary="Profile" />
               </ListItem>
             </Link>
+
             <Divider />
+
             <ListItem button>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
               <ListItemText primary="Friends" />
             </ListItem>
+
             <Divider />
-            <ListItem button>
-              <ListItemIcon>
-                <ChatIcon />
-              </ListItemIcon>
-              <ListItemText primary="Chats" />
-            </ListItem>
+
+            <Link
+              to="/messenger"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItem button>
+                <ListItemIcon>
+                  <ChatIcon />
+                </ListItemIcon>
+                <ListItemText primary="Chats" />
+              </ListItem>
+            </Link>
+
             <Divider />
+
             <ListItem button>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
+
             <Divider />
+
             <ListItem button onClick={logOut}>
               <ListItemIcon>
                 <PowerSettingsNewIcon />
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
+
             <Divider />
-            <ListItem button>
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="About" />
-            </ListItem>
+
+            <Link
+              to="/about"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItem button>
+                <ListItemIcon>
+                  <InfoIcon />
+                </ListItemIcon>
+                <ListItemText primary="About" />
+              </ListItem>
+            </Link>
+
             <Divider />
           </List>
         </div>
-        {/* <Feed /> */}
-        {/* <Rightbar /> */}
       </div>
     </div>
   );
