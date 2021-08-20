@@ -1,9 +1,19 @@
-# Socials
+# [Socials](https://socials-2bccb.web.app/)
+Socials is a social media website where you can connect with the users and chat with them.
 
-## Webapp - https://socials-2bccb.web.app/
+## Demo
 
-Backend: Nodejs, Express --> [Github Link](https://github.com/SrijanDas/socials-api)\
-Frontend: ReactJS, Material UI --> [Github Link](https://github.com/SrijanDas/socials-ui)\
-Database: MongoDB
+https://socials-2bccb.web.app/
 
-![](homepage.jpg)
+## Screenshot
+
+![App Screenshot](homepage.jpg)
+
+
+## Tech Stack
+
+**Client:** HTML, CSS, React, Material ui
+
+**Server:** Nodejs, Express
+
+**Database:** MongoDb 
