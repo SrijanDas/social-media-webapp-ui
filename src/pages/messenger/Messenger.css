@@ -1,5 +1,5 @@
 .messenger {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 200px);
   display: flex;
 }
 
@@ -32,12 +32,16 @@
 }
 
 .chatBoxBottom {
-  padding: 5px;
+  /* padding: 5px;
   margin-right: 10px;
   margin-top: 5px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
+}
+
+.chatBoxBottom__formContainer {
+  display: flex;
 }
 
 .chatMessageInput {
