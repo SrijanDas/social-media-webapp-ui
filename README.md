@@ -1,9 +1,21 @@
-# Socials
+# [Socials](https://socials-2bccb.web.app/)
 
-## Webapp - https://socials-2bccb.web.app/
 
-Backend: Nodejs, Express --> [Github Link](https://github.com/SrijanDas/socials-api)\
-Frontend: ReactJS, Material UI --> [Github Link](https://github.com/SrijanDas/socials-ui)\
-Database: MongoDB
+## Demo
+
+https://socials-2bccb.web.app/
+
+## Screenshot
+
+![App Screenshot](homepage.png)
+
+
+## Tech Stack
+
+**Client:** HTML, CSS, React, Material ui
+
+**Server:** Nodejs, Express
+
+**Database:** MongoDb 
 
 ![](homepage.jpg)
