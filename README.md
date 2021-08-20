@@ -7,7 +7,7 @@ https://socials-2bccb.web.app/
 
 ## Screenshot
 
-![App Screenshot](homepage.png)
+![App Screenshot](homepage.jpg)
 
 
 ## Tech Stack
@@ -17,5 +17,3 @@ https://socials-2bccb.web.app/
 **Server:** Nodejs, Express
 
 **Database:** MongoDb 
-
-![](homepage.jpg)
