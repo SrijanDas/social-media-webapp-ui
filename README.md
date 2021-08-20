@@ -39,13 +39,13 @@ cd socials-ui
 Install dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
 Start the server
 
 ```bash
-  npm start
+npm start
 ```
 
 Note: You also need to setup the [backend server](https://github.com/SrijanDas/socials-api)
