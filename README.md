@@ -33,7 +33,7 @@ git clone https://github.com/SrijanDas/socials-ui.git
 Go to the directory
 
 ```
-cd socials
+cd socials-ui
 ```
 
 Install dependencies
