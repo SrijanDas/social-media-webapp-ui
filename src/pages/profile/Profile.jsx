@@ -2,15 +2,37 @@ import "./profile.css";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
-// import Rightbar from "../../components/rightbar/Rightbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router";
 
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../../config/firebaseConfig";
+import DefaultProfilePic from "../../assets/profile.png";
+import DefaultCoverPic from "../../assets/cover.jpg";
+import {
+  ProfileToolsOthers,
+  ProfileToolsUser,
+} from "../../components/ProfileTools/ProfileTools";
+import { AuthContext } from "../../context/AuthContext";
+import UpdateProfilePic from "../../components/UpdateProfilePic/UpdateProfilePic";
+
 export default function Profile() {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
+  const { user: currentUser } = useContext(AuthContext);
   const username = useParams().username;
+  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+  const [hasClicked, setHasClicked] = useState(false);
+  const coverPic = DefaultCoverPic;
+
+  useEffect(() => {
+    const getImages = async () => {
+      await getDownloadURL(ref(storage, `${username}/profile/${username}.jpg`))
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
+    };
+    getImages();
+  }, [username]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,20 +50,33 @@ export default function Profile() {
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
+              <img className="profileCoverImg" src={coverPic} alt="" />
               <img
-                className="profileCoverImg"
-                src={PF + "person/" + user.coverPicture}
-                alt=""
-              />
-              <img
+                onClick={() => {
+                  setHasClicked(true);
+                }}
                 className="profileUserImg"
-                src={PF + "person/" + user.profilePicture}
+                src={profilePic}
                 alt=""
               />
+              {hasClicked ? (
+                <UpdateProfilePic
+                  setProfilePic={setProfilePic}
+                  hasClicked={hasClicked}
+                  setHasClicked={setHasClicked}
+                />
+              ) : (
+                ""
+              )}
             </div>
             <div className="profileInfo">
               <h4 className="profileInfoName">{user.username}</h4>
               <span className="profileInfoDesc">{user.desc}</span>
+              {currentUser.username === username ? (
+                <ProfileToolsUser />
+              ) : (
+                <ProfileToolsOthers />
+              )}
             </div>
           </div>
           <div className="profileRightBottom">
