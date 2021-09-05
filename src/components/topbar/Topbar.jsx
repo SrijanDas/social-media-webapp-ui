@@ -1,15 +1,29 @@
 import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import RssFeedIcon from "@material-ui/icons/RssFeed";
 import ReorderIcon from "@material-ui/icons/Reorder";
+import { ref, getDownloadURL } from "firebase/storage";
+import DefaultProfilePic from "../../assets/profile.png";
+import { storage } from "../../config/firebaseConfig";
 
 export default function Topbar() {
   const { user } = useContext(AuthContext);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+
+  useEffect(() => {
+    const getImages = async () => {
+      await getDownloadURL(
+        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+      )
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
+    };
+    getImages();
+  }, [user]);
 
   return (
     <div className="topbar">
@@ -30,14 +44,7 @@ export default function Topbar() {
 
           <div className="profile">
             <Link to={`/profile/${user.username}`}>
-              <Avatar
-                alt={user.username[0]}
-                src={
-                  user.profilePicture
-                    ? PF + "person/" + user.profilePicture
-                    : PF + "person/noAvatar.png"
-                }
-              />
+              <Avatar alt={user.username[0]} src={profilePic} />
             </Link>
           </div>
         </div>

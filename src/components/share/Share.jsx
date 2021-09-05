@@ -7,16 +7,30 @@ import {
   Cancel,
 } from "@material-ui/icons";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
 import Avatar from "@material-ui/core/Avatar";
+import { ref, getDownloadURL } from "firebase/storage";
+import DefaultProfilePic from "../../assets/profile.png";
+import { storage } from "../../config/firebaseConfig";
 
 export default function Share() {
   const { user } = useContext(AuthContext);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const desc = useRef();
   const [file, setFile] = useState(null);
+  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+
+  useEffect(() => {
+    const getImages = async () => {
+      await getDownloadURL(
+        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+      )
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
+    };
+    getImages();
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,11 +67,7 @@ export default function Share() {
           <Avatar
             className="shareProfileImg"
             alt={user.username[0]}
-            src={
-              user.profilePicture
-                ? PF + "person/" + user.profilePicture
-                : PF + "person/noAvatar.png"
-            }
+            src={profilePic}
           />
         </Link>
         <input
