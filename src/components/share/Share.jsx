@@ -6,17 +6,17 @@ import {
   EmojiEmotions,
   Cancel,
 } from "@material-ui/icons";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
 import Avatar from "@material-ui/core/Avatar";
 import { ref, getDownloadURL } from "firebase/storage";
 import DefaultProfilePic from "../../assets/profile.png";
 import { storage } from "../../config/firebaseConfig";
+import { useSelector } from "react-redux";
 
 export default function Share() {
-  const { user } = useContext(AuthContext);
+  const user = useSelector((state) => state.auth.user);
   const desc = useRef();
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
@@ -66,7 +66,7 @@ export default function Share() {
         <Link to={`/profile/${user.username}`}>
           <Avatar
             className="shareProfileImg"
-            alt={user.username[0]}
+            alt={user.username}
             src={profilePic}
           />
         </Link>
