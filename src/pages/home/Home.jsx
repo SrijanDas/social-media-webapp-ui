@@ -9,7 +9,7 @@ export default function Home() {
       <Navbar />
       <div className="page">
         <Sidebar className="sidebar" />
-        <Feed />
+        <Feed className="feed" />
       </div>
     </div>
   );

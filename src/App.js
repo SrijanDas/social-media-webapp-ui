@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -12,34 +13,41 @@ import {
 } from "react-router-dom";
 // import Messenger from "./pages/messenger/Messenger";
 import About from "./pages/about/About";
-import Layout from "./layout/Layout";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { load_user } from "./store/actions/authActions";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(load_user());
+  }, [dispatch]);
+
   const user = useSelector((state) => state.auth.user);
 
   return (
     <Router>
       <Switch>
-        <Layout>
-          <Route exact path="/">
-            {user ? <Home /> : <Redirect to="/login" />}
-          </Route>
-          <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-          <Route path="/register">
-            {user ? <Redirect to="/" /> : <Register />}
-          </Route>
-          <Route path="/profile/:username">
-            {user ? <Profile /> : <Redirect to="/" />}
-          </Route>
-          <Route path="/options">
-            {user ? <Options /> : <Redirect to="/login" />}
-          </Route>
-          {/* <Route path="/messenger">
+        <Route exact path="/feed">
+          {user ? <Redirect to="/" /> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path="/">
+          {user ? <Home /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+        <Route path="/register">
+          {user ? <Redirect to="/" /> : <Register />}
+        </Route>
+        <Route path="/profile/:username">
+          {user ? <Profile /> : <Redirect to="/" />}
+        </Route>
+        <Route path="/more">
+          {user ? <Options /> : <Redirect to="/login" />}
+        </Route>
+        {/* <Route path="/messenger">
             {user ? <Messenger /> : <Redirect to="/" />}
           </Route> */}
-          <Route path="/about">{user ? <About /> : <Redirect to="/" />}</Route>
-        </Layout>
+        <Route path="/about">{user ? <About /> : <Redirect to="/" />}</Route>
       </Switch>
     </Router>
   );

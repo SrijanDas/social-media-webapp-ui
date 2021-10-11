@@ -48,34 +48,46 @@
   margin-top: 5px;
   padding: 12px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   background-color: white;
-  max-width: 750px;
   margin-left: auto;
   margin-right: auto;
+  gap: 5px;
 }
 
-.topbarIconItem {
-  cursor: pointer;
-  position: relative;
-  color: #1877f2;
-}
-
-.topbarIconItem a {
-  text-decoration: none;
-}
-
-.topbarIconBadge {
-  width: 15px;
-  height: 15px;
-  background-color: red;
-  border-radius: 50%;
-  color: white;
-  position: absolute;
-  top: -5px;
-  right: -5px;
+.nav__item {
   display: flex;
   align-items: center;
+  color: #1877f2;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  width: 25%;
   justify-content: center;
-  font-size: 12px;
+}
+.nav__item:hover {
+  background-color: #e3f2fd;
+}
+.nav__itemActive {
+  display: flex;
+  align-items: center;
+  color: #1877f2;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  width: 25%;
+  justify-content: center;
+  background-color: #e3f2fd;
+}
+.nav__itemText {
+  margin-left: 3px;
+}
+
+@media (max-width: 768px) {
+  .nav__itemText {
+    display: none;
+  }
+  .topbarSecondRow {
+    padding: 5px 5px;
+  }
 }

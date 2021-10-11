@@ -19,14 +19,15 @@
 .postTopLeft {
   display: flex;
   align-items: center;
+  padding-left: 8px;
 }
 
-.postProfileImg {
+/* .postProfileImg {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-}
+} */
 
 .postUsername {
   font-size: 15px;

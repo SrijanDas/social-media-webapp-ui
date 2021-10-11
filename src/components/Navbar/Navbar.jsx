@@ -1,18 +1,24 @@
 import "./Navbar.css";
-import { Search, Person, Chat, Notifications } from "@material-ui/icons";
+import { Search } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import RssFeedIcon from "@material-ui/icons/RssFeed";
-import ReorderIcon from "@material-ui/icons/Reorder";
 import { ref, getDownloadURL } from "firebase/storage";
 import DefaultProfilePic from "../../assets/profile.png";
 import { storage } from "../../config/firebaseConfig";
-import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-export default function Topbar() {
-  const user = useSelector((state) => state.auth.user);
+// mui 5
+import RssFeedIcon from "@mui/icons-material/RssFeed";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import ChatIcon from "@mui/icons-material/Chat";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import ReorderIcon from "@mui/icons-material/Reorder";
+
+export default function Navbar() {
+  const user = JSON.parse(localStorage.getItem("user"));
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+  const [active, setActive] = useState("feed");
 
   useEffect(() => {
     const getImages = async () => {
@@ -49,41 +55,70 @@ export default function Topbar() {
           </div>
         </div>
       </div>
-
       <div>
         <div className="topbarSecondRow">
-          <div className="topbarIconItem">
-            <Link to="/" style={{ textDecoration: "none", color: "#1877f2" }}>
-              <RssFeedIcon />
-            </Link>
-          </div>
-          <div className="topbarIconItem">
-            <Person />
-            <span className="topbarIconBadge">1</span>
-          </div>
-          <div className="topbarIconItem">
-            <Link
-              to="/messenger"
-              style={{ textDecoration: "none", color: "#1877f2" }}
-            >
-              <Chat />
-              <span className="topbarIconBadge">2</span>
-            </Link>
-          </div>
-          <div className="topbarIconItem">
-            <Notifications />
-            <span className="topbarIconBadge">1</span>
-          </div>
-          <div className="topbarIconItem">
-            <Link
-              to="/options"
-              style={{ textDecoration: "none", color: "#1877f2" }}
-            >
-              <ReorderIcon />
-            </Link>
-          </div>
+          <NavItem
+            icon={<RssFeedIcon />}
+            text="Feed"
+            active={active}
+            setActive={setActive}
+          />
+          <NavItem
+            icon={<PeopleAltIcon />}
+            text="People"
+            active={active}
+            setActive={setActive}
+          />
+          <NavItem
+            icon={<ChatIcon />}
+            text="Chat"
+            active={active}
+            setActive={setActive}
+          />
+          <NavItem
+            icon={<NotificationsIcon />}
+            text="Notifications"
+            active={active}
+            setActive={setActive}
+          />
+          <NavItem
+            icon={<ReorderIcon />}
+            text="More"
+            active={active}
+            setActive={setActive}
+          />
         </div>
       </div>
     </div>
   );
 }
+
+const NavItem = ({
+  icon = <RssFeedIcon />,
+  text = "navlink",
+  active,
+  setActive,
+}) => {
+  const history = useHistory();
+
+  // const changeRoute = (url) => {
+  //   console.log(url);
+  //   (url);
+  // };
+
+  return (
+    <div
+      onClick={() => {
+        history.push(text.toLowerCase());
+        setActive(text.toLowerCase());
+      }}
+      className={`nav__item${active === text.toLowerCase() ? "Active" : ""}`}
+    >
+      <div className="nav__iconWrapper">
+        {icon}
+        {/* <span className="nav__iconBadge">1</span> */}
+      </div>
+      <span className="nav__itemText">{text}</span>
+    </div>
+  );
+};

@@ -29,6 +29,7 @@ export default function Register() {
           email: email.current.value,
           password: password.current.value,
         };
+        console.log(user);
         try {
           // await axios.post("/auth/register", user);
           history.push("/login");

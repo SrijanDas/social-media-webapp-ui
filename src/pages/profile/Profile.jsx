@@ -1,7 +1,7 @@
 import "./profile.css";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router";
 
@@ -13,12 +13,13 @@ import {
   ProfileToolsOthers,
   ProfileToolsUser,
 } from "../../components/ProfileTools/ProfileTools";
-import { AuthContext } from "../../context/AuthContext";
 import UpdateProfilePic from "../../components/UpdateProfilePic/UpdateProfilePic";
+import Navbar from "../../components/Navbar/Navbar";
+import { useSelector } from "react-redux";
 
 export default function Profile() {
   const [user, setUser] = useState({});
-  const { user: currentUser } = useContext(AuthContext);
+  const currentUser = useSelector((state) => state.auth.user);
   const username = useParams().username;
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [hasClicked, setHasClicked] = useState(false);
@@ -43,6 +44,7 @@ export default function Profile() {
 
   return (
     <>
+      <Navbar />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">

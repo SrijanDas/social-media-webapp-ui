@@ -13,10 +13,9 @@ import Avatar from "@material-ui/core/Avatar";
 import { ref, getDownloadURL } from "firebase/storage";
 import DefaultProfilePic from "../../assets/profile.png";
 import { storage } from "../../config/firebaseConfig";
-import { useSelector } from "react-redux";
 
 export default function Share() {
-  const user = useSelector((state) => state.auth.user);
+  const user = JSON.parse(localStorage.getItem("user"));
   const desc = useRef();
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
