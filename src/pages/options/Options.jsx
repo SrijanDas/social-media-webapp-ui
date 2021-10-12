@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import Topbar from "../../components/topbar/Topbar";
+import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,29 +7,30 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import Divider from "@material-ui/core/Divider";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { logoutCall } from "../../apiCalls";
-import { AuthContext } from "../../context/AuthContext";
+import { logoutCall } from "../../store/actions/authActions";
 import { Link } from "react-router-dom";
 import "./Options.css";
 import PeopleIcon from "@material-ui/icons/People";
 import ChatIcon from "@material-ui/icons/Chat";
 import SettingsIcon from "@material-ui/icons/Settings";
 import InfoIcon from "@material-ui/icons/Info";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../../components/Navbar/Navbar";
 
 function Options() {
-  const { user, dispatch } = useContext(AuthContext);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   const logOut = () => {
-    logoutCall(dispatch);
-    // localStorage.clear();
+    dispatch(logoutCall());
   };
 
   return (
     <div className="options__pageContainer">
-      <Topbar />
-      <div className="options__page">
+      <Navbar />
+      <div className="page">
         <Sidebar className="sidebar" />
-        <div className="options__list">
+        <div className="pageContent">
           <List>
             <Link
               to={`/profile/${user.username}`}

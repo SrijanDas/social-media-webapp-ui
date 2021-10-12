@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Conversation from "../../components/conversation/Conversation";
 import Message from "../../components/message/Message";
 import ChatOnline from "../../components/chatOnline/ChatOnline";
-import Topbar from "../../components/topbar/Topbar";
-import { AuthContext } from "../../context/AuthContext";
 import "./Messenger.css";
 import axios from "../../axios";
 import { io } from "socket.io-client";
+import { useSelector } from "react-redux";
+import Navbar from "../../components/Navbar/Navbar";
 
 function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -16,7 +16,7 @@ function Messenger() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
-  const { user } = useContext(AuthContext);
+  const user = useSelector((state) => state.auth.user);
   const scrollRef = useRef();
   const socketUrl = process.env.REACT_APP_SOCKET_URL;
 
@@ -103,7 +103,7 @@ function Messenger() {
 
   return (
     <>
-      <Topbar />
+      <Navbar />
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">

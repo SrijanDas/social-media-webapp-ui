@@ -10,8 +10,13 @@
   .page {
     display: flex;
     margin: auto;
-    max-width: 800px;
+    max-width: 1180px;
     flex-direction: row;
+    width: 100%;
+    gap: 1rem;
+  }
+  .pageContent {
+    padding: 0 2rem;
   }
   .sidebar {
     display: contents;

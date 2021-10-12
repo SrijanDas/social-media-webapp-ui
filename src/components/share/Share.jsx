@@ -1,22 +1,31 @@
 import "./share.css";
-import {
-  PermMedia,
-  Label,
-  Room,
-  EmojiEmotions,
-  Cancel,
-} from "@material-ui/icons";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext, useState, useRef } from "react";
+import { PermMedia, Cancel } from "@material-ui/icons";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
 import Avatar from "@material-ui/core/Avatar";
+import DefaultProfilePic from "../../assets/profile.png";
+
+// firebase imports
+import { storage } from "../../config/firebaseConfig";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 export default function Share() {
-  const { user } = useContext(AuthContext);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const user = JSON.parse(localStorage.getItem("user"));
   const desc = useRef();
   const [file, setFile] = useState(null);
+  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+
+  useEffect(() => {
+    const getImages = async () => {
+      await getDownloadURL(
+        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+      )
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
+    };
+    getImages();
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,22 +33,23 @@ export default function Share() {
       userId: user._id,
       desc: desc.current.value,
     };
-    console.log(newPost);
+
+    // uploading files to firebase
     if (file) {
-      const data = new FormData();
       const fileName = Date.now() + "_" + file.name;
-      data.append("name", fileName);
-      data.append("file", file);
+
       newPost.img = fileName;
-      console.log(newPost);
       try {
-        await axios.post("/upload", data);
-        console.log(newPost);
-        console.log(data);
+        const storageRef = ref(storage, `${user.username}/uploads/${fileName}`);
+        // 'file' comes from the Blob or File API
+        uploadBytes(storageRef, file).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+        });
       } catch (error) {
         console.log(error);
       }
     }
+    // finally creating post
     try {
       await axios.post("/posts", newPost);
       window.location.reload();
@@ -52,12 +62,8 @@ export default function Share() {
         <Link to={`/profile/${user.username}`}>
           <Avatar
             className="shareProfileImg"
-            alt={user.username[0]}
-            src={
-              user.profilePicture
-                ? PF + "person/" + user.profilePicture
-                : PF + "person/noAvatar.png"
-            }
+            alt={user.username}
+            src={profilePic}
           />
         </Link>
         <input
@@ -90,18 +96,7 @@ export default function Share() {
                 }}
               />
             </label>
-            <div className="shareOption">
-              <Label htmlColor="blue" className="shareIcon" />
-              <span className="shareOptionText">Tag</span>
-            </div>
-            <div className="shareOption">
-              <Room htmlColor="green" className="shareIcon" />
-              <span className="shareOptionText">Location</span>
-            </div>
-            <div className="shareOption">
-              <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-              <span className="shareOptionText">Feelings</span>
-            </div>
+
             <button className="shareButton" type="submit">
               Share
             </button>

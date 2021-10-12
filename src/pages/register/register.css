@@ -89,3 +89,22 @@
   text-decoration: none;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .login {
+    height: auto;
+  }
+  .loginWrapper {
+    flex-direction: column;
+    height: auto;
+    width: 95%;
+  }
+}
+
+.registraion__alert {
+  margin: 1rem 0;
+  background-color: #fdecea;
+  padding: 1rem;
+  border-radius: 10px;
+  color: #611a15;
+}

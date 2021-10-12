@@ -10,33 +10,52 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
 import About from "./pages/about/About";
+import Layout from "./layout/Layout";
+import { useSelector } from "react-redux";
+import People from "./pages/People/People";
+import Notifications from "./pages/Notifications/Notifications";
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const user = useSelector((state) => state.auth.user);
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          {user ? <Home /> : <Login />}
-        </Route>
-        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-        <Route path="/register">
-          {user ? <Redirect to="/" /> : <Register />}
-        </Route>
-        <Route path="/profile/:username">
-          {user ? <Profile /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/options">
-          {user ? <Options /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/messenger">
-          {user ? <Messenger /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/about">{user ? <About /> : <Redirect to="/" />}</Route>
+        <Layout>
+          <Route exact path="/feed">
+            {user ? <Redirect to="/" /> : <Redirect to="/login" />}
+          </Route>
+          <Route exact path="/">
+            {user ? <Home /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/profile/:username">
+            {user ? <Profile /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/more">
+            {user ? <Options /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/about">{user ? <About /> : <Redirect to="/" />}</Route>
+          <Route path="/people">
+            {user ? <People /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/notifications">
+            {user ? <Notifications /> : <Redirect to="/" />}
+          </Route>
+
+          {/* ---------- messeges --------- */}
+          <Route path="/chat">
+            {user ? <Messenger /> : <Redirect to="/" />}
+          </Route>
+
+          {/*  -------------- auth routes --------------- */}
+          <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+          <Route path="/register">
+            {user ? <Redirect to="/" /> : <Register />}
+          </Route>
+        </Layout>
       </Switch>
     </Router>
   );

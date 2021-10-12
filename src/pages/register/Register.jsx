@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./register.css";
 import axios from "../../axios";
@@ -9,24 +9,33 @@ export default function Register() {
   const email = useRef();
   const password = useRef();
   const passwordAgain = useRef();
-
+  const [userCreationError, setUserCreationError] = useState("");
   const history = useHistory();
 
   const handleClick = async (e) => {
     e.preventDefault();
-    if (passwordAgain.current.value !== password.current.value) {
-      passwordAgain.current.setCustomValidity("Passwords don't match!");
-    } else {
-      const user = {
-        username: username.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      };
-      try {
-        await axios.post("/auth/register", user);
-        history.push("/login");
-      } catch (error) {
-        console.log(error);
+    const res = await axios.get(`/users?username=${username.current.value}`);
+    console.log(res);
+    if (res.status === 200) {
+      setUserCreationError("username already taken");
+      return;
+    } else if (res.status === 500) {
+      console.log("user");
+      if (passwordAgain.current.value !== password.current.value) {
+        passwordAgain.current.setCustomValidity("Passwords don't match!");
+      } else {
+        const user = {
+          username: username.current.value,
+          email: email.current.value,
+          password: password.current.value,
+        };
+        console.log(user);
+        try {
+          // await axios.post("/auth/register", user);
+          history.push("/login");
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
@@ -55,6 +64,7 @@ export default function Register() {
               ref={email}
               className="loginInput"
             />
+
             <input
               required
               type="password"
@@ -74,6 +84,14 @@ export default function Register() {
             <button type="submit" className="loginButton">
               Sign Up
             </button>
+            {userCreationError ? (
+              <div className="registraion__alert">
+                <span>{userCreationError}</span>
+              </div>
+            ) : (
+              ""
+            )}
+
             <button className="loginRegisterButton">
               <Link className="loginRegisterButtonText" to="/login">
                 Log into Account

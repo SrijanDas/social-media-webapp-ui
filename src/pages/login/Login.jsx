@@ -1,21 +1,30 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import "./login.css";
-import { loginCall } from "../../apiCalls";
-import { AuthContext } from "../../context/AuthContext";
-import { CircularProgress } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { loginCall } from "../../store/actions/authActions";
+import { Button, CircularProgress } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const email = useRef();
   const password = useRef();
-  const { isFetching, dispatch } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
+  const isFetching = false;
 
   const handleClick = (e) => {
     e.preventDefault();
-    loginCall(
-      { email: email.current.value, password: password.current.value },
-      dispatch
+    dispatch(
+      loginCall({
+        email: email.current.value,
+        password: password.current.value,
+      })
     );
+  };
+
+  const history = useHistory();
+  const changeRoute = () => {
+    history.push("/register");
   };
 
   return (
@@ -38,7 +47,10 @@ export default function Login() {
                 minLength="6"
                 ref={password}
               />
-              <button
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
                 className="login__btn"
                 type="submit"
                 disabled={isFetching}
@@ -48,20 +60,20 @@ export default function Login() {
                 ) : (
                   "Log In"
                 )}
-              </button>
+              </Button>
               <span className="login__Forgot">Forgot Password?</span>
             </form>
           </div>
           <div className="login__RegisterButtonContainer">
-            <Link to="/register">
-              <button className="login__RegisterButton">
-                {isFetching ? (
-                  <CircularProgress color="inherit" size="20px" />
-                ) : (
-                  "Create a New Account"
-                )}
-              </button>
-            </Link>
+            <Button
+              variant="contained"
+              className="login__RegisterButton"
+              onClick={changeRoute}
+              disableElevation
+              disabled={isFetching}
+            >
+              Create a New Account
+            </Button>
           </div>
         </div>
       </div>
