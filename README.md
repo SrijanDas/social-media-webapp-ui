@@ -4,13 +4,13 @@ Socials is a social media website where you can connect with the users and chat 
 
  ## Demo
 
-https://socials-2bccb.web.app/
+Webapp: https://socials-2bccb.web.app/
 
 test email: linus@gmail.com
 
 password: 123456 
 
-## Screenshot
+## Screenshots
 
 ![App Screenshot](./screenshots/homepage.jpg)
 
