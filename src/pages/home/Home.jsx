@@ -1,6 +1,7 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Navbar from "../../components/Navbar/Navbar";
+import Rightbar from "../../components/Rightbar/Rightbar";
 import "./home.css";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <div className="page">
         <Sidebar className="sidebar" />
         <Feed className="pageContent" />
+        <Rightbar />
       </div>
     </div>
   );
