@@ -10,9 +10,7 @@ export default function Rightbar() {
       <div className="peopleList">
         <span className="peopleList__header">People you may know</span>
         <ProfileBanner />
-        <ProfileBanner />
-        <ProfileBanner />
-        <ProfileBanner />
+
         <div className="peopleList__seeMore">
           <Link className="peopleList__seeMoreLink" to="/">
             See More
