@@ -64,6 +64,7 @@
   border-radius: 10px;
   width: 25%;
   justify-content: center;
+  text-decoration: none;
 }
 .nav__item:hover {
   background-color: #e3f2fd;
@@ -80,7 +81,8 @@
   background-color: #e3f2fd;
 }
 .nav__itemText {
-  margin-left: 3px;
+  margin-left: 5px;
+  margin-bottom: 4px;
 }
 
 @media (max-width: 768px) {

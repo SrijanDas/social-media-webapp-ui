@@ -1,18 +1,14 @@
 import "./share.css";
-import {
-  PermMedia,
-  Label,
-  Room,
-  EmojiEmotions,
-  Cancel,
-} from "@material-ui/icons";
+import { PermMedia, Cancel } from "@material-ui/icons";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
 import Avatar from "@material-ui/core/Avatar";
-import { ref, getDownloadURL } from "firebase/storage";
 import DefaultProfilePic from "../../assets/profile.png";
+
+// firebase imports
 import { storage } from "../../config/firebaseConfig";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 export default function Share() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -37,22 +33,23 @@ export default function Share() {
       userId: user._id,
       desc: desc.current.value,
     };
-    console.log(newPost);
+
+    // uploading files to firebase
     if (file) {
-      const data = new FormData();
       const fileName = Date.now() + "_" + file.name;
-      data.append("name", fileName);
-      data.append("file", file);
+
       newPost.img = fileName;
-      console.log(newPost);
       try {
-        await axios.post("/upload", data);
-        console.log(newPost);
-        console.log(data);
+        const storageRef = ref(storage, `${user.username}/uploads/${fileName}`);
+        // 'file' comes from the Blob or File API
+        uploadBytes(storageRef, file).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+        });
       } catch (error) {
         console.log(error);
       }
     }
+    // finally creating post
     try {
       await axios.post("/posts", newPost);
       window.location.reload();
@@ -99,18 +96,7 @@ export default function Share() {
                 }}
               />
             </label>
-            <div className="shareOption">
-              <Label htmlColor="blue" className="shareIcon" />
-              <span className="shareOptionText">Tag</span>
-            </div>
-            <div className="shareOption">
-              <Room htmlColor="green" className="shareIcon" />
-              <span className="shareOptionText">Location</span>
-            </div>
-            <div className="shareOption">
-              <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-              <span className="shareOptionText">Feelings</span>
-            </div>
+
             <button className="shareButton" type="submit">
               Share
             </button>

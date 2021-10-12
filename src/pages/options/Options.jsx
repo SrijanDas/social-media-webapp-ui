@@ -28,9 +28,9 @@ function Options() {
   return (
     <div className="options__pageContainer">
       <Navbar />
-      <div className="options__page">
+      <div className="page">
         <Sidebar className="sidebar" />
-        <div className="options__list">
+        <div className="pageContent">
           <List>
             <Link
               to={`/profile/${user.username}`}

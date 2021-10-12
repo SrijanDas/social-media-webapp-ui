@@ -37,7 +37,7 @@
 
 .shareOptions {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   /* max-height: 40px; */
   flex-flow: wrap;
 }

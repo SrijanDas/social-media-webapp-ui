@@ -3,7 +3,7 @@ import * as actionTypes from "./authActionTypes";
 
 export const load_user = () => async (dispatch) => {
   try {
-    const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       dispatch({
         type: actionTypes.USER_LOADED_SUCCESS,

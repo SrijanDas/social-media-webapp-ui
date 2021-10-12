@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -11,43 +10,52 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-// import Messenger from "./pages/messenger/Messenger";
+import Messenger from "./pages/messenger/Messenger";
 import About from "./pages/about/About";
-import { useSelector, useDispatch } from "react-redux";
-import { load_user } from "./store/actions/authActions";
+import Layout from "./layout/Layout";
+import { useSelector } from "react-redux";
+import People from "./pages/People/People";
+import Notifications from "./pages/Notifications/Notifications";
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(load_user());
-  }, [dispatch]);
-
   const user = useSelector((state) => state.auth.user);
-
   return (
     <Router>
       <Switch>
-        <Route exact path="/feed">
-          {user ? <Redirect to="/" /> : <Redirect to="/login" />}
-        </Route>
-        <Route exact path="/">
-          {user ? <Home /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-        <Route path="/register">
-          {user ? <Redirect to="/" /> : <Register />}
-        </Route>
-        <Route path="/profile/:username">
-          {user ? <Profile /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/more">
-          {user ? <Options /> : <Redirect to="/login" />}
-        </Route>
-        {/* <Route path="/messenger">
+        <Layout>
+          <Route exact path="/feed">
+            {user ? <Redirect to="/" /> : <Redirect to="/login" />}
+          </Route>
+          <Route exact path="/">
+            {user ? <Home /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/profile/:username">
+            {user ? <Profile /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/more">
+            {user ? <Options /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/about">{user ? <About /> : <Redirect to="/" />}</Route>
+          <Route path="/people">
+            {user ? <People /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/notifications">
+            {user ? <Notifications /> : <Redirect to="/" />}
+          </Route>
+
+          {/* ---------- messeges --------- */}
+          <Route path="/chat">
             {user ? <Messenger /> : <Redirect to="/" />}
-          </Route> */}
-        <Route path="/about">{user ? <About /> : <Redirect to="/" />}</Route>
+          </Route>
+
+          {/*  -------------- auth routes --------------- */}
+          <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+          <Route path="/register">
+            {user ? <Redirect to="/" /> : <Register />}
+          </Route>
+        </Layout>
       </Switch>
     </Router>
   );

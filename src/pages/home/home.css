@@ -12,8 +12,9 @@
     margin: auto;
     max-width: 1180px;
     flex-direction: row;
+    width: 100%;
   }
-  .feed {
+  .pageContent {
     padding: 0 2rem;
   }
   .sidebar {

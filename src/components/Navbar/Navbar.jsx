@@ -1,12 +1,12 @@
 import "./Navbar.css";
-import { Search } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import { ref, getDownloadURL } from "firebase/storage";
 import DefaultProfilePic from "../../assets/profile.png";
+
+// firebase
+import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config/firebaseConfig";
-import { useHistory } from "react-router-dom";
 
 // mui 5
 import RssFeedIcon from "@mui/icons-material/RssFeed";
@@ -14,11 +14,11 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ReorderIcon from "@mui/icons-material/Reorder";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Navbar() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
-  const [active, setActive] = useState("feed");
 
   useEffect(() => {
     const getImages = async () => {
@@ -41,7 +41,7 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="searchbar">
-            <Search className="searchIcon" />
+            <SearchIcon className="searchIcon" />
             <input
               placeholder="Search for friend, post or video"
               className="searchInput"
@@ -57,68 +57,29 @@ export default function Navbar() {
       </div>
       <div>
         <div className="topbarSecondRow">
-          <NavItem
-            icon={<RssFeedIcon />}
-            text="Feed"
-            active={active}
-            setActive={setActive}
-          />
-          <NavItem
-            icon={<PeopleAltIcon />}
-            text="People"
-            active={active}
-            setActive={setActive}
-          />
-          <NavItem
-            icon={<ChatIcon />}
-            text="Chat"
-            active={active}
-            setActive={setActive}
-          />
+          <NavItem icon={<RssFeedIcon />} text="Feed" route="/" />
+          <NavItem icon={<PeopleAltIcon />} text="People" route="/people" />
+          <NavItem icon={<ChatIcon />} text="Chat" route="/chat" />
           <NavItem
             icon={<NotificationsIcon />}
             text="Notifications"
-            active={active}
-            setActive={setActive}
+            route="/notifications"
           />
-          <NavItem
-            icon={<ReorderIcon />}
-            text="More"
-            active={active}
-            setActive={setActive}
-          />
+          <NavItem icon={<ReorderIcon />} text="More" route="/more" />
         </div>
       </div>
     </div>
   );
 }
 
-const NavItem = ({
-  icon = <RssFeedIcon />,
-  text = "navlink",
-  active,
-  setActive,
-}) => {
-  const history = useHistory();
-
-  // const changeRoute = (url) => {
-  //   console.log(url);
-  //   (url);
-  // };
-
+const NavItem = ({ icon = <RssFeedIcon />, text = "navlink", route = "/" }) => {
   return (
-    <div
-      onClick={() => {
-        history.push(text.toLowerCase());
-        setActive(text.toLowerCase());
-      }}
-      className={`nav__item${active === text.toLowerCase() ? "Active" : ""}`}
-    >
+    <Link to={route} className="nav__item">
       <div className="nav__iconWrapper">
         {icon}
         {/* <span className="nav__iconBadge">1</span> */}
       </div>
       <span className="nav__itemText">{text}</span>
-    </div>
+    </Link>
   );
 };
