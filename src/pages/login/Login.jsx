@@ -3,7 +3,7 @@ import "./login.css";
 import { loginCall } from "../../store/actions/authActions";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import { TextField, Button, CircularProgress, Alert } from "@mui/material";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +11,7 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const isFetching = useSelector((state) => state.auth.isFetching);
+  const error = useSelector((state) => state.auth.error);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -66,6 +67,7 @@ export default function Login() {
                   "Log In"
                 )}
               </Button>
+              {error && <Alert severity="error">{error.message}</Alert>}
               <span className="login__Forgot">Forgot Password?</span>
             </form>
           </div>

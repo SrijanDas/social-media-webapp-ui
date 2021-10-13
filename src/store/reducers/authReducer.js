@@ -38,10 +38,11 @@ const authReducer = (state = initialState, action) => {
 
     case actionTypes.SIGNUP_FAIL:
     case actionTypes.LOGIN_FAIL:
-      localStorage.removeItem("user");
+      // localStorage.removeItem("user");
       return {
         ...state,
         error: payload,
+        isFetching: false,
       };
     case actionTypes.LOG_OUT:
       localStorage.clear();
