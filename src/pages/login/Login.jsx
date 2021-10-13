@@ -1,30 +1,25 @@
-import { useRef } from "react";
+import { useState } from "react";
 import "./login.css";
 import { loginCall } from "../../store/actions/authActions";
-import { Button, CircularProgress } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { TextField, Button, CircularProgress } from "@mui/material";
 
 export default function Login() {
-  const email = useRef();
-  const password = useRef();
-  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const isFetching = false;
+  const dispatch = useDispatch();
+  const isFetching = useSelector((state) => state.auth.isFetching);
 
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(
       loginCall({
-        email: email.current.value,
-        password: password.current.value,
+        email: email,
+        password: password,
       })
     );
-  };
-
-  const history = useHistory();
-  const changeRoute = () => {
-    history.push("/register");
   };
 
   return (
@@ -39,14 +34,24 @@ export default function Login() {
         <div className="loginRight">
           <div className="login__formContainer">
             <form className="login__form" onSubmit={handleClick}>
-              <input placeholder="Email" type="email" required ref={email} />
-              <input
-                placeholder="Password"
-                type="password"
+              <TextField
+                id="email-input"
+                label="Email"
+                variant="outlined"
+                type="email"
                 required
-                minLength="6"
-                ref={password}
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
               />
+              <TextField
+                id="password-input"
+                label="Password"
+                variant="outlined"
+                required
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
               <Button
                 variant="contained"
                 color="primary"
@@ -64,17 +69,9 @@ export default function Login() {
               <span className="login__Forgot">Forgot Password?</span>
             </form>
           </div>
-          <div className="login__RegisterButtonContainer">
-            <Button
-              variant="contained"
-              className="login__RegisterButton"
-              onClick={changeRoute}
-              disableElevation
-              disabled={isFetching}
-            >
-              Create a New Account
-            </Button>
-          </div>
+          <Link to="/register" className="login__signUpLink">
+            Don't have an account? Sign up
+          </Link>
         </div>
       </div>
     </div>
