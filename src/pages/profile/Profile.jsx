@@ -14,7 +14,6 @@ import {
   ProfileToolsUser,
 } from "../../components/ProfileTools/ProfileTools";
 import UpdateProfilePic from "../../components/UpdateProfilePic/UpdateProfilePic";
-import Navbar from "../../components/Navbar/Navbar";
 import { useSelector } from "react-redux";
 
 export default function Profile() {
@@ -44,7 +43,6 @@ export default function Profile() {
 
   return (
     <>
-      <Navbar />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">

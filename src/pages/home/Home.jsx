@@ -1,13 +1,12 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
-import Navbar from "../../components/Navbar/Navbar";
 import Rightbar from "../../components/Rightbar/Rightbar";
 import "./home.css";
 
 export default function Home() {
   return (
     <div className="pageContainer">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="page">
         <Sidebar className="sidebar" />
         <Feed className="pageContent" />

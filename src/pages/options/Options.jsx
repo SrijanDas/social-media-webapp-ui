@@ -15,7 +15,6 @@ import ChatIcon from "@material-ui/icons/Chat";
 import SettingsIcon from "@material-ui/icons/Settings";
 import InfoIcon from "@material-ui/icons/Info";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/Navbar/Navbar";
 
 function Options() {
   const user = useSelector((state) => state.auth.user);
@@ -27,7 +26,6 @@ function Options() {
 
   return (
     <div className="options__pageContainer">
-      <Navbar />
       <div className="page">
         <Sidebar className="sidebar" />
         <div className="pageContent">
