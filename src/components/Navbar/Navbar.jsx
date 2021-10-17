@@ -15,9 +15,10 @@ import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ReorderIcon from "@mui/icons-material/Reorder";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = useSelector((state) => state.auth.user);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
 
   useEffect(() => {

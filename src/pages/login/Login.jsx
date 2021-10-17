@@ -13,7 +13,7 @@ export default function Login() {
   const isFetching = useSelector((state) => state.auth.isFetching);
   const error = useSelector((state) => state.auth.error);
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       loginCall({
@@ -34,7 +34,7 @@ export default function Login() {
         </div>
         <div className="loginRight">
           <div className="login__formContainer">
-            <form className="login__form" onSubmit={handleClick}>
+            <form className="login__form" onSubmit={handleSubmit}>
               <TextField
                 id="email-input"
                 label="Email"

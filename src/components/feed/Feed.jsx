@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Share from "../share/Share";
+import Share from "../Share/Share";
 import "./feed.css";
 import axios from "../../axios";
 import Post from "../post/Post";
@@ -45,7 +45,8 @@ export default function Feed({ username }) {
             Something went wrong!
           </Alert>
         ) : (
-          posts.map((p) => <Post key={p._id} post={p} />)
+          // posts.map((p) => <Post key={p._id} post={p} />)
+          ""
         )}
       </div>
     </div>
