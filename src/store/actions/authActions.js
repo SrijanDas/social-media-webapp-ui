@@ -42,6 +42,12 @@ export const loginCall = (userCredential) => async (dispatch) => {
   }
 };
 
-export const logoutCall = () => async (dispatch) => {
-  dispatch({ type: actionTypes.LOG_OUT });
+export const logoutCall = (token) => async (dispatch) => {
+  try {
+    await axios.delete("/auth/logout", { token });
+    dispatch({ type: actionTypes.LOG_OUT });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: actionTypes.LOG_OUT });
+  }
 };
