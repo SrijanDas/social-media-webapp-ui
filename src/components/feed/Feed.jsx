@@ -45,8 +45,7 @@ export default function Feed({ username }) {
             Something went wrong!
           </Alert>
         ) : (
-          // posts.map((p) => <Post key={p._id} post={p} />)
-          ""
+          posts.map((p) => <Post key={p._id} post={p} />)
         )}
       </div>
     </div>
