@@ -1,4 +1,9 @@
 import "./post.css";
+
+// firebase imports
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../../config/firebaseConfig";
+
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
@@ -7,17 +12,14 @@ import { Link } from "react-router-dom";
 import DefaultProfilePic from "../../assets/profile.png";
 import LikeIcon from "../../assets/like.png";
 import { Avatar, IconButton, Menu, MenuItem } from "@material-ui/core";
-
-// firebase imports
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../config/firebaseConfig";
+import { useSelector } from "react-redux";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
 
-  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const currentUser = useSelector((state) => state.auth.user);
 
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postImg, setPostImg] = useState();
@@ -138,8 +140,8 @@ export default function Post({ post }) {
           )}
         </div>
         <div className="postCenter">
-          <span className="postText">{post.desc}</span>
-          {post.img ? <img className="postImg" src={postImg} alt="" /> : ""}
+          {post.desc ? <span className="postText">{post.desc}</span> : null}
+          {post.img ? <img className="postImg" src={postImg} alt="" /> : null}
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
