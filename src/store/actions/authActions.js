@@ -42,9 +42,33 @@ export const loginCall = (userCredential) => async (dispatch) => {
   }
 };
 
+export const checkAuthenticated = () => async (dispatch) => {
+  const token = localStorage.getItem("refresh");
+  if (token !== null) {
+    dispatch({ type: actionTypes.AUTH_START });
+    try {
+      const res = await axios.post("/auth/jwt/verify", {
+        refreshToken: token,
+      });
+
+      console.log(res);
+
+      dispatch({
+        type: actionTypes.AUTH_SUCCESS,
+        payload: res.data.accessToken,
+      });
+      dispatch(load_user());
+    } catch (error) {
+      dispatch({ type: actionTypes.AUTH_FAIL });
+    }
+  } else {
+    dispatch({ type: actionTypes.AUTH_FAIL });
+  }
+};
+
 export const logoutCall = (token) => async (dispatch) => {
   try {
-    await axios.delete("/auth/logout", { token });
+    await axios.post("/auth/logout/", { token });
     dispatch({ type: actionTypes.LOG_OUT });
   } catch (error) {
     console.log(error);

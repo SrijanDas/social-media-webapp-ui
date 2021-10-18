@@ -17,17 +17,32 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: payload,
+        isAuthenticated: true,
+        isFetching: false,
       };
+
+    case actionTypes.AUTH_FAIL:
     case actionTypes.USER_LOADED_FAIL:
       return {
         ...state,
         user: null,
+        isAuthenticated: false,
       };
+
+    case actionTypes.AUTH_START:
     case actionTypes.LOGIN_START:
       return {
         ...state,
         isFetching: true,
         error: false,
+      };
+
+    case actionTypes.AUTH_SUCCESS:
+      localStorage.setItem("access", payload);
+      return {
+        ...state,
+        isAuthenticated: true,
+        access: payload,
       };
 
     case actionTypes.LOGIN_SUCCESS:
@@ -47,7 +62,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.SIGNUP_FAIL:
     case actionTypes.LOGIN_FAIL:
     case actionTypes.LOG_OUT:
-      localStorage.clear();
+      // localStorage.clear();
       return {
         ...state,
         error: payload,

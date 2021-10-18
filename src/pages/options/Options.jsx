@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 function Options() {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  const token = JSON.parse(localStorage.getItem("refresh"));
+  const token = localStorage.getItem("refresh");
 
   const logOut = () => {
     dispatch(logoutCall(token));

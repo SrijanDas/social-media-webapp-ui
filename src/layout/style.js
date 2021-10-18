@@ -6,9 +6,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     minHeight: "100vh",
   },
-  // backdrop: {
-  //   zIndex: theme.zIndex.drawer + 1,
-  //   color: "#fff",
-  // },
+  layoutLoader: {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 export default useStyles;
