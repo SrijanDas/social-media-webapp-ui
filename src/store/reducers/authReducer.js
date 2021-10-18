@@ -1,7 +1,10 @@
 import * as actionTypes from "../actions/authActionTypes";
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
+  access: localStorage.getItem("access"),
+  refresh: localStorage.getItem("refresh"),
+  isAuthenticated: false,
+  user: null,
   isFetching: false,
   error: false,
 };
@@ -14,41 +17,59 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: payload,
+        isAuthenticated: true,
+        isFetching: false,
       };
+
+    case actionTypes.AUTH_FAIL:
     case actionTypes.USER_LOADED_FAIL:
       return {
         ...state,
         user: null,
+        isAuthenticated: false,
       };
+
+    case actionTypes.AUTH_START:
     case actionTypes.LOGIN_START:
       return {
-        user: null,
+        ...state,
         isFetching: true,
         error: false,
       };
 
-    case actionTypes.LOGIN_SUCCESS:
-      localStorage.setItem("user", JSON.stringify(payload));
+    case actionTypes.AUTH_SUCCESS:
+      localStorage.setItem("access", payload);
       return {
         ...state,
-        user: payload,
+        isAuthenticated: true,
+        access: payload,
+      };
+
+    case actionTypes.LOGIN_SUCCESS:
+      const access = payload.accessToken;
+      const refresh = payload.refreshToken;
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+      return {
+        ...state,
+        isAuthenticated: true,
+        access: access,
+        refresh: refresh,
         isFetching: false,
         error: false,
       };
 
     case actionTypes.SIGNUP_FAIL:
     case actionTypes.LOGIN_FAIL:
-      localStorage.removeItem("user");
+    case actionTypes.LOG_OUT:
+      // localStorage.clear();
       return {
         ...state,
         error: payload,
-      };
-    case actionTypes.LOG_OUT:
-      localStorage.clear();
-      return {
-        ...state,
         isFetching: false,
-        error: false,
+        access: null,
+        refresh: null,
+        isAuthenticated: false,
         user: null,
       };
 

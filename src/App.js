@@ -1,9 +1,9 @@
 import "./App.css";
-import Home from "./pages/home/Home";
+import Home from "./pages/Home/Home";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
-import Options from "./pages/options/Options";
+import Options from "./pages/Options/Options";
 import {
   BrowserRouter as Router,
   Switch,

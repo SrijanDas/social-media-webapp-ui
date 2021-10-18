@@ -12,7 +12,7 @@ export default function Register() {
   const [userCreationError, setUserCreationError] = useState("");
   const history = useHistory();
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await axios.get(`/users?username=${username.current.value}`);
     console.log(res);
@@ -50,7 +50,7 @@ export default function Register() {
           </span>
         </div>
         <div className="loginRight">
-          <form className="loginBox" onSubmit={handleClick}>
+          <form className="loginBox" onSubmit={handleSubmit}>
             <input
               required
               placeholder="Username"

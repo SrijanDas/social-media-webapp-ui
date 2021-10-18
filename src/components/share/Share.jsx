@@ -1,17 +1,19 @@
 import "./share.css";
+
+// firebase imports
+import { storage } from "../../config/firebaseConfig";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+
 import { PermMedia, Cancel } from "@material-ui/icons";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
 import Avatar from "@material-ui/core/Avatar";
 import DefaultProfilePic from "../../assets/profile.png";
-
-// firebase imports
-import { storage } from "../../config/firebaseConfig";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { useSelector } from "react-redux";
 
 export default function Share() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = useSelector((state) => state.auth.user);
   const desc = useRef();
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);

@@ -1,6 +1,6 @@
 import "./profile.css";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Feed from "../../components/feed/Feed";
+import Feed from "../../components/Feed/Feed";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router";
@@ -14,7 +14,6 @@ import {
   ProfileToolsUser,
 } from "../../components/ProfileTools/ProfileTools";
 import UpdateProfilePic from "../../components/UpdateProfilePic/UpdateProfilePic";
-import Navbar from "../../components/Navbar/Navbar";
 import { useSelector } from "react-redux";
 
 export default function Profile() {
@@ -44,7 +43,6 @@ export default function Profile() {
 
   return (
     <>
-      <Navbar />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">

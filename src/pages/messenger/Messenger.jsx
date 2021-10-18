@@ -6,7 +6,6 @@ import "./Messenger.css";
 import axios from "../../axios";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
-import Navbar from "../../components/Navbar/Navbar";
 
 function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -103,7 +102,6 @@ function Messenger() {
 
   return (
     <>
-      <Navbar />
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
