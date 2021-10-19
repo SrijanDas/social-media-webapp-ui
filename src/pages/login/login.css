@@ -1,11 +1,17 @@
 .login {
   width: 100vw;
-  height: 100vh;
-  background-color: #f0f2f5;
+  /* height: 20rem; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.makeStyles-root-1 {
+.loginPage {
   background-color: #f0f2f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .loginContainer {
@@ -20,7 +26,7 @@
 }
 
 @media (min-width: 768px) {
-  .loginContainer {
+  .login {
     display: flex;
     flex-direction: row;
     max-width: 850px;
@@ -45,6 +51,7 @@
   padding: 20px;
   background-color: white;
   border-radius: 10px;
+  width: 80%;
 }
 
 .login__form {

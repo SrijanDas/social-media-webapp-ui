@@ -24,8 +24,8 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
-      <div className="loginContainer">
+    <div className="loginPage">
+      <div className="login">
         <div className="loginLeft">
           <h3 className="loginLogo">Socials</h3>
           <span className="loginDesc">
