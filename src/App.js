@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/profile/Profile";
-import Register from "./pages/register/Register";
+import Register from "./pages/Register/Register";
 import Options from "./pages/Options/Options";
 import {
   BrowserRouter as Router,

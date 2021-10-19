@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./register.css";
 import axios from "../../axios";
 import { useHistory } from "react-router";
+import { Button, TextField } from "@mui/material";
 
 export default function Register() {
   const username = useRef();
@@ -41,64 +42,51 @@ export default function Register() {
   };
 
   return (
-    <div className="login">
-      <div className="loginWrapper">
-        <div className="loginLeft">
-          <h3 className="loginLogo">Socials</h3>
-          <span className="loginDesc">
-            Connect with friends and the world around you on Socials.
-          </span>
-        </div>
-        <div className="loginRight">
-          <form className="loginBox" onSubmit={handleSubmit}>
-            <input
-              required
-              placeholder="Username"
-              ref={username}
-              className="loginInput"
-            />
-            <input
-              required
-              type="email"
-              placeholder="Email"
-              ref={email}
-              className="loginInput"
-            />
+    <div className="register">
+      <div className="register__left">
+        <h3 className="loginLogo">Socials</h3>
+        <span className="loginDesc">
+          Connect with friends and the world around you on Socials.
+        </span>
+      </div>
 
-            <input
-              required
-              type="password"
-              ref={password}
-              placeholder="Password"
-              className="loginInput"
-              minLength="6"
-            />
-            <input
-              required
-              type="password"
-              ref={passwordAgain}
-              placeholder="Password Again"
-              className="loginInput"
-              minLength="6"
-            />
-            <button type="submit" className="loginButton">
-              Sign Up
-            </button>
-            {userCreationError ? (
-              <div className="registraion__alert">
-                <span>{userCreationError}</span>
-              </div>
-            ) : (
-              ""
-            )}
+      <div className="register__right">
+        <form className="register__form" onSubmit={handleSubmit}>
+          <TextField label="Username" type="text" variant="outlined" required />
+          <TextField label="Email" type="email" variant="outlined" required />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            required
+          />
+          <TextField
+            label="Password Again"
+            type="password"
+            variant="outlined"
+            required
+          />
 
-            <button className="loginRegisterButton">
-              <Link className="loginRegisterButtonText" to="/login">
-                Log into Account
-              </Link>
-            </button>
-          </form>
-        </div>
+          <Button
+            type="submit"
+            className="register__btn"
+            variant="contained"
+            disableElevation
+          >
+            Create Account
+          </Button>
+
+          {userCreationError ? (
+            <div className="register__alert">
+              <span>{userCreationError}</span>
+            </div>
+          ) : (
+            ""
+          )}
+        </form>
+        <Link className="register__loginLink" to="/login">
+          Already have an account? Log In
+        </Link>
       </div>
     </div>
   );
