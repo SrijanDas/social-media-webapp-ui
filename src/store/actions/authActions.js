@@ -51,8 +51,6 @@ export const checkAuthenticated = () => async (dispatch) => {
         refreshToken: token,
       });
 
-      console.log(res);
-
       dispatch({
         type: actionTypes.AUTH_SUCCESS,
         payload: res.data.accessToken,

@@ -27,6 +27,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: null,
         isAuthenticated: false,
+        isFetching: false,
       };
 
     case actionTypes.AUTH_START:

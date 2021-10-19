@@ -4,6 +4,10 @@
   background-color: #f0f2f5;
 }
 
+.makeStyles-root-1 {
+  background-color: #f0f2f5;
+}
+
 .loginContainer {
   display: flex;
   flex-direction: column;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Share from "../Share/Share";
 import "./feed.css";
 import axios from "../../axios";
-import Post from "../post/Post";
+import Post from "../Post/Post";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import Alert from "@mui/material/Alert";
@@ -11,7 +11,6 @@ export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
   const currentUser = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
-  const [feedError, setFeedError] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,12 +25,13 @@ export default function Feed({ username }) {
           })
         );
       } catch (error) {
-        setFeedError(true);
         console.log(error);
       }
     };
     fetchPosts();
   }, [username, currentUser?._id]);
+
+  console.log(posts.length);
 
   return (
     <div className="feed">
@@ -40,13 +40,12 @@ export default function Feed({ username }) {
 
         {isLoading ? (
           <Loader size={40} />
-        ) : feedError ? (
+        ) : posts.length ? (
+          posts.map((p) => <Post key={p._id} post={p} />)
+        ) : (
           <Alert className="feed__error" severity="error">
             Something went wrong!
           </Alert>
-        ) : (
-          // posts.map((p) => <Post key={p._id} post={p} />)
-          ""
         )}
       </div>
     </div>
