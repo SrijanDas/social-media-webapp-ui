@@ -31,8 +31,6 @@ export default function Feed({ username }) {
     fetchPosts();
   }, [username, currentUser?._id]);
 
-  console.log(posts.length);
-
   return (
     <div className="feed">
       <div className="feedWrapper">
