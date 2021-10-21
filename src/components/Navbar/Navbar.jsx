@@ -1,86 +1,126 @@
+import React, { useState } from "react";
 import "./Navbar.css";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Avatar from "@material-ui/core/Avatar";
-import DefaultProfilePic from "../../assets/profile.png";
-
-// firebase
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../config/firebaseConfig";
-
-// mui 5
-import RssFeedIcon from "@mui/icons-material/RssFeed";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import ChatIcon from "@mui/icons-material/Chat";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import ReorderIcon from "@mui/icons-material/Reorder";
+// icons
 import SearchIcon from "@mui/icons-material/Search";
-import { useSelector } from "react-redux";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MailIcon from "@mui/icons-material/Mail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import RssFeedIcon from "@mui/icons-material/RssFeed";
+import PeopleIcon from "@mui/icons-material/People";
+
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const user = useSelector((state) => state.auth.user);
-  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  useEffect(() => {
-    const getImages = async () => {
-      await getDownloadURL(
-        ref(storage, `${user.username}/profile/${user.username}.jpg`)
-      )
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
-    };
-    getImages();
-  }, [user]);
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem component={Link} to="/more" onClick={handleMenuClose}>
+        More
+      </MenuItem>
+    </Menu>
+  );
 
   return (
-    <div className="topbar">
-      <div>
-        <div className="topbarFirstRow">
-          <div className="logo_container">
-            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-              <span className="logo">Socials</span>
-            </Link>
-          </div>
-          <div className="searchbar">
-            <SearchIcon className="searchIcon" />
-            <input
-              placeholder="Search for friend, post or video"
-              className="searchInput"
-            />
-          </div>
+    <div>
+      <AppBar position="fixed">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            className="navbar__logo"
+            noWrap
+            component={Link}
+            to="/"
+          >
+            siu
+          </Typography>
 
-          <div className="profile">
-            <Link to={`/profile/${user.username}`}>
-              <Avatar alt={user.username} src={profilePic} />
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className="topbarSecondRow">
-          <NavItem icon={<RssFeedIcon />} text="Feed" route="/" />
-          <NavItem icon={<PeopleAltIcon />} text="People" route="/people" />
-          <NavItem icon={<ChatIcon />} text="Chat" route="/chat" />
-          <NavItem
-            icon={<NotificationsIcon />}
-            text="Notifications"
-            route="/notifications"
-          />
-          <NavItem icon={<ReorderIcon />} text="More" route="/more" />
-        </div>
-      </div>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box>
+            <IconButton size="large" color="inherit">
+              <SearchIcon />
+            </IconButton>
+            <IconButton size="large" color="inherit" component={Link} to="/">
+              <RssFeedIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              color="inherit"
+              component={Link}
+              to="/people"
+            >
+              <PeopleIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+              component={Link}
+              to="/chat"
+            >
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMenu}
     </div>
   );
 }
-
-const NavItem = ({ icon = <RssFeedIcon />, text = "navlink", route = "/" }) => {
-  return (
-    <Link to={route} className="nav__item">
-      <div className="nav__iconWrapper">
-        {icon}
-        {/* <span className="nav__iconBadge">1</span> */}
-      </div>
-      <span className="nav__itemText">{text}</span>
-    </Link>
-  );
-};

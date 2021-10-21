@@ -3,8 +3,8 @@ import { checkAuthenticated } from "../store/actions/authActions";
 import ScrollToTop from "../components/ScrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./style";
-import Navbar from "../components/Navbar/Navbar";
 import Loader from "../components/Loader/Loader";
+import Navbar from "../components/Navbar/Navbar";
 
 function Layout({ children }) {
   const dispatch = useDispatch();

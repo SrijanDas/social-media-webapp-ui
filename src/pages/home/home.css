@@ -1,5 +1,6 @@
 .pageContainer {
-  margin: 0;
+  margin-top: 3rem;
+  padding: 0 0.5rem;
 }
 
 .sidebar {
@@ -7,6 +8,9 @@
 }
 
 @media (min-width: 768px) {
+  .pageContainer {
+    margin-top: 4rem;
+  }
   .page {
     display: flex;
     margin: auto;
@@ -15,9 +19,7 @@
     width: 100%;
     gap: 1rem;
   }
-  .pageContent {
-    /* padding: 0 2rem; */
-  }
+
   .sidebar {
     display: contents;
   }
