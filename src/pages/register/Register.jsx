@@ -1,38 +1,39 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./register.css";
 import axios from "../../axios";
-import { useHistory } from "react-router";
+import { Alert, Button, TextField } from "@mui/material";
 
 export default function Register() {
-  const username = useRef();
-  const email = useRef();
-  const password = useRef();
-  const passwordAgain = useRef();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  const [userCreated, setUserCreated] = useState(false);
+
   const [userCreationError, setUserCreationError] = useState("");
-  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.get(`/users?username=${username.current.value}`);
-    console.log(res);
-    if (res.status === 200) {
-      setUserCreationError("username already taken");
-      return;
-    } else if (res.status === 500) {
-      console.log("user");
-      if (passwordAgain.current.value !== password.current.value) {
-        passwordAgain.current.setCustomValidity("Passwords don't match!");
-      } else {
-        const user = {
-          username: username.current.value,
-          email: email.current.value,
-          password: password.current.value,
-        };
-        console.log(user);
+    if (password.length < 6) {
+      setUserCreationError("Password must be atleast 6 characters long.");
+    } else {
+      if (password !== password2)
+        setUserCreationError("Passwords don't match!");
+      else {
         try {
-          // await axios.post("/auth/register", user);
-          history.push("/login");
+          const body = {
+            username,
+            email,
+            password,
+          };
+          const res = await axios.post("/auth/register", body);
+          if (res.data === "Email already exists.")
+            setUserCreationError("Email already exists.");
+          if (res.data === "Account created successfully.") {
+            setUserCreated(true);
+          }
         } catch (error) {
           console.log(error);
         }
@@ -41,63 +42,80 @@ export default function Register() {
   };
 
   return (
-    <div className="login">
-      <div className="loginWrapper">
+    <div className="loginPage">
+      <div className="login">
         <div className="loginLeft">
           <h3 className="loginLogo">Socials</h3>
           <span className="loginDesc">
             Connect with friends and the world around you on Socials.
           </span>
         </div>
+
         <div className="loginRight">
-          <form className="loginBox" onSubmit={handleSubmit}>
-            <input
-              required
-              placeholder="Username"
-              ref={username}
-              className="loginInput"
-            />
-            <input
-              required
-              type="email"
-              placeholder="Email"
-              ref={email}
-              className="loginInput"
-            />
+          {userCreated ? (
+            <Alert className="register__successMsg" severity="success">
+              Account created successfully.{" "}
+              <strong>
+                <Link className="register__loginLink" to="/login">
+                  Please login
+                </Link>
+              </strong>
+            </Alert>
+          ) : (
+            <>
+              <form className="login__form" onSubmit={handleSubmit}>
+                <TextField
+                  label="Username"
+                  type="text"
+                  variant="outlined"
+                  required
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <TextField
+                  label="Email"
+                  type="email"
+                  variant="outlined"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <TextField
+                  label="Password Again"
+                  type="password"
+                  variant="outlined"
+                  required
+                  onChange={(e) => setPassword2(e.target.value)}
+                />
+                {userCreationError ? (
+                  <Alert className="register__alert" severity="error">
+                    {userCreationError}
+                  </Alert>
+                ) : (
+                  ""
+                )}
 
-            <input
-              required
-              type="password"
-              ref={password}
-              placeholder="Password"
-              className="loginInput"
-              minLength="6"
-            />
-            <input
-              required
-              type="password"
-              ref={passwordAgain}
-              placeholder="Password Again"
-              className="loginInput"
-              minLength="6"
-            />
-            <button type="submit" className="loginButton">
-              Sign Up
-            </button>
-            {userCreationError ? (
-              <div className="registraion__alert">
-                <span>{userCreationError}</span>
+                <Button
+                  type="submit"
+                  className="login__btn"
+                  variant="contained"
+                  disableElevation
+                >
+                  Create Account
+                </Button>
+              </form>
+              <div className="register__loginLinkContainer">
+                <Link className="register__loginLink" to="/login">
+                  Already have an account? Log In
+                </Link>
               </div>
-            ) : (
-              ""
-            )}
-
-            <button className="loginRegisterButton">
-              <Link className="loginRegisterButtonText" to="/login">
-                Log into Account
-              </Link>
-            </button>
-          </form>
+            </>
+          )}
         </div>
       </div>
     </div>

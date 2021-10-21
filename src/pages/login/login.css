@@ -1,11 +1,18 @@
 .login {
   width: 100vw;
-  height: 100vh;
-  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
-.makeStyles-root-1 {
+.loginPage {
   background-color: #f0f2f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .loginContainer {
@@ -17,10 +24,11 @@
 
 .loginLeft {
   padding: 20px;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
-  .loginContainer {
+  .login {
     display: flex;
     flex-direction: row;
     max-width: 850px;
@@ -45,6 +53,7 @@
   padding: 20px;
   background-color: white;
   border-radius: 10px;
+  width: 80%;
 }
 
 .login__form {
@@ -53,28 +62,11 @@
   gap: 1rem;
 }
 
-/* .login__form input {
-  height: 50px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  font-size: 18px;
-  padding-left: 20px;
-  margin-bottom: 10px;
-}
-
-.login__form input:focus {
-  outline: none;
-} */
-
 .login__btn {
   height: 50px;
   border-radius: 10px !important;
-  border: none;
-  background-color: #1775ee !important;
-  color: white !important;
   font-size: 20px !important;
   font-weight: 500;
-  cursor: pointer;
   text-transform: capitalize !important;
 }
 
@@ -89,4 +81,6 @@
 .login__signUpLink {
   text-align: center;
   color: #1775ee;
+  display: flex;
+  justify-content: center;
 }

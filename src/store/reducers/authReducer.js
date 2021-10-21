@@ -56,7 +56,6 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         access: access,
         refresh: refresh,
-        isFetching: false,
         error: false,
       };
 
