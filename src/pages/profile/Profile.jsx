@@ -1,5 +1,5 @@
 import "./profile.css";
-import Sidebar from "../../components/sidebar/Sidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import Feed from "../../components/Feed/Feed";
 import { useEffect, useState } from "react";
 import axios from "../../axios";

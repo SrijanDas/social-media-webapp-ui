@@ -51,3 +51,22 @@
     display: none;
   }
 }
+
+@media (max-width: 986px) {
+  .rightbarWrapper {
+    width: 20%;
+  }
+  .peopleList__header {
+    text-align: center;
+    display: flex;
+    padding: 0.25rem;
+  }
+  .profileBanner {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.3rem;
+  }
+  .profileBanner {
+    padding: 0.2rem;
+  }
+}
