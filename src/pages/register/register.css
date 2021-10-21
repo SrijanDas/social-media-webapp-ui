@@ -1,55 +1,8 @@
-.register {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  height: 100vh;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f2f5;
-}
-.register__left {
-  text-align: center;
-  padding: 0 1.5rem;
-}
-.register__right {
-  background-color: white;
-  width: 90%;
-  border-radius: 10px;
-  height: auto;
-  padding-bottom: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.register__form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  padding: 2rem;
-  width: 90%;
-}
-.register__btn {
-  height: 50px;
-  border-radius: 10px !important;
-  font-size: 20px !important;
-  font-weight: 500;
-  text-transform: capitalize !important;
-}
 .register__loginLink {
-  margin: auto;
   text-align: center;
   text-decoration: none;
   color: #1775ee;
 }
-
-@media (min-width: 768px) {
-  .register {
-    flex-direction: row;
-  }
-  .register__right {
-    width: 30%;
-  }
+.register__loginLinkContainer {
+  margin-top: 1rem;
 }

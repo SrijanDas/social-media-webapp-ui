@@ -2,6 +2,8 @@
   width: 100vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -22,6 +24,7 @@
 
 .loginLeft {
   padding: 20px;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -78,4 +81,6 @@
 .login__signUpLink {
   text-align: center;
   color: #1775ee;
+  display: flex;
+  justify-content: center;
 }
