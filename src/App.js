@@ -11,7 +11,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Messenger from "./pages/messenger/Messenger";
-import About from "./pages/about/About";
+import About from "./pages/About/About";
 import Layout from "./layout/Layout";
 import { useSelector } from "react-redux";
 import People from "./pages/People/People";
