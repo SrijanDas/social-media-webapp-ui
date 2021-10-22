@@ -2,3 +2,41 @@
   text-decoration: none !important;
   color: inherit;
 }
+.navbar__accountChip {
+  background-color: white !important;
+  margin: 0 0.5rem !important;
+}
+.navbar__accountChip:hover {
+  cursor: pointer;
+}
+
+.navbar__searchContainer {
+  margin-left: 1.5rem !important;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__searchForm {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 8px;
+}
+.navbar__searchInput {
+  border: none;
+  outline: none;
+  overflow: hidden;
+}
+.navbar__searchIcon {
+  display: none !important;
+}
+
+@media (max-width: 549px) {
+  .navbar__searchIcon {
+    display: contents !important;
+  }
+  .navbar__searchForm {
+    display: none;
+  }
+}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Navbar.css";
 // icons
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
@@ -14,47 +13,19 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleProfileMenuOpen = (event) => {
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleMenuClose = () => {
+  const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-      <MenuItem component={Link} to="/more" onClick={handleMenuClose}>
-        More
-      </MenuItem>
-    </Menu>
-  );
 
   return (
     <div>
@@ -69,12 +40,26 @@ export default function Navbar() {
           >
             siu
           </Typography>
+          <div className="navbar__searchContainer">
+            <div className="navbar__searchForm">
+              <SearchIcon color="primary" />
+              <input
+                className="navbar__searchInput"
+                placeholder="search..."
+                type="text"
+              />
+            </div>
+            <IconButton
+              className="navbar__searchIcon"
+              size="large"
+              color="inherit"
+            >
+              <SearchIcon />
+            </IconButton>
+          </div>
 
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            <IconButton size="large" color="inherit">
-              <SearchIcon />
-            </IconButton>
             <IconButton size="large" color="inherit" component={Link} to="/">
               <RssFeedIcon />
             </IconButton>
@@ -97,30 +82,19 @@ export default function Navbar() {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
+            <IconButton size="large" color="inherit">
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
+
+            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMenu}
+      <DropdownMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
     </div>
   );
 }
