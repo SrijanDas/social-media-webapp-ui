@@ -1,4 +1,8 @@
-import React from "react";
+// firebase imports
+import { storage } from "../../config/firebaseConfig";
+import { ref, getDownloadURL } from "firebase/storage";
+
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,11 +13,31 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import ListItemText from "@mui/material/ListItemText";
 import FeedbackIcon from "@mui/icons-material/Feedback";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutCall } from "../../store/actions/authActions";
+import DefaultProfilePic from "../../assets/profile.png";
+import Skeleton from "@mui/material/Skeleton";
+import { Link } from "react-router-dom";
 
 export default function DropdownMenu({ anchorEl, open, handleClose }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const [profilePic, setProfilePic] = useState(
+    <Skeleton variant="circular">
+      <Avatar />
+    </Skeleton>
+  );
+  useEffect(() => {
+    const getImages = async () => {
+      await getDownloadURL(
+        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+      )
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
+    };
+    if (user.profilePicture) getImages();
+    else setProfilePic(DefaultProfilePic);
+  }, [user]);
 
   return (
     <div>
@@ -51,9 +75,9 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          <Avatar />
-          <ListItemText primary="Linus" secondary="View your profile" />
+        <MenuItem component={Link} to={`/profile/${user._id}`}>
+          <Avatar src={profilePic} />
+          <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />
         <MenuItem>

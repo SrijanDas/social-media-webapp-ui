@@ -30,7 +30,7 @@ function App() {
             {user ? <Home /> : <Redirect to="/login" />}
           </Route>
 
-          <Route path="/profile/:username">
+          <Route path="/profile/:userId">
             {user ? <Profile /> : <Redirect to="/" />}
           </Route>
           <Route path="/more">
