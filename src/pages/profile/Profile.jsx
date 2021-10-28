@@ -1,88 +1,60 @@
 import "./profile.css";
+
 import Sidebar from "../../components/Sidebar/Sidebar";
-import Feed from "../../components/Feed/Feed";
+// import Feed from "../../components/Feed/Feed";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router";
 
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../config/firebaseConfig";
 import DefaultProfilePic from "../../assets/profile.png";
 import DefaultCoverPic from "../../assets/cover.jpg";
-import {
-  ProfileToolsOthers,
-  ProfileToolsUser,
-} from "../../components/ProfileTools/ProfileTools";
-import UpdateProfilePic from "../../components/UpdateProfilePic/UpdateProfilePic";
+import EditProfile from "../../components/EditProfile/EditProfile";
 import { useSelector } from "react-redux";
+import Follow from "../../components/Follow/Follow";
+import { getProfileImage } from "../../helpers/imageHandler";
 
 export default function Profile() {
   const [user, setUser] = useState({});
   const currentUser = useSelector((state) => state.auth.user);
-  const username = useParams().username;
+  const userId = useParams().userId;
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
-  const [hasClicked, setHasClicked] = useState(false);
   const coverPic = DefaultCoverPic;
 
   useEffect(() => {
-    const getImages = async () => {
-      await getDownloadURL(ref(storage, `${username}/profile/${username}.jpg`))
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
-    };
-    getImages();
-  }, [username]);
+    if (user.profilePicture) {
+      const url = getProfileImage(user.email, user.profilePicture);
+      setProfilePic(url);
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?username=${username}`);
+      const res = await axios.get(`/users?userId=${userId}`);
       setUser(res.data);
     };
     fetchUser();
-  }, [username]);
+  }, [userId]);
 
   return (
-    <>
-      <div className="profile">
-        <Sidebar />
-        <div className="profileRight">
-          <div className="profileRightTop">
-            <div className="profileCover">
-              <img className="profileCoverImg" src={coverPic} alt="" />
-              <img
-                onClick={() => {
-                  setHasClicked(true);
-                }}
-                className="profileUserImg"
-                src={profilePic}
-                alt=""
-              />
-              {hasClicked ? (
-                <UpdateProfilePic
-                  setProfilePic={setProfilePic}
-                  hasClicked={hasClicked}
-                  setHasClicked={setHasClicked}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="profileInfo">
-              <h4 className="profileInfoName">{user.username}</h4>
-              <span className="profileInfoDesc">{user.desc}</span>
-              {currentUser.username === username ? (
-                <ProfileToolsUser />
-              ) : (
-                <ProfileToolsOthers />
-              )}
-            </div>
+    <div className="profile">
+      <Sidebar />
+      <div className="profileRight">
+        <div className="profileRightTop">
+          <div className="profileCover">
+            <img className="profileCoverImg" src={coverPic} alt="" />
+            <img className="profileUserImg" src={profilePic} alt="" />
           </div>
-          <div className="profileRightBottom">
-            <Feed username={username} />
-            {/* <Rightbar user={user} /> */}
+          <div className="profileInfo">
+            <h4 className="profileInfoName">{user.username}</h4>
+            <span className="profileInfoDesc">{user.desc}</span>
+            {currentUser._id === userId ? <EditProfile /> : <Follow />}
           </div>
         </div>
+        <div className="profileRightBottom">
+          {/* <Feed username={username} /> */}
+          {/* <Rightbar user={user} /> */}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
