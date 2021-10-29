@@ -21,7 +21,7 @@ export default function Share() {
   useEffect(() => {
     const getImages = async () => {
       await getDownloadURL(
-        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+        ref(storage, `${user.email}/profile/${user.profilePicture}`)
       )
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
@@ -42,7 +42,7 @@ export default function Share() {
 
       newPost.img = fileName;
       try {
-        const storageRef = ref(storage, `${user.username}/uploads/${fileName}`);
+        const storageRef = ref(storage, `${user.email}/uploads/${fileName}`);
         // 'file' comes from the Blob or File API
         uploadBytes(storageRef, file).then((snapshot) => {
           console.log("Uploaded a blob or file!");
@@ -62,11 +62,7 @@ export default function Share() {
     <div className="share">
       <div className="shareTop">
         <Link to={`/profile/${user.username}`}>
-          <Avatar
-            className="shareProfileImg"
-            alt={user.username}
-            src={profilePic}
-          />
+          <Avatar className="shareProfileImg" alt="..." src={profilePic} />
         </Link>
         <input
           placeholder={`What's in your mind ${user.username}?`}

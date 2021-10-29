@@ -1,4 +1,7 @@
 import "./profile.css";
+// firebase imports
+import { storage } from "../../config/firebaseConfig";
+import { ref, getDownloadURL } from "firebase/storage";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 // import Feed from "../../components/Feed/Feed";
@@ -11,7 +14,6 @@ import DefaultCoverPic from "../../assets/cover.jpg";
 import EditProfile from "../../components/EditProfile/EditProfile";
 import { useSelector } from "react-redux";
 import Follow from "../../components/Follow/Follow";
-import { getProfileImage } from "../../helpers/imageHandler";
 
 export default function Profile() {
   const [user, setUser] = useState({});
@@ -21,9 +23,17 @@ export default function Profile() {
   const coverPic = DefaultCoverPic;
 
   useEffect(() => {
-    if (user.profilePicture) {
-      const url = getProfileImage(user.email, user.profilePicture);
-      setProfilePic(url);
+    const getImages = async () => {
+      await getDownloadURL(
+        ref(storage, `${user.email}/profile/${user.profilePicture}`)
+      )
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
+    };
+    if (user.profilePicture) getImages();
+    else {
+      setProfilePic(DefaultProfilePic);
+      return;
     }
   }, [user]);
 

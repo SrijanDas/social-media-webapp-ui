@@ -19,3 +19,22 @@
   height: 128px;
   width: 128px;
 }
+.changePhoto__btn {
+  background-color: #1976d2;
+  padding: 0.6rem;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 10px;
+}
+.changePhoto__btn:hover {
+  cursor: pointer;
+  background-color: #0766c5;
+}
+.editProfile__inputContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}

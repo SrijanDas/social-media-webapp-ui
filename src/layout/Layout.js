@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { checkAuthenticated } from "../store/actions/authActions";
 import ScrollToTop from "../components/ScrollToTop";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,9 +12,10 @@ function Layout({ children }) {
   const user = useSelector((state) => state.auth.user);
   const [isFetching, setIsFetching] = useState(true);
 
+  const timer = useRef();
   useEffect(() => {
     dispatch(checkAuthenticated());
-    window.setTimeout(() => {
+    timer.current = window.setTimeout(() => {
       setIsFetching(false);
     }, 1000);
   }, [dispatch]);

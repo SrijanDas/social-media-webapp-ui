@@ -30,7 +30,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
   useEffect(() => {
     const getImages = async () => {
       await getDownloadURL(
-        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+        ref(storage, `${user.email}/profile/${user.profilePicture}`)
       )
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
@@ -76,7 +76,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem component={Link} to={`/profile/${user._id}`}>
-          <Avatar src={profilePic} />
+          <Avatar src={profilePic} alt="..." />
           <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />

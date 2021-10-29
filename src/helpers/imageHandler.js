@@ -1,13 +1,16 @@
 // firebase
-import { ref, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../config/firebaseConfig";
 
-export const getProfileImage = async (userEmail, profilePicture) => {
-  await getDownloadURL(
-    ref(storage, `${userEmail}/profile/${profilePicture}.jpg`)
-  )
-    .then((url) => {
-      return url;
-    })
-    .catch((e) => console.log(e));
+export const uploadProfilePhoto = async (userEmail, file, fileName) => {
+  try {
+    const storageRef = ref(storage, `${userEmail}/profile/${fileName}`);
+    // 'file' comes from the Blob or File API
+    await uploadBytes(storageRef, file).then((snapshot) => {
+      return 0;
+    });
+  } catch (error) {
+    console.log(error);
+    return 1;
+  }
 };

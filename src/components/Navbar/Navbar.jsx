@@ -22,7 +22,6 @@ import Avatar from "@mui/material/Avatar";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import DefaultProfilePic from "../../assets/profile.png";
 import { useSelector } from "react-redux";
-import Skeleton from "@mui/material/Skeleton";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -35,22 +34,18 @@ export default function Navbar() {
   };
 
   const user = useSelector((state) => state.auth.user);
-  const [profilePic, setProfilePic] = useState(
-    <Skeleton variant="circular">
-      <Avatar />
-    </Skeleton>
-  );
+  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
 
   useEffect(() => {
-    const getImages = async () => {
+    const getProfilePhoto = async () => {
       await getDownloadURL(
-        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+        ref(storage, `${user.email}/profile/${user.profilePicture}`)
       )
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
     };
 
-    if (user.profilePicture) getImages();
+    if (user.profilePicture) getProfilePhoto();
     else setProfilePic(DefaultProfilePic);
   }, [user]);
 
@@ -116,9 +111,7 @@ export default function Navbar() {
             </IconButton>
 
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-              <Avatar sx={{ width: 32, height: 32 }} src={profilePic}>
-                {user.username.charAt(0).toUpperCase()}
-              </Avatar>
+              <Avatar sx={{ width: 32, height: 32 }} src={profilePic} />
             </IconButton>
           </Box>
         </Toolbar>

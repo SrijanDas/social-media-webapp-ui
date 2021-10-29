@@ -33,7 +33,7 @@ export default function Post({ post }) {
     // getting profile pic from firebase storage
     const getImages = async (user) => {
       await getDownloadURL(
-        ref(storage, `${user.username}/profile/${user.username}.jpg`)
+        ref(storage, `${user.email}/profile/${user.profilePicture}`)
       )
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
@@ -89,7 +89,7 @@ export default function Post({ post }) {
 
   // getting post image
   const getPostImage = async (filename) => {
-    await getDownloadURL(ref(storage, `linus/uploads/${filename}`))
+    await getDownloadURL(ref(storage, `${user.email}/uploads/${filename}`))
       .then((url) => {
         setPostImg(url);
       })
