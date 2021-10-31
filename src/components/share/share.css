@@ -89,3 +89,13 @@
   cursor: pointer;
   opacity: 0.7;
 }
+
+.share__postCreatedMsg {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+.share__reloadBtn {
+  justify-self: flex-end;
+  text-transform: capitalize !important;
+}

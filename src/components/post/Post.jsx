@@ -26,7 +26,9 @@ export default function Post({ post }) {
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser?._id));
-    if (post.img) getPostImage(post.img);
+    if (post.img) {
+      getPostImage(post.img);
+    }
   }, [currentUser._id, post.likes, post.img]);
 
   useEffect(() => {
@@ -89,7 +91,7 @@ export default function Post({ post }) {
 
   // getting post image
   const getPostImage = async (filename) => {
-    await getDownloadURL(ref(storage, `${user.email}/uploads/${filename}`))
+    await getDownloadURL(ref(storage, filename))
       .then((url) => {
         setPostImg(url);
       })

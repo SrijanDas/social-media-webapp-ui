@@ -7,40 +7,43 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import Alert from "@mui/material/Alert";
 
-export default function Feed({ username }) {
+export default function Feed({ userId }) {
   const [posts, setPosts] = useState([]);
   const currentUser = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingError, setloadingError] = useState(false);
 
+  console.log("res");
+
   useEffect(() => {
+    // console.log(res.data);
     const fetchPosts = async () => {
-      const res = username
-        ? await axios.get(`posts/profile/${username}`)
-        : await axios.get(`posts/timeline/${currentUser?._id}`);
       try {
-        if (res.data.length > 0) {
-          setPosts(
-            res.data.sort((p1, p2) => {
-              setIsLoading(false);
-              return new Date(p2.createdAt) - new Date(p1.createdAt);
-            })
-          );
-        } else {
-          setIsLoading(false);
-        }
+        const res = userId
+          ? await axios.get(`posts/timeline/${userId}`)
+          : await axios.get(`posts/timeline/${currentUser?._id}`);
+
+        setPosts(
+          res.data.sort((p1, p2) => {
+            setIsLoading(false);
+            return new Date(p2.createdAt) - new Date(p1.createdAt);
+          })
+        );
+
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
         setloadingError(true);
+        setIsLoading(false);
       }
     };
     fetchPosts();
-  }, [username, currentUser?._id]);
+  }, [userId, currentUser]);
 
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {(!username || username === currentUser?.username) && <Share />}
+        {(!userId || userId === currentUser?._id) && <Share />}
 
         {isLoading ? (
           <Loader size={40} />

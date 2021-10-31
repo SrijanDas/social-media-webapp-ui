@@ -29,6 +29,7 @@ export default function Share() {
     getImages();
   }, [user]);
 
+  // creating new post
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -39,81 +40,74 @@ export default function Share() {
     // uploading files to firebase
     if (file) {
       const fileName = Date.now() + "_" + file.name;
-
-      newPost.img = fileName;
+      newPost.img = `${user.email}/uploads/${fileName}`;
       try {
         const storageRef = ref(storage, `${user.email}/uploads/${fileName}`);
         // 'file' comes from the Blob or File API
-        uploadBytes(storageRef, file).then((snapshot) => {
+        uploadBytes(storageRef, file).then(async (snapshot) => {
           console.log("Uploaded a blob or file!");
+          // finally saving new post to db
+          await axios.post("/posts", newPost);
+          window.location.reload();
         });
       } catch (error) {
         console.log(error);
       }
     }
-    // finally creating post
-    try {
-      await axios.post("/posts", newPost);
-      window.location.reload();
-    } catch (err) {}
   };
 
   return (
-    <div className="share">
-      <div className="shareTop">
-        <Link to={`/profile/${user.username}`}>
-          <Avatar className="shareProfileImg" alt="..." src={profilePic} />
-        </Link>
-        <input
-          placeholder={`What's in your mind ${user.username}?`}
-          className="shareInput"
-          ref={desc}
-        />
-      </div>
-      <hr className="shareHr" />
-      <div className="shareBottom">
-        {file && (
-          <div className="shareImgContainer">
-            <img className="shareImg" src={URL.createObjectURL(file)} alt="" />
-            <Cancel className="shareCancelImg" onClick={() => setFile(null)} />
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div className="shareOptions">
-            <label htmlFor="file" className="shareOption">
-              <PermMedia htmlColor="tomato" className="shareIcon" />
-              <span className="shareOptionText">Photo or Video</span>
-              <input
-                style={{ display: "none" }}
-                type="file"
-                id="file"
-                accept=".png, .jpeg, .jpg"
-                onChange={(e) => {
-                  setFile(e.target.files[0]);
-                }}
+    <>
+      <div className="share">
+        <div className="shareTop">
+          <Link to={`/profile/${user.username}`}>
+            <Avatar className="shareProfileImg" alt="..." src={profilePic} />
+          </Link>
+          <input
+            placeholder={`What's in your mind ${user.username}?`}
+            className="shareInput"
+            ref={desc}
+          />
+        </div>
+        <hr className="shareHr" />
+        <div className="shareBottom">
+          {file && (
+            <div className="shareImgContainer">
+              <img
+                className="shareImg"
+                src={URL.createObjectURL(file)}
+                alt=""
               />
-            </label>
+              <Cancel
+                className="shareCancelImg"
+                onClick={() => setFile(null)}
+              />
+            </div>
+          )}
 
-            <button className="shareButton" type="submit">
-              Share
-            </button>
-          </div>
-        </form>
+          <form onSubmit={handleSubmit}>
+            <div className="shareOptions">
+              <label htmlFor="file" className="shareOption">
+                <PermMedia htmlColor="tomato" className="shareIcon" />
+                <span className="shareOptionText">Photo or Video</span>
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  id="file"
+                  accept=".png, .jpeg, .jpg"
+                  onChange={(e) => {
+                    setFile(e.target.files[0]);
+                  }}
+                />
+              </label>
+
+              <button className="shareButton" type="submit">
+                Share
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-    // <div className="share">
-    //   <div className="shareWrapper">
-    //     <div className="shareTop">
-
-    //
-    //     </div>
-    //
-    //     <div className="formContainer">
-    //
-    //
-    //     </div>
-    //   </div>
-    // </div>
+    </>
   );
 }
