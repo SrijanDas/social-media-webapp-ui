@@ -1,0 +1,18 @@
+.profileBanner {
+  margin: 1rem 0;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profileBanner__info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.profileBanner__username {
+  color: grey;
+}
+.profileBanner__btn {
+  text-transform: capitalize !important;
+}
