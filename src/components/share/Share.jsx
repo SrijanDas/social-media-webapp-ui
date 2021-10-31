@@ -60,7 +60,7 @@ export default function Share() {
     <>
       <div className="share">
         <div className="shareTop">
-          <Link to={`/profile/${user.username}`}>
+          <Link to={`/profile/${user._id}`}>
             <Avatar className="shareProfileImg" alt="..." src={profilePic} />
           </Link>
           <input

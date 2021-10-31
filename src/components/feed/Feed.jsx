@@ -13,14 +13,12 @@ export default function Feed({ userId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingError, setloadingError] = useState(false);
 
-  console.log("res");
-
   useEffect(() => {
     // console.log(res.data);
     const fetchPosts = async () => {
       try {
         const res = userId
-          ? await axios.get(`posts/timeline/${userId}`)
+          ? await axios.get(`posts/profile/${userId}`)
           : await axios.get(`posts/timeline/${currentUser?._id}`);
 
         setPosts(

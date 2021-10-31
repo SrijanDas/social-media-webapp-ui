@@ -106,13 +106,8 @@ export default function Post({ post }) {
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <Link to={`/profile/${user?.username}`}>
-              <Avatar
-                className="postProfileImg"
-                alt={user.username}
-                src={profilePic}
-              />
-              {/* <img className="" src={profilePic} alt="" /> */}
+            <Link to={`/profile/${user?._id}`}>
+              <Avatar className="postProfileImg" src={profilePic} />
             </Link>
             <span className="postUsername">{user?.username}</span>
             <span className="postDate">{format(post.createdAt)}</span>
