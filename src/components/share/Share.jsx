@@ -46,13 +46,17 @@ export default function Share() {
         // 'file' comes from the Blob or File API
         uploadBytes(storageRef, file).then(async (snapshot) => {
           console.log("Uploaded a blob or file!");
-          // finally saving new post to db
-          await axios.post("/posts", newPost);
-          window.location.reload();
         });
       } catch (error) {
         console.log(error);
       }
+    }
+    // finally saving new post to db
+    try {
+      await axios.post("/posts", newPost);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
     }
   };
 
