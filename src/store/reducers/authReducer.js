@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/authActionTypes";
+import * as followActionTypes from "../actions/followActionTypes";
 
 const initialState = {
   access: localStorage.getItem("access"),
@@ -59,10 +60,9 @@ const authReducer = (state = initialState, action) => {
         error: false,
       };
 
-    case actionTypes.SIGNUP_FAIL:
     case actionTypes.LOGIN_FAIL:
     case actionTypes.LOG_OUT:
-      // localStorage.clear();
+      localStorage.clear();
       return {
         ...state,
         error: payload,
@@ -71,6 +71,25 @@ const authReducer = (state = initialState, action) => {
         refresh: null,
         isAuthenticated: false,
         user: null,
+      };
+
+    case followActionTypes.FOLLOWED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          following: [...state.user.following, payload],
+        },
+      };
+    case followActionTypes.UNFOLLOWED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          following: state.user.following.filter(
+            (following) => following !== payload
+          ),
+        },
       };
 
     default:

@@ -13,14 +13,18 @@ export default function Rightbar() {
   const [users, setUsers] = useState([]);
 
   const currentUser = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.access);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await axios.get("/users/suggest", {
-          userId: currentUser._id,
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         });
         setUsers(res.data);
+        console.log(res.data);
         return;
       } catch (error) {
         console.log(error);
@@ -31,7 +35,7 @@ export default function Rightbar() {
       fetchUsers();
       setLoading(false);
     }, 1000);
-  }, [currentUser._id]);
+  }, [currentUser._id, token]);
 
   return (
     <div className="rightbarWrapper">
