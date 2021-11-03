@@ -53,7 +53,7 @@ export default function Feed({ userId }) {
           </Alert>
         ) : (
           <Alert className="feed__msg" severity="info">
-            Follow some people to see their posts
+            No new posts to show.
           </Alert>
         )}
       </div>
