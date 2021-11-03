@@ -76,7 +76,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem component={Link} to={`/profile/${user._id}`}>
-          <Avatar src={profilePic} alt="..." />
+          <Avatar src={profilePic} />
           <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />
