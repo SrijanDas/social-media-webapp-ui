@@ -130,7 +130,10 @@ export default function Post({ post }) {
   return (
     <>
       {postDeleted ? (
-        <Alert style={{ marginBottom: "10px" }} severity="warning">
+        <Alert
+          style={{ marginBottom: "10px", marginTop: "10px" }}
+          severity="warning"
+        >
           You deleted this post
         </Alert>
       ) : (
