@@ -10,6 +10,7 @@ export default function People() {
   const [loading, setLoading] = useState(true);
   const timer = useRef(null);
   const [users, setUsers] = useState([]);
+  const token = localStorage.getItem("access");
 
   const currentUser = useSelector((state) => state.auth.user);
 
@@ -17,9 +18,12 @@ export default function People() {
     const fetchUsers = async () => {
       try {
         const res = await axios.get("/users/suggest", {
-          userId: currentUser._id,
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         });
         setUsers(res.data);
+        console.log(res.data);
         return;
       } catch (error) {
         console.log(error);
@@ -29,8 +33,8 @@ export default function People() {
     timer.current = window.setTimeout(() => {
       fetchUsers();
       setLoading(false);
-    }, 500);
-  }, [currentUser._id]);
+    }, 1000);
+  }, [currentUser._id, token]);
 
   return (
     <div className="pageContainer">
@@ -43,7 +47,7 @@ export default function People() {
             <>
               <h1>People you may know</h1>
               {users.map((u) => (
-                <ProfileBanner user={u} />
+                <ProfileBanner key={u._id} user={u} />
               ))}
             </>
           )}
