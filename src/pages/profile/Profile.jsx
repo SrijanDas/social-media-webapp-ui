@@ -4,7 +4,7 @@ import { storage } from "../../config/firebaseConfig";
 import { ref, getDownloadURL } from "firebase/storage";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
-// import Feed from "../../components/Feed/Feed";
+import Feed from "../../components/Feed/Feed";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router";
@@ -57,12 +57,15 @@ export default function Profile() {
           <div className="profileInfo">
             <h4 className="profileInfoName">{user.username}</h4>
             <span className="profileInfoDesc">{user.desc}</span>
-            {currentUser._id === userId ? <EditProfile /> : <Follow />}
+            {currentUser._id === userId ? (
+              <EditProfile />
+            ) : (
+              <Follow user={user} />
+            )}
           </div>
         </div>
         <div className="profileRightBottom">
-          {/* <Feed username={username} /> */}
-          {/* <Rightbar user={user} /> */}
+          <Feed userId={userId} />
         </div>
       </div>
     </div>
