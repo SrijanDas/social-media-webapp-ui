@@ -8,7 +8,15 @@ import { PermMedia, Cancel } from "@material-ui/icons";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
-import Avatar from "@material-ui/core/Avatar";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import LinearProgress from "@mui/material/LinearProgress";
+
 import DefaultProfilePic from "../../assets/profile.png";
 import { useSelector } from "react-redux";
 
@@ -17,6 +25,8 @@ export default function Share() {
   const desc = useRef();
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+  const [postUploaded, setPostUploaded] = useState(false);
+  const timer = useRef();
 
   useEffect(() => {
     const getImages = async () => {
@@ -32,6 +42,8 @@ export default function Share() {
   // creating new post
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setOpen(true);
+
     const newPost = {
       userId: user._id,
       desc: desc.current.value,
@@ -51,12 +63,28 @@ export default function Share() {
         console.log(error);
       }
     }
+
     // finally saving new post to db
     try {
       await axios.post("/posts", newPost);
-      window.location.reload();
+      timer.current = window.setTimeout(
+        () => {
+          setPostUploaded(true);
+        },
+        file ? 3000 : 200
+      );
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // progress modal
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (e, reason) => {
+    if (reason !== "backdropClick") {
+      window.location.reload();
+      setOpen(false);
     }
   };
 
@@ -112,6 +140,26 @@ export default function Share() {
           </form>
         </div>
       </div>
+
+      <Dialog open={open} fullWidth>
+        <DialogTitle id="alert-dialog-title">
+          {!postUploaded ? "Uploading post ..." : "Post uploaded"}
+        </DialogTitle>
+        <DialogContent>
+          {!postUploaded ? (
+            <DialogContentText id="alert-dialog-description">
+              <LinearProgress />
+            </DialogContentText>
+          ) : (
+            ""
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button disabled={!postUploaded} onClick={handleClose}>
+            Done
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
