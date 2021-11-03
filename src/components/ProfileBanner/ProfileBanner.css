@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  flex: 1;
 }
 .profileBanner__username {
   color: grey;
