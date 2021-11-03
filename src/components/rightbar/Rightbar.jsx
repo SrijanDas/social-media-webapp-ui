@@ -49,7 +49,7 @@ export default function Rightbar() {
           ))}
 
           <div className="peopleList__seeMore">
-            <Link className="peopleList__seeMoreLink" to="/">
+            <Link className="peopleList__seeMoreLink" to="/people">
               See More
             </Link>
           </div>
