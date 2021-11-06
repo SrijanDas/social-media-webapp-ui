@@ -1,3 +1,11 @@
 .follow {
-  margin-top: 1rem;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.profileBanner__msgBtn {
+  text-transform: capitalize !important;
+  background-color: #eff1f1 !important;
+  color: black !important;
 }

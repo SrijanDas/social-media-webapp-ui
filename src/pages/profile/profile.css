@@ -1,10 +1,4 @@
-.profile {
-  display: flex;
-  margin-top: 4rem;
-}
-
 .profileRight {
-  padding-left: 1rem;
   width: 100%;
 }
 
@@ -49,4 +43,18 @@
 
 .profileRightBottom {
   display: flex;
+}
+
+.profile__InfoFollowersContainer {
+  margin-top: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.profile__InfoFollowers {
+  text-decoration: none;
+}
+.profile__InfoFollowing {
+  text-decoration: none;
 }

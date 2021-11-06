@@ -8,7 +8,9 @@ export default function Home() {
     <div className="pageContainer">
       <div className="page">
         <Sidebar className="sidebar" />
-        <Feed className="pageContent" />
+        <div className="pageContent">
+          <Feed />
+        </div>
         <Rightbar />
       </div>
     </div>

@@ -1,3 +1,6 @@
+// icons
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,13 +26,21 @@ export default function Follow({ user }) {
   return (
     <div className="follow">
       <Button
-        variant={followed ? "contained" : "outlined"}
+        variant={!followed ? "contained" : "outlined"}
         className="profileBanner__btn"
         disableElevation
         onClick={handleFollow}
         startIcon={!followed && <AddIcon />}
       >
-        {!followed ? "Follow" : "Following"}
+        {!followed ? "Follow" : "Unfollow"}
+      </Button>
+      <Button
+        startIcon={<MailOutlineIcon />}
+        className="profileBanner__msgBtn"
+        variant="contained"
+        disableElevation
+      >
+        Message
       </Button>
     </div>
   );

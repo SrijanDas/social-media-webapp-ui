@@ -14,6 +14,8 @@ import DefaultCoverPic from "../../assets/cover.jpg";
 import EditProfile from "../../components/EditProfile/EditProfile";
 import { useSelector } from "react-redux";
 import Follow from "../../components/Follow/Follow";
+import { Link } from "react-router-dom";
+import Rightbar from "../../components/Rightbar/Rightbar";
 
 export default function Profile() {
   const [user, setUser] = useState({});
@@ -46,27 +48,39 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="profile">
-      <Sidebar />
-      <div className="profileRight">
-        <div className="profileRightTop">
-          <div className="profileCover">
-            <img className="profileCoverImg" src={coverPic} alt="" />
-            <img className="profileUserImg" src={profilePic} alt="" />
+    <div className="pageContainer">
+      <div className="page">
+        <Sidebar className="sidebar" />
+        <div className="pageContent">
+          <div className="profileRightTop">
+            <div className="profileCover">
+              <img className="profileCoverImg" src={coverPic} alt="" />
+              <img className="profileUserImg" src={profilePic} alt="" />
+            </div>
+            <div className="profileInfo">
+              <h4 className="profileInfoName">{user.username}</h4>
+              <span className="profileInfoDesc">{user.desc}</span>
+              <div className="profile__InfoFollowersContainer">
+                <Link className="profile__InfoFollowers" to="/">
+                  <b>{user.followers?.length}</b> Followers
+                </Link>
+                <Link className="profile__InfoFollowing" to="/">
+                  <b>{user.following?.length}</b> Following
+                </Link>
+              </div>
+
+              {currentUser._id === userId ? (
+                <EditProfile />
+              ) : (
+                <Follow user={user} />
+              )}
+            </div>
           </div>
-          <div className="profileInfo">
-            <h4 className="profileInfoName">{user.username}</h4>
-            <span className="profileInfoDesc">{user.desc}</span>
-            {currentUser._id === userId ? (
-              <EditProfile />
-            ) : (
-              <Follow user={user} />
-            )}
+          <div className="profileRightBottom">
+            <Feed userId={userId} />
           </div>
         </div>
-        <div className="profileRightBottom">
-          <Feed userId={userId} />
-        </div>
+        <Rightbar />
       </div>
     </div>
   );
