@@ -13,5 +13,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  logoText: {
+    fontWeight: "800",
+    color: "#1976D2",
+    fontSize: "5rem",
+  },
 }));
 export default useStyles;

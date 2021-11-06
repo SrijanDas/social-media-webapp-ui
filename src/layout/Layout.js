@@ -10,18 +10,22 @@ function Layout({ children }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = useSelector((state) => state.auth.user);
-  const [isFetching, setIsFetching] = useState(true);
+  const isFetching = useSelector((state) => state.auth.isFetching);
+  const [isLoading, setIsLoading] = useState(true);
 
   const timer = useRef();
   useEffect(() => {
     dispatch(checkAuthenticated());
     timer.current = window.setTimeout(() => {
-      setIsFetching(false);
-    }, 1000);
+      if (isFetching === false) {
+        setIsLoading(false);
+      }
+    }, 2000);
   }, [dispatch]);
 
-  return isFetching ? (
+  return isLoading ? (
     <div className={classes.layoutLoader}>
+      <h1 className={classes.logoText}>siu</h1>
       <Loader size={50} />
     </div>
   ) : (
