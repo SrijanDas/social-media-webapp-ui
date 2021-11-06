@@ -24,7 +24,6 @@ export default function Rightbar() {
           },
         });
         setUsers(res.data);
-        console.log(res.data);
         return;
       } catch (error) {
         console.log(error);
