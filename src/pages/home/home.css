@@ -16,10 +16,6 @@
   width: 70%;
 }
 
-.sidebar {
-  display: contents;
-}
-
 @media (max-width: 768px) {
   .pageContainer {
     width: 100vw;
@@ -31,9 +27,5 @@
   }
   .pageContent {
     width: 100%;
-  }
-
-  .sidebar {
-    display: none;
   }
 }

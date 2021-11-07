@@ -1,19 +1,8 @@
 .sidebar {
-  flex: 3;
+  width: 15rem;
   height: calc(100vh - 50px);
-  overflow-y: scroll;
   position: sticky;
   top: 50px;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgb(179, 179, 179);
 }
 
 .sidebarWrapper {
@@ -36,10 +25,14 @@
 
 .sidebarListItem:hover {
   background-color: #e3f2fd;
+  cursor: pointer;
+  color: #1976d2;
 }
 
 .sidebarIcon {
   margin-right: 15px;
+  display: flex;
+  align-items: center;
 }
 .sidebarListItemText {
   text-decoration: none !important;
@@ -67,4 +60,15 @@
   margin: 0;
   list-style: none;
   margin-bottom: 8px;
+}
+
+.sidebar__footerLink {
+  text-decoration: none;
+  color: #1976d2;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
 }

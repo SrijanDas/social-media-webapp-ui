@@ -1,55 +1,44 @@
-.rightbarWrapper {
-  width: 25%;
-  margin-top: 1.2rem;
+.rightbar {
+  width: 22rem;
+  height: calc(100vh - 50px);
+  position: sticky;
+  top: 5rem;
 }
 
-.peopleList {
-  background-color: #f7f9f9 !important;
-  border-radius: 10px;
-  padding-top: 1rem;
-}
-.peopleList__header {
+.rightbar__userListHeader {
   padding: 1rem;
 }
 
-.peopleList__seeMore {
+.rightbar__userListSeeMore {
   padding: 1rem;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-.peopleList__seeMore:hover,
+.rightbar__userListSeeMore:hover,
 .profileBanner:hover {
   background-color: #eff1f1;
   cursor: pointer;
 }
 
-.peopleList__seeMoreLink {
+.rightbar__userListSeeMoreLink {
   text-decoration: none;
   color: #1877f2;
 }
 
 @media (max-width: 768px) {
-  .rightbarWrapper {
+  .rightbar {
     display: none;
   }
 }
 
 @media (max-width: 986px) {
-  .rightbarWrapper {
+  .rightbar {
     width: 20%;
   }
-  .peopleList__header {
+  .rightbar__userListHeader {
     text-align: center;
     display: flex;
     padding: 0.25rem;
-  }
-  .profileBanner {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.3rem;
-  }
-  .profileBanner {
-    padding: 0.2rem;
   }
 }

@@ -37,18 +37,18 @@ export default function Rightbar() {
   }, [currentUser._id, token]);
 
   return (
-    <div className="rightbarWrapper">
+    <div className="rightbar">
       {loading ? (
         <Loader />
       ) : (
-        <div className="peopleList">
-          <span className="peopleList__header">People you may know</span>
+        <div className="rightbar__userList">
+          <span className="rightbar__userListHeader">People you may know</span>
           {users.map((u) => (
             <ProfileBanner key={u._id} user={u} />
           ))}
 
-          <div className="peopleList__seeMore">
-            <Link className="peopleList__seeMoreLink" to="/people">
+          <div className="rightbar__userListSeeMore">
+            <Link className="rightbar__userListSeeMoreLink" to="/people">
               See More
             </Link>
           </div>

@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="pageContainer">
       <div className="page">
-        <Sidebar className="sidebar" />
+        <Sidebar />
         <div className="pageContent">
           <Feed />
         </div>
