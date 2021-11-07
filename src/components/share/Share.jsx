@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 
 export default function Share() {
   const user = useSelector((state) => state.auth.user);
-  const desc = useRef();
+  const [postCaption, setPostCaption] = useState("");
   const [file, setFile] = useState(null);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postUploaded, setPostUploaded] = useState(false);
@@ -46,7 +46,7 @@ export default function Share() {
 
     const newPost = {
       userId: user._id,
-      desc: desc.current.value,
+      desc: postCaption,
     };
 
     // uploading files to firebase
@@ -98,7 +98,7 @@ export default function Share() {
           <input
             placeholder={`What's in your mind ${user.username}?`}
             className="shareInput"
-            ref={desc}
+            onChange={(e) => setPostCaption(e.target.value)}
           />
         </div>
         <hr className="shareHr" />
@@ -133,7 +133,11 @@ export default function Share() {
                 />
               </label>
 
-              <button className="shareButton" type="submit">
+              <button
+                className="shareButton"
+                type="submit"
+                disabled={postCaption === "" && file === null ? true : false}
+              >
                 Share
               </button>
             </div>
