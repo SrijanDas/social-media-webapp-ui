@@ -21,7 +21,7 @@ function Layout({ children }) {
     }, 2000);
   }, [dispatch]);
 
-  return isLoading || isFetching ? (
+  return isLoading && isFetching ? (
     <div className={classes.layoutLoader}>
       <h1 className={classes.logoText}>siu</h1>
       <Loader size={50} />

@@ -1,17 +1,19 @@
 .feed {
   display: flex;
+  flex: 8;
   justify-content: center;
 }
 
 .feedWrapper {
   padding: 2px;
+  width: 80%;
 }
 
 .feed__msg {
   margin-top: 1.5rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 990px) {
   .feedWrapper {
     width: 98%;
   }
