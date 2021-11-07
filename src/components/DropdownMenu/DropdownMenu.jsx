@@ -15,18 +15,13 @@ import ListItemText from "@mui/material/ListItemText";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutCall } from "../../store/actions/authActions";
-import DefaultProfilePic from "../../assets/profile.png";
-import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 
 export default function DropdownMenu({ anchorEl, open, handleClose }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [profilePic, setProfilePic] = useState(
-    <Skeleton variant="circular">
-      <Avatar />
-    </Skeleton>
-  );
+  const [profilePic, setProfilePic] = useState(null);
+
   useEffect(() => {
     const getImages = async () => {
       await getDownloadURL(
@@ -36,7 +31,6 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         .catch((e) => console.log(e));
     };
     if (user.profilePicture) getImages();
-    else setProfilePic(DefaultProfilePic);
   }, [user]);
 
   return (
@@ -76,7 +70,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem component={Link} to={`/profile/${user._id}`}>
-          <Avatar src={profilePic} />
+          <Avatar src={profilePic} alt="" />
           <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />
