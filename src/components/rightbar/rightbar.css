@@ -9,6 +9,12 @@
   padding: 1rem;
 }
 
+.rightbar__userList {
+  background-color: #f7f9f9 !important;
+  border-radius: 10px;
+  padding-top: 1rem;
+}
+
 .rightbar__userListSeeMore {
   padding: 1rem;
   border-bottom-right-radius: 10px;
