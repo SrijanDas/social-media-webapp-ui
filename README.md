@@ -12,7 +12,7 @@ password: 123456
 
 ## Screenshots
 
-![App Screenshot](./screenshots/homepage.jpg)
+![App Screenshot](./screenshots/home.jpg)
 
 ## Tech Stack
 
