@@ -76,9 +76,8 @@ export default function Profile() {
               )}
             </div>
           </div>
-          <div className="profileRightBottom">
-            <Feed userId={userId} />
-          </div>
+
+          <Feed userId={userId} />
         </div>
         <Rightbar />
       </div>

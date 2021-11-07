@@ -1,5 +1,6 @@
 .feed {
-  flex: 8;
+  display: flex;
+  justify-content: center;
 }
 
 .feedWrapper {
@@ -8,4 +9,10 @@
 
 .feed__msg {
   margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .feedWrapper {
+    width: 98%;
+  }
 }
