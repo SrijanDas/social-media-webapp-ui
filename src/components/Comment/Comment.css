@@ -1,0 +1,17 @@
+.comment {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.comment__textContainer {
+  background-color: #f1f1f1;
+  padding: 1rem;
+  border-radius: 0.8rem;
+  margin-left: 0.5rem;
+  overflow-wrap: normal;
+}
+.comment__username {
+  font-weight: bold;
+}
+.comment__text {
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,6 @@
+.comment__btn {
+  text-transform: capitalize;
+}
+.comment__action {
+  gap: 1rem !important;
+}

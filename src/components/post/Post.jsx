@@ -37,12 +37,14 @@ import {
   Button,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import CommentModal from "../CommentModal/CommentModal";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const [postDeleted, setPostDeleted] = useState(false);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
 
   const currentUser = useSelector((state) => state.auth.user);
 
@@ -179,101 +181,93 @@ export default function Post({ post }) {
           You deleted this post
         </Alert>
       ) : (
-        <Card className="post" sx={{ boxShadow: 2 }}>
-          <CardHeader
-            avatar={
-              <Link to={`/profile/${user?._id}`}>
-                <Avatar src={profilePic} />
-              </Link>
-            }
-            action={
-              currentUser._id === user._id ? (
-                <>
-                  <IconButton
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={openPostMenu}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  {postMenu}
-                </>
-              ) : (
-                ""
-              )
-            }
-            title={user?.username}
-            subheader={format(post.createdAt)}
-          />
-          {post.desc ? (
-            <CardContent>
-              <Typography variant="body2" color="text.primary">
-                {post.desc}
-              </Typography>
+        <>
+          <Card className="post" sx={{ boxShadow: 2 }}>
+            <CardHeader
+              avatar={
+                <Link to={`/profile/${user?._id}`}>
+                  <Avatar src={profilePic} />
+                </Link>
+              }
+              action={
+                currentUser._id === user._id ? (
+                  <>
+                    <IconButton
+                      aria-label="more"
+                      aria-controls="long-menu"
+                      aria-haspopup="true"
+                      onClick={openPostMenu}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    {postMenu}
+                  </>
+                ) : (
+                  ""
+                )
+              }
+              title={user?.username}
+              subheader={format(post.createdAt)}
+            />
+            {post.desc ? (
+              <CardContent>
+                <Typography variant="body2" color="text.primary">
+                  {post.desc}
+                </Typography>
+              </CardContent>
+            ) : null}
+            {postImg ? (
+              <CardMedia component="img" className="postImg" image={postImg} />
+            ) : null}
+            <CardContent className="postBottom">
+              <div className="postBottomLeft">
+                <img className="likeIcon" src={LikeIcon} alt="" />
+                <span className="postLikeCounter">{like} people liked it</span>
+              </div>
+              <div className="postBottomRight">
+                <span className="postCommentText">0 comments</span>
+              </div>
             </CardContent>
-          ) : null}
-          {postImg ? (
-            <CardMedia component="img" className="postImg" image={postImg} />
-          ) : null}
-          <CardContent className="postBottom">
-            <div className="postBottomLeft">
-              <img className="likeIcon" src={LikeIcon} alt="" />
-              <span className="postLikeCounter">{like} people liked it</span>
-            </div>
-            <div className="postBottomRight">
-              <span className="postCommentText">0 comments</span>
-            </div>
-          </CardContent>
-          <CardActions className="postActions">
-            <Button
-              variant="text"
-              startIcon={isLiked ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />}
-              fullWidth
-              onClick={likeHandler}
-              color={isLiked ? "primary" : "inherit"}
-            >
-              {isLiked ? "Liked" : "Like"}
-            </Button>
-            <Button
-              variant="text"
-              startIcon={<ChatBubbleOutlineIcon />}
-              color="inherit"
-              fullWidth
-            >
-              Comment
-            </Button>
-            <Button
-              variant="text"
-              startIcon={<ShareIcon />}
-              color="inherit"
-              fullWidth
-            >
-              Share
-            </Button>
-          </CardActions>
-        </Card>
-        // <div className="post">
-        //   <div className="postWrapper">
-        //     <div className="postTop">
-        //       <div className="postTopLeft">
-
-        //         <span className="postUsername">{user?.username}</span>
-        //         <span className="postDate">{format(post.createdAt)}</span>
-        //       </div>
-        //
-        //     </div>
-        //     <div className="postCenter">
-        //       {post.img ? (
-        //         <img className="postImg" src={postImg} alt="" />
-        //       ) : null}
-        //     </div>
-        //     <div className="postBottom">
-        //
-
-        //     </div>
-        //   </div>
-        // </div>
+            <CardActions className="postActions">
+              <Button
+                variant="text"
+                startIcon={
+                  isLiked ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />
+                }
+                fullWidth
+                onClick={likeHandler}
+                color={isLiked ? "primary" : "inherit"}
+              >
+                {isLiked ? "Liked" : "Like"}
+              </Button>
+              <Button
+                variant="text"
+                startIcon={<ChatBubbleOutlineIcon />}
+                color="inherit"
+                fullWidth
+                onClick={() => {
+                  setCommentModalOpen(true);
+                }}
+              >
+                Comment
+              </Button>
+              <Button
+                variant="text"
+                startIcon={<ShareIcon />}
+                color="inherit"
+                fullWidth
+              >
+                Share
+              </Button>
+            </CardActions>
+          </Card>
+          <CommentModal
+            open={commentModalOpen}
+            setOpen={setCommentModalOpen}
+            postId={post._id}
+            comments={post.comments}
+          />
+        </>
       )}
     </>
   );
