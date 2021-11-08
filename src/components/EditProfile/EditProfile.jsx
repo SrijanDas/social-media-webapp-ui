@@ -24,6 +24,7 @@ import "./EditProfile.css";
 import { useSelector } from "react-redux";
 import DefaultProfilePic from "../../assets/profile.png";
 import UploadPhotoModal from "../UploadPhotoModal/UploadPhotoModal";
+import axios from "../../axios";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -33,10 +34,13 @@ export default function EditProfile() {
   const user = useSelector((state) => state.auth.user);
   const [username, setUsername] = useState(user.username);
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
+  const [desc, setDesc] = useState(user.desc);
+  const token = localStorage.getItem("access");
 
   // editing booleans
   const [editUsername, setEditUsername] = useState(false);
   const [editProfilePic, setEditProfilePic] = useState(false);
+  const [editDesc, setEditDesc] = useState(false);
 
   // modal
   const [open, setOpen] = useState(false);
@@ -66,7 +70,35 @@ export default function EditProfile() {
 
   const changeUsername = () => {
     setEditUsername(false);
-    console.log("Changing username to...", username);
+    if (username !== user.username) {
+      const body = {
+        username: username,
+      };
+      updateUser(body);
+    }
+  };
+
+  const changeBio = async () => {
+    setEditDesc(false);
+
+    if (desc !== user.desc) {
+      const body = {
+        desc: desc,
+      };
+      updateUser(body);
+    }
+  };
+
+  const updateUser = async (body) => {
+    try {
+      await axios.put("/users/" + user._id, body, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -118,6 +150,8 @@ export default function EditProfile() {
               setOpen={setEditProfilePic}
             />
           </div>
+
+          {/* username */}
           <div className="editProfile__inputContainer">
             <TextField
               disabled={!editUsername}
@@ -137,6 +171,29 @@ export default function EditProfile() {
               </IconButton>
             )}
           </div>
+
+          {/* description */}
+          <div className="editProfile__inputContainer">
+            <TextField
+              disabled={!editDesc}
+              label="Bio"
+              variant="standard"
+              value={desc}
+              id="desc-input"
+              onChange={(e) => setDesc(e.target.value)}
+            />
+            {editDesc ? (
+              <IconButton onClick={changeBio}>
+                <CheckIcon />
+              </IconButton>
+            ) : (
+              <IconButton onClick={() => setEditDesc(true)}>
+                <EditIcon />
+              </IconButton>
+            )}
+          </div>
+
+          {/* email */}
           <div className="editProfile__inputContainer">
             <TextField
               disabled
