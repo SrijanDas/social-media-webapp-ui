@@ -16,6 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LinearProgress from "@mui/material/LinearProgress";
+import Card from "@mui/material/Card";
 
 import DefaultProfilePic from "../../assets/profile.png";
 import { useSelector } from "react-redux";
@@ -90,7 +91,7 @@ export default function Share() {
 
   return (
     <>
-      <div className="share">
+      <Card className="share" sx={{ boxShadow: 2 }}>
         <div className="shareTop">
           <Link to={`/profile/${user._id}`}>
             <Avatar className="shareProfileImg" alt="..." src={profilePic} />
@@ -143,7 +144,7 @@ export default function Share() {
             </div>
           </form>
         </div>
-      </div>
+      </Card>
 
       <Dialog open={open} fullWidth>
         <DialogTitle id="alert-dialog-title">

@@ -179,7 +179,7 @@ export default function Post({ post }) {
           You deleted this post
         </Alert>
       ) : (
-        <Card className="post">
+        <Card className="post" sx={{ boxShadow: 2 }}>
           <CardHeader
             avatar={
               <Link to={`/profile/${user?._id}`}>
