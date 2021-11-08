@@ -98,14 +98,14 @@ export default function Navbar() {
               aria-label="show 4 new mails"
               color="inherit"
               component={Link}
-              to="/chat"
+              to="/chats"
             >
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={0} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
             <IconButton size="large" color="inherit">
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={0} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
