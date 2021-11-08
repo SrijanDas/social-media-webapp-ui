@@ -1,6 +1,5 @@
-# [Socials](https://socials-2bccb.web.app/)
+# [start It UP](https://socials-2bccb.web.app/)
 
-Socials is a social media website where you can connect with the users and chat with them.
 
  ## Demo
 
