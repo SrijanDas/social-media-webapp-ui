@@ -4,6 +4,12 @@ import "./post.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import ShareIcon from "@mui/icons-material/Share";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+
 // firebase imports
 import { ref, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "../../config/firebaseConfig";
@@ -22,6 +28,13 @@ import {
   ListItemIcon,
   ListItemText,
   Alert,
+  Card,
+  CardHeader,
+  CardActions,
+  CardMedia,
+  CardContent,
+  Typography,
+  Button,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
@@ -127,6 +140,35 @@ export default function Post({ post }) {
       });
   };
 
+  const postMenu = (
+    <Menu
+      id="long-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={open}
+      onClose={closePostMenu}
+    >
+      <MenuItem>
+        <ListItemIcon>
+          <BookmarkIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>Save</ListItemText>
+      </MenuItem>
+      <MenuItem>
+        <ListItemIcon>
+          <EditIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>Edit</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={deletePost}>
+        <ListItemIcon>
+          <DeleteIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>Delete</ListItemText>
+      </MenuItem>
+    </Menu>
+  );
+
   return (
     <>
       {postDeleted ? (
@@ -137,18 +179,16 @@ export default function Post({ post }) {
           You deleted this post
         </Alert>
       ) : (
-        <div className="post">
-          <div className="postWrapper">
-            <div className="postTop">
-              <div className="postTopLeft">
-                <Link to={`/profile/${user?._id}`}>
-                  <Avatar className="postProfileImg" src={profilePic} />
-                </Link>
-                <span className="postUsername">{user?.username}</span>
-                <span className="postDate">{format(post.createdAt)}</span>
-              </div>
-              {currentUser._id === user._id ? (
-                <div className="postTopRight">
+        <Card className="post">
+          <CardHeader
+            avatar={
+              <Link to={`/profile/${user?._id}`}>
+                <Avatar src={profilePic} />
+              </Link>
+            }
+            action={
+              currentUser._id === user._id ? (
+                <>
                   <IconButton
                     aria-label="more"
                     aria-controls="long-menu"
@@ -157,54 +197,83 @@ export default function Post({ post }) {
                   >
                     <MoreVertIcon />
                   </IconButton>
-                  <Menu
-                    id="long-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={open}
-                    onClose={closePostMenu}
-                  >
-                    <MenuItem>
-                      <ListItemIcon>
-                        <EditIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>Edit</ListItemText>
-                    </MenuItem>
-                    <MenuItem onClick={deletePost}>
-                      <ListItemIcon>
-                        <DeleteIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>Delete</ListItemText>
-                    </MenuItem>
-                  </Menu>
-                </div>
+                  {postMenu}
+                </>
               ) : (
                 ""
-              )}
+              )
+            }
+            title={user?.username}
+            subheader={format(post.createdAt)}
+          />
+          {post.desc ? (
+            <CardContent>
+              <Typography variant="body2" color="text.primary">
+                {post.desc}
+              </Typography>
+            </CardContent>
+          ) : null}
+          {postImg ? (
+            <CardMedia component="img" className="postImg" image={postImg} />
+          ) : null}
+          <CardContent className="postBottom">
+            <div className="postBottomLeft">
+              <img className="likeIcon" src={LikeIcon} alt="" />
+              <span className="postLikeCounter">{like} people liked it</span>
             </div>
-            <div className="postCenter">
-              {post.desc ? <span className="postText">{post.desc}</span> : null}
-              {post.img ? (
-                <img className="postImg" src={postImg} alt="" />
-              ) : null}
+            <div className="postBottomRight">
+              <span className="postCommentText">0 comments</span>
             </div>
-            <div className="postBottom">
-              <div className="postBottomLeft">
-                <img
-                  className="likeIcon"
-                  src={LikeIcon}
-                  onClick={likeHandler}
-                  alt=""
-                />
+          </CardContent>
+          <CardActions className="postActions">
+            <Button
+              variant="text"
+              startIcon={isLiked ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />}
+              fullWidth
+              onClick={likeHandler}
+              color={isLiked ? "primary" : "inherit"}
+            >
+              {isLiked ? "Liked" : "Like"}
+            </Button>
+            <Button
+              variant="text"
+              startIcon={<ChatBubbleOutlineIcon />}
+              color="inherit"
+              fullWidth
+            >
+              Comment
+            </Button>
+            <Button
+              variant="text"
+              startIcon={<ShareIcon />}
+              color="inherit"
+              fullWidth
+            >
+              Share
+            </Button>
+          </CardActions>
+        </Card>
+        // <div className="post">
+        //   <div className="postWrapper">
+        //     <div className="postTop">
+        //       <div className="postTopLeft">
 
-                <span className="postLikeCounter">{like} people liked it</span>
-              </div>
-              <div className="postBottomRight">
-                <span className="postCommentText">{post.comment} comments</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        //         <span className="postUsername">{user?.username}</span>
+        //         <span className="postDate">{format(post.createdAt)}</span>
+        //       </div>
+        //
+        //     </div>
+        //     <div className="postCenter">
+        //       {post.img ? (
+        //         <img className="postImg" src={postImg} alt="" />
+        //       ) : null}
+        //     </div>
+        //     <div className="postBottom">
+        //
+
+        //     </div>
+        //   </div>
+        // </div>
       )}
     </>
   );
