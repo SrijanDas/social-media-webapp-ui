@@ -22,15 +22,26 @@ import Avatar from "@mui/material/Avatar";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import DefaultProfilePic from "../../assets/profile.png";
 import { useSelector } from "react-redux";
+import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [nfAnchorEl, setNfAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const notificationOpen = Boolean(nfAnchorEl);
+
+  const [notificationCount, setNotificationCount] = useState(4);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNotificationClose = () => {
+    setNfAnchorEl(null);
   };
 
   const user = useSelector((state) => state.auth.user);
@@ -104,8 +115,15 @@ export default function Navbar() {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton size="large" color="inherit">
-              <Badge badgeContent={0} color="error">
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={(e) => {
+                setNotificationCount(0);
+                setNfAnchorEl(e.currentTarget);
+              }}
+            >
+              <Badge badgeContent={notificationCount} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -117,6 +135,11 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
       <DropdownMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
+      <NotificationDropdown
+        nfAnchorEl={nfAnchorEl}
+        open={notificationOpen}
+        handleClose={handleNotificationClose}
+      />
     </div>
   );
 }

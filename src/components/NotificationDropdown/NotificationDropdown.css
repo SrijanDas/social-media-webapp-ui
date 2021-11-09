@@ -1,0 +1,23 @@
+.nfDropdown__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+.nf__bottom {
+  padding: 0.5rem;
+  color: #1976d2;
+  display: flex;
+  justify-content: center;
+}
+
+.nfDropdown__headerLink:hover,
+.nf__bottom:hover {
+  color: #0d47a1;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.nfDropdown__headerLink {
+  text-decoration: none;
+  color: #1976d2;
+}
