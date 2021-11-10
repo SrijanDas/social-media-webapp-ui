@@ -26,13 +26,13 @@ password: 123456
 Clone the project
 
 ```
-git clone https://github.com/SrijanDas/socials-ui.git
+git clone https://github.com/SrijanDas/start-it-up-ui.git
 ```
 
 Go to the directory
 
 ```
-cd socials-ui
+cd start-it-up-ui
 ```
 
 Install dependencies
