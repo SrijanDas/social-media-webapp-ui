@@ -50,6 +50,22 @@ export default function Post({ post }) {
 
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postImg, setPostImg] = useState();
+  const [noOfComments, setNoOfComments] = useState(0);
+
+  // comments
+  useEffect(() => {
+    const getComments = async () => {
+      await axios
+        .get(`/comments/${post._id}/all`)
+        .then((res) => {
+          setNoOfComments(res.data.length);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getComments();
+  }, [post._id]);
 
   // likes
   useEffect(() => {
@@ -225,8 +241,11 @@ export default function Post({ post }) {
                 <img className="likeIcon" src={LikeIcon} alt="" />
                 <span className="postLikeCounter">{like} people liked it</span>
               </div>
-              <div className="postBottomRight">
-                <span className="postCommentText">0 comments</span>
+              <div
+                onClick={() => setCommentsOpen(!commentsOpen)}
+                className="postBottomRight"
+              >
+                <span className="postCommentText">{noOfComments} comments</span>
               </div>
             </CardContent>
             <CardActions className="postActions">

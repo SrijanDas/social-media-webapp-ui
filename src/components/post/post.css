@@ -39,3 +39,9 @@
 .postActions button {
   text-transform: capitalize !important;
 }
+
+.postBottomLeft:hover,
+.postBottomRight:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
