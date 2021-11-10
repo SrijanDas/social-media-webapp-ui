@@ -1,0 +1,30 @@
+.commentForm {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+}
+.commentForm--hasCancelBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+.commentForm__container {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.commentForm__input {
+  background-color: #f0f2f5;
+  border-radius: 0.8rem;
+  padding-left: 0.5rem;
+  padding-top: 0.2rem;
+  flex: 1;
+}
+.commentForm__btn {
+  text-transform: capitalize !important;
+}
+.commentForm__cancelBtn {
+  margin-left: 0.3rem !important;
+  text-transform: capitalize !important;
+}

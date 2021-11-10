@@ -1,5 +1,6 @@
 import axios from "../../axios";
 import * as actionTypes from "./authActionTypes";
+import { loadProfilePhoto } from "./imgActions";
 
 export const load_user = () => async (dispatch) => {
   if (localStorage.getItem("access")) {
@@ -13,10 +14,12 @@ export const load_user = () => async (dispatch) => {
 
     try {
       const res = await axios.get("/auth/users/me", config);
+      const user = res.data;
       dispatch({
         type: actionTypes.USER_LOADED_SUCCESS,
-        payload: res.data,
+        payload: user,
       });
+      dispatch(loadProfilePhoto(user));
     } catch (error) {
       dispatch({
         type: actionTypes.USER_LOADED_FAIL,

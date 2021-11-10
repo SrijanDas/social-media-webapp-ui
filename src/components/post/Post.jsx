@@ -35,22 +35,23 @@ import {
   CardContent,
   Typography,
   Button,
+  Collapse,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import CommentModal from "../CommentModal/CommentModal";
+import CommentSection from "../CommentSection/CommentSection";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const [postDeleted, setPostDeleted] = useState(false);
-  const [commentModalOpen, setCommentModalOpen] = useState(false);
-
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth.user);
 
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postImg, setPostImg] = useState();
 
+  // likes
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser?._id));
     if (post.img) {
@@ -58,8 +59,8 @@ export default function Post({ post }) {
     }
   }, [currentUser._id, post.likes, post.img]);
 
+  // getting profile pic from firebase storage
   useEffect(() => {
-    // getting profile pic from firebase storage
     const getImages = async (user) => {
       await getDownloadURL(
         ref(storage, `${user.email}/profile/${user.profilePicture}`)
@@ -246,7 +247,7 @@ export default function Post({ post }) {
                 color="inherit"
                 fullWidth
                 onClick={() => {
-                  setCommentModalOpen(true);
+                  setCommentsOpen(!commentsOpen);
                 }}
               >
                 Comment
@@ -260,13 +261,10 @@ export default function Post({ post }) {
                 Share
               </Button>
             </CardActions>
+            <Collapse in={commentsOpen} timeout="auto" unmountOnExit>
+              <CommentSection postId={post._id} />
+            </Collapse>
           </Card>
-          <CommentModal
-            open={commentModalOpen}
-            setOpen={setCommentModalOpen}
-            postId={post._id}
-            comments={post.comments}
-          />
         </>
       )}
     </>

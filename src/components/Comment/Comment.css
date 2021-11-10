@@ -1,17 +1,39 @@
 .comment {
   display: flex;
-  margin-bottom: 1rem;
+  padding: 0.5rem;
 }
+
 .comment__textContainer {
   background-color: #f1f1f1;
-  padding: 1rem;
+  padding: 0.5rem 0.8rem;
   border-radius: 0.8rem;
   margin-left: 0.5rem;
   overflow-wrap: normal;
+  width: fit-content;
 }
 .comment__username {
   font-weight: bold;
+  font-size: small;
 }
 .comment__text {
-  margin-top: 0.5rem;
+  margin-top: 0.2rem;
+  /* font-size: large; */
+}
+.comment__actions button {
+  text-transform: capitalize;
+  padding: 0 !important;
+  width: auto !important;
+}
+.comment__actions {
+  display: flex;
+  align-items: center;
+}
+.comment__date {
+  margin-left: 0.5rem;
+}
+.comment__dateEdit {
+  margin-left: 0.6rem !important;
+}
+.comment__replies button {
+  text-transform: capitalize;
 }
