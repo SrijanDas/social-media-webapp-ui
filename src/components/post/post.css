@@ -45,3 +45,7 @@
   cursor: pointer;
   text-decoration: underline;
 }
+.post__menuList {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

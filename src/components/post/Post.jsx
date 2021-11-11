@@ -9,6 +9,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import LinkIcon from "@mui/icons-material/Link";
 
 // firebase imports
 import { ref, getDownloadURL, deleteObject } from "firebase/storage";
@@ -25,6 +26,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  MenuList,
   ListItemIcon,
   ListItemText,
   Alert,
@@ -39,6 +41,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import CommentSection from "../CommentSection/CommentSection";
+import AlertDialog from "../AlertDialogue";
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length);
@@ -48,9 +51,16 @@ export default function Post({ post }) {
   const [commentsOpen, setCommentsOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth.user);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const [shareMenuAnchorEl, setShareMenuAnchorEl] = useState(null);
+  const shareMenuOpen = Boolean(shareMenuAnchorEl);
+
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postImg, setPostImg] = useState();
   const [noOfComments, setNoOfComments] = useState(0);
+
+  const [alertOpen, setAlertOpen] = useState(false);
 
   // comments
   useEffect(() => {
@@ -111,15 +121,13 @@ export default function Post({ post }) {
   };
 
   // post menu
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+
   const openPostMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const closePostMenu = (option) => {
+  const closePostMenu = () => {
     setAnchorEl(null);
-    console.log(option);
   };
 
   // post menu actions
@@ -160,31 +168,72 @@ export default function Post({ post }) {
   };
 
   const postMenu = (
+    <Menu anchorEl={anchorEl} keepMounted open={open} onClose={closePostMenu}>
+      <MenuList className="post__menuList" dense>
+        <MenuItem>
+          <ListItemIcon>
+            <BookmarkIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Save</ListItemText>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Edit</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => setAlertOpen(true)}>
+          <ListItemIcon>
+            <DeleteIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Delete</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => console.log("copyLink")}>
+          <ListItemIcon>
+            <LinkIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Copy link</ListItemText>
+        </MenuItem>
+      </MenuList>
+    </Menu>
+  );
+
+  const shareMenu = (
     <Menu
-      id="long-menu"
-      anchorEl={anchorEl}
+      anchorEl={shareMenuAnchorEl}
       keepMounted
-      open={open}
-      onClose={closePostMenu}
+      open={shareMenuOpen}
+      onClose={() => setShareMenuAnchorEl(null)}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
     >
-      <MenuItem>
-        <ListItemIcon>
-          <BookmarkIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>Save</ListItemText>
-      </MenuItem>
-      <MenuItem>
-        <ListItemIcon>
-          <EditIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>Edit</ListItemText>
-      </MenuItem>
-      <MenuItem onClick={deletePost}>
-        <ListItemIcon>
-          <DeleteIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>Delete</ListItemText>
-      </MenuItem>
+      <MenuList className="post__menuList" dense>
+        <MenuItem>
+          <ListItemIcon>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Write post</ListItemText>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <ShareIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Share now</ListItemText>
+        </MenuItem>
+
+        <MenuItem onClick={() => console.log("copyLink")}>
+          <ListItemIcon>
+            <LinkIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Copy link</ListItemText>
+        </MenuItem>
+      </MenuList>
     </Menu>
   );
 
@@ -271,14 +320,17 @@ export default function Post({ post }) {
               >
                 Comment
               </Button>
+
               <Button
                 variant="text"
                 startIcon={<ShareIcon />}
                 color="inherit"
                 fullWidth
+                onClick={(e) => setShareMenuAnchorEl(e.currentTarget)}
               >
                 Share
               </Button>
+              {shareMenu}
             </CardActions>
             <Collapse in={commentsOpen} timeout="auto" unmountOnExit>
               <CommentSection postId={post._id} />
@@ -286,6 +338,14 @@ export default function Post({ post }) {
           </Card>
         </>
       )}
+      <AlertDialog
+        open={alertOpen}
+        setOpen={setAlertOpen}
+        handleConfirm={() => {
+          setAlertOpen(false);
+          deletePost();
+        }}
+      />
     </>
   );
 }
