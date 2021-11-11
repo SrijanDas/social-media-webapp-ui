@@ -2,6 +2,8 @@ import { Divider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CommentForm from "../CommentForm/CommentForm";
 import Comment from "../Comment/Comment";
+import Loader from "../Loader/Loader";
+
 import axios from "../../axios";
 import { useSelector } from "react-redux";
 
@@ -13,6 +15,7 @@ export default function CommentSection({ postId }) {
   const [activeComment, setActiveComment] = useState(null);
 
   const currentUser = useSelector((state) => state.auth.user);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getComments = async () => {
@@ -28,6 +31,8 @@ export default function CommentSection({ postId }) {
         .catch((err) => {
           console.log(err);
         });
+
+      setIsLoading(false);
     };
     getComments();
   }, [postId]);
@@ -91,30 +96,28 @@ export default function CommentSection({ postId }) {
   return (
     <div>
       <Divider />
-      <CommentForm
-        handleSubmit={(text) => addComment(text, null)}
-        buttonLabel="Comment"
-      />
-      {rootComments.map((rootComment) => (
-        <Comment
-          key={rootComment._id}
-          comment={rootComment}
-          replies={getReplies(rootComment._id)}
-          activeComment={activeComment}
-          setActiveComment={setActiveComment}
-          addComment={addComment}
-          deleteComment={deleteComment}
-          updateComment={updateComment}
-        />
-      ))}
-      {/* {!formClosed && (
-        <CommentForm
-          addComment={addComment}
-          buttonLabel="Update"
-          hasCancelBtn
-          setFormClosed={setFormClosed}
-        />
-      )} */}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <CommentForm
+            handleSubmit={(text) => addComment(text, null)}
+            buttonLabel="Comment"
+          />
+          {rootComments.map((rootComment) => (
+            <Comment
+              key={rootComment._id}
+              comment={rootComment}
+              replies={getReplies(rootComment._id)}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
+              addComment={addComment}
+              deleteComment={deleteComment}
+              updateComment={updateComment}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

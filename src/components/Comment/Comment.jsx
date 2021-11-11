@@ -159,6 +159,7 @@ export default function Comment({
                 size="small"
                 onClick={() => {
                   setActiveComment({ id: comment._id, type: "replying" });
+                  setShowReplies(true);
                 }}
               >
                 Reply
