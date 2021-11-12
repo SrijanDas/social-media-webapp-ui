@@ -15,6 +15,7 @@ import Layout from "./layout/Layout";
 import { useSelector } from "react-redux";
 import People from "./pages/People/People";
 import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
+import Posts from "./pages/Posts";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route path="/notifications">
             {user ? <NotificationsPage /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/posts/:postId">
+            <Posts />
           </Route>
 
           {/* ---------- messeges --------- */}

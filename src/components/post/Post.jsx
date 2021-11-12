@@ -18,7 +18,7 @@ import { storage } from "../../config/firebaseConfig";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { format } from "timeago.js";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import DefaultProfilePic from "../../assets/profile.png";
 import LikeIcon from "../../assets/like.png";
 import {
@@ -35,21 +35,25 @@ import {
   CardActions,
   CardMedia,
   CardContent,
+  CardActionArea,
   Typography,
   Button,
   Collapse,
+  Snackbar,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import CommentSection from "../CommentSection/CommentSection";
 import AlertDialog from "../AlertDialogue";
 
-export default function Post({ post }) {
+export default function Post({ post, showComments = false }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const [postDeleted, setPostDeleted] = useState(false);
-  const [commentsOpen, setCommentsOpen] = useState(false);
+  const [commentsOpen, setCommentsOpen] = useState(showComments);
   const currentUser = useSelector((state) => state.auth.user);
+
+  const history = useHistory();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -60,7 +64,23 @@ export default function Post({ post }) {
   const [postImg, setPostImg] = useState();
   const [noOfComments, setNoOfComments] = useState(0);
 
+  // post deleted alert
   const [alertOpen, setAlertOpen] = useState(false);
+
+  const postLink = `${window.location.host}/posts/${post._id}`;
+
+  // copy post link to clipboard
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const handleSnackbarOpen = () => {
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   // comments
   useEffect(() => {
@@ -125,7 +145,6 @@ export default function Post({ post }) {
   };
 
   // post menu
-
   const openPostMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -133,6 +152,8 @@ export default function Post({ post }) {
   const closePostMenu = () => {
     setAnchorEl(null);
   };
+
+  const closeShareMenu = () => setShareMenuAnchorEl(null);
 
   // post menu actions
   const deletePost = async () => {
@@ -171,6 +192,22 @@ export default function Post({ post }) {
       });
   };
 
+  const copyLinkBtn = (
+    <MenuItem
+      onClick={() => {
+        navigator.clipboard.writeText(postLink);
+        closePostMenu();
+        closeShareMenu();
+        handleSnackbarOpen();
+      }}
+    >
+      <ListItemIcon>
+        <LinkIcon fontSize="small" />
+      </ListItemIcon>
+      <ListItemText>Copy link</ListItemText>
+    </MenuItem>
+  );
+
   const postMenu = (
     <Menu anchorEl={anchorEl} keepMounted open={open} onClose={closePostMenu}>
       <MenuList className="post__menuList" dense>
@@ -192,22 +229,19 @@ export default function Post({ post }) {
           </ListItemIcon>
           <ListItemText>Delete</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => console.log("copyLink")}>
-          <ListItemIcon>
-            <LinkIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Copy link</ListItemText>
-        </MenuItem>
+
+        {copyLinkBtn}
       </MenuList>
     </Menu>
   );
 
+  // share menu
   const shareMenu = (
     <Menu
       anchorEl={shareMenuAnchorEl}
       keepMounted
       open={shareMenuOpen}
-      onClose={() => setShareMenuAnchorEl(null)}
+      onClose={closeShareMenu}
       anchorOrigin={{
         vertical: "top",
         horizontal: "left",
@@ -231,12 +265,7 @@ export default function Post({ post }) {
           <ListItemText>Share now</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={() => console.log("copyLink")}>
-          <ListItemIcon>
-            <LinkIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Copy link</ListItemText>
-        </MenuItem>
+        {copyLinkBtn}
       </MenuList>
     </Menu>
   );
@@ -279,16 +308,22 @@ export default function Post({ post }) {
               title={user?.username}
               subheader={format(post.createdAt)}
             />
-            {post.desc ? (
-              <CardContent>
-                <Typography variant="body2" color="text.primary">
-                  {post.desc}
-                </Typography>
-              </CardContent>
-            ) : null}
-            {postImg ? (
-              <CardMedia component="img" className="postImg" image={postImg} />
-            ) : null}
+            <CardActionArea onClick={() => history.push("/posts/" + post._id)}>
+              {post.desc ? (
+                <CardContent>
+                  <Typography variant="body2" color="text.primary">
+                    {post.desc}
+                  </Typography>
+                </CardContent>
+              ) : null}
+              {postImg ? (
+                <CardMedia
+                  component="img"
+                  className="postImg"
+                  image={postImg}
+                />
+              ) : null}
+            </CardActionArea>
             <CardContent className="postBottom">
               <div className="postBottomLeft">
                 <img className="likeIcon" src={LikeIcon} alt="" />
@@ -350,6 +385,19 @@ export default function Post({ post }) {
           deletePost();
         }}
       />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Link Copied
+        </Alert>
+      </Snackbar>
     </>
   );
 }
