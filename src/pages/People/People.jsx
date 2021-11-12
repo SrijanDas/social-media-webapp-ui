@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
 import "./People.css";
 import ProfileBanner from "../../components/ProfileBanner/ProfileBanner";
 import Loader from "../../components/Loader/Loader";
@@ -37,22 +36,17 @@ export default function People() {
   }, [currentUser._id, token]);
 
   return (
-    <div className="pageContainer">
-      <div className="page">
-        <Sidebar className="sidebar" />
-        <div className="pageContent">
-          {loading ? (
-            <Loader />
-          ) : (
-            <>
-              <h1>People you may know</h1>
-              {users.map((u) => (
-                <ProfileBanner key={u._id} user={u} />
-              ))}
-            </>
-          )}
-        </div>
-      </div>
+    <div className="people">
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <h1>People you may know</h1>
+          {users.map((u) => (
+            <ProfileBanner key={u._id} user={u} />
+          ))}
+        </>
+      )}
     </div>
   );
 }

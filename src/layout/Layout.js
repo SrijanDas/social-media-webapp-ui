@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./style";
 import Loader from "../components/Loader/Loader";
 import Navbar from "../components/Navbar/Navbar";
+import Sidebar from "../components/Sidebar/Sidebar";
+import Rightbar from "../components/Rightbar/Rightbar";
 
 function Layout({ children }) {
   const dispatch = useDispatch();
@@ -28,9 +30,21 @@ function Layout({ children }) {
     </div>
   ) : (
     <div className={classes.root}>
-      {user ? <Navbar /> : null}
-      <ScrollToTop />
-      {children}
+      {user ? (
+        <>
+          <Navbar />
+          <ScrollToTop />
+          <div className="pageContainer">
+            <div className="page">
+              <Sidebar />
+              <div className="pageContent">{children}</div>
+              <Rightbar />
+            </div>
+          </div>
+        </>
+      ) : (
+        children
+      )}
     </div>
   );
 }

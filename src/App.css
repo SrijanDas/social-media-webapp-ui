@@ -3,3 +3,50 @@
   font-family: Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
     Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
+
+.pageContainer {
+  margin-top: 4rem !important;
+  justify-content: center;
+}
+.page {
+  display: flex;
+  margin: auto;
+  max-width: 1440px;
+  flex-direction: row;
+  justify-content: center;
+  width: 95%;
+  gap: 1rem;
+}
+
+.pageContent {
+  width: 70%;
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    width: 100vw;
+    margin-top: 3rem;
+    /* padding: 0 0.5rem; */
+  }
+  .page {
+    width: 100%;
+  }
+  .pageContent {
+    width: 100%;
+  }
+}
+
+button {
+  text-transform: capitalize !important;
+}
+link {
+  text-decoration: none !important;
+}
+
+.bg-primary {
+  background-color: #1976d2 !important;
+}
+
+.text-primary {
+  color: #1976d2 !important;
+}
