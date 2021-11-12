@@ -7,6 +7,7 @@ import Loader from "../components/Loader/Loader";
 import Navbar from "../components/Navbar/Navbar";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Rightbar from "../components/Rightbar/Rightbar";
+import { isMobile } from "react-device-detect";
 
 function Layout({ children }) {
   const dispatch = useDispatch();
@@ -36,9 +37,9 @@ function Layout({ children }) {
           <ScrollToTop />
           <div className="pageContainer">
             <div className="page">
-              <Sidebar />
+              {!isMobile && <Sidebar />}
               <div className="pageContent">{children}</div>
-              <Rightbar />
+              {!isMobile && <Rightbar />}
             </div>
           </div>
         </>
