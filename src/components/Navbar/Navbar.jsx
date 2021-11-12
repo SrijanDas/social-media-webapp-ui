@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 // icons
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,10 +6,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import PeopleIcon from "@mui/icons-material/People";
-
-// firebase imports
-import { storage } from "../../config/firebaseConfig";
-import { ref, getDownloadURL } from "firebase/storage";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -20,7 +16,6 @@ import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
-import DefaultProfilePic from "../../assets/profile.png";
 import { useSelector } from "react-redux";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 
@@ -45,20 +40,6 @@ export default function Navbar() {
   };
 
   const user = useSelector((state) => state.auth.user);
-  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
-
-  useEffect(() => {
-    const getProfilePhoto = async () => {
-      await getDownloadURL(
-        ref(storage, `${user.email}/profile/${user.profilePicture}`)
-      )
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
-    };
-
-    if (user.profilePicture) getProfilePhoto();
-    else setProfilePic(DefaultProfilePic);
-  }, [user]);
 
   return (
     <div>
@@ -129,7 +110,10 @@ export default function Navbar() {
             </IconButton>
 
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-              <Avatar sx={{ width: 32, height: 32 }} src={profilePic} />
+              <Avatar
+                sx={{ width: 32, height: 32 }}
+                src={user.profilePicture}
+              />
             </IconButton>
           </Box>
         </Toolbar>

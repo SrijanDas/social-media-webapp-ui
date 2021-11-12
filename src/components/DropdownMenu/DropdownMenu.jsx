@@ -1,8 +1,4 @@
-// firebase imports
-import { storage } from "../../config/firebaseConfig";
-import { ref, getDownloadURL } from "firebase/storage";
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -20,18 +16,6 @@ import { Link } from "react-router-dom";
 export default function DropdownMenu({ anchorEl, open, handleClose }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [profilePic, setProfilePic] = useState(null);
-
-  useEffect(() => {
-    const getImages = async () => {
-      await getDownloadURL(
-        ref(storage, `${user.email}/profile/${user.profilePicture}`)
-      )
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
-    };
-    if (user.profilePicture) getImages();
-  }, [user]);
 
   return (
     <div>
@@ -70,7 +54,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem component={Link} to={`/profile/${user._id}`}>
-          <Avatar src={profilePic} alt="" />
+          <Avatar src={user.profilePicture} alt="" />
           <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />

@@ -32,12 +32,12 @@ export default function Profile() {
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
     };
-    if (user.profilePicture) getImages();
+    if (user._id !== currentUser._id) getImages();
     else {
-      setProfilePic(DefaultProfilePic);
+      setProfilePic(currentUser.profilePicture);
       return;
     }
-  }, [user]);
+  }, [user, currentUser]);
 
   useEffect(() => {
     const fetchUser = async () => {

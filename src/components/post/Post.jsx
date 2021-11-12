@@ -88,11 +88,15 @@ export default function Post({ post }) {
   // getting profile pic from firebase storage
   useEffect(() => {
     const getImages = async (user) => {
-      await getDownloadURL(
-        ref(storage, `${user.email}/profile/${user.profilePicture}`)
-      )
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
+      if (user._id === currentUser._id) {
+        setProfilePic(currentUser.profilePicture);
+      } else {
+        await getDownloadURL(
+          ref(storage, `${user.email}/profile/${user.profilePicture}`)
+        )
+          .then((url) => setProfilePic(url))
+          .catch((e) => console.log(e));
+      }
     };
 
     const fetchUser = async () => {
@@ -108,7 +112,7 @@ export default function Post({ post }) {
     };
 
     fetchUser();
-  }, [post.userId]);
+  }, [post.userId, currentUser]);
 
   const likeHandler = () => {
     try {

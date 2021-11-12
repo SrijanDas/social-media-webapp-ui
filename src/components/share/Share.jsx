@@ -2,10 +2,10 @@ import "./share.css";
 
 // firebase imports
 import { storage } from "../../config/firebaseConfig";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 
 import { PermMedia, Cancel } from "@material-ui/icons";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../axios";
 import Avatar from "@mui/material/Avatar";
@@ -18,27 +18,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import LinearProgress from "@mui/material/LinearProgress";
 import Card from "@mui/material/Card";
 
-import DefaultProfilePic from "../../assets/profile.png";
 import { useSelector } from "react-redux";
 
 export default function Share() {
   const user = useSelector((state) => state.auth.user);
   const [postCaption, setPostCaption] = useState("");
   const [file, setFile] = useState(null);
-  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postUploaded, setPostUploaded] = useState(false);
   const timer = useRef();
-
-  useEffect(() => {
-    const getImages = async () => {
-      await getDownloadURL(
-        ref(storage, `${user.email}/profile/${user.profilePicture}`)
-      )
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
-    };
-    getImages();
-  }, [user]);
 
   // creating new post
   const handleSubmit = async (e) => {
@@ -94,7 +81,7 @@ export default function Share() {
       <Card className="share" sx={{ boxShadow: 2 }}>
         <div className="shareTop">
           <Link to={`/profile/${user._id}`}>
-            <Avatar className="shareProfileImg" alt="..." src={profilePic} />
+            <Avatar className="shareProfileImg" src={user.profilePicture} />
           </Link>
           <input
             placeholder={`What's in your mind ${user.username}?`}
