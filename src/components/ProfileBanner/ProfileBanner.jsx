@@ -10,7 +10,7 @@ import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { followUser, unFollowUser } from "../../store/actions/followActions";
 
-export default function ProfileBanner({ user }) {
+export default function ProfileBanner({ user = { username: "john" } }) {
   const [profilePic, setProfilePic] = useState();
   const [followed, setFollowed] = useState(false);
 
@@ -57,7 +57,7 @@ export default function ProfileBanner({ user }) {
         disableElevation
         onClick={handleFollow}
       >
-        {!followed ? "Follow" : "Following"}
+        {!followed ? "Connect" : "Connected"}
       </Button>
     </div>
   );

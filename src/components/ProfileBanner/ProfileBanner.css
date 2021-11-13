@@ -17,7 +17,7 @@
 .profileBanner__btn {
   text-transform: capitalize !important;
 }
-@media (max-width: 986px) {
+/* @media (max-width: 20px) {
   .profileBanner {
     flex-direction: column;
     text-align: center;
@@ -26,4 +26,4 @@
   .profileBanner {
     padding: 0.2rem;
   }
-}
+} */
