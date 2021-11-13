@@ -46,6 +46,7 @@ import { useSelector } from "react-redux";
 import CommentSection from "../CommentSection/CommentSection";
 import AlertDialog from "../AlertDialog";
 import ReportDialog from "../ReportDialog/ReportDialog";
+import LikesDialog from "../LikesDialog/LikesDialog";
 
 export default function Post({
   post,
@@ -126,7 +127,7 @@ export default function Post({
     const getImages = async (user) => {
       if (user._id === currentUser._id) {
         setProfilePic(currentUser.profilePicture);
-      } else {
+      } else if (user.profilePicture) {
         await getDownloadURL(
           ref(storage, `${user.email}/profile/${user.profilePicture}`)
         )
@@ -292,6 +293,15 @@ export default function Post({
     </Menu>
   );
 
+  // likes dialog
+  const [likesDialogOpen, setLikesDialogOpen] = useState(false);
+  const handleLikesDialogOpen = () => {
+    setLikesDialogOpen(true);
+  };
+  const handleLikesDialogClose = () => {
+    setLikesDialogOpen(false);
+  };
+
   return (
     <>
       {postDeleted ? (
@@ -352,7 +362,12 @@ export default function Post({
             <CardContent className="postBottom">
               <div className="postBottomLeft">
                 <img className="likeIcon" src={LikeIcon} alt="" />
-                <span className="postLikeCounter">{like} people liked it</span>
+                <span
+                  className="postLikeCounter"
+                  onClick={handleLikesDialogOpen}
+                >
+                  {like} people liked it
+                </span>
               </div>
               <div
                 onClick={() => setCommentsOpen(!commentsOpen)}
@@ -417,6 +432,13 @@ export default function Post({
       <ReportDialog
         open={reportDialogOpen}
         handleClose={handleReportDialogClose}
+      />
+
+      {/* likes dialog */}
+      <LikesDialog
+        open={likesDialogOpen}
+        handleClose={handleLikesDialogClose}
+        likes={post.likes}
       />
 
       <Snackbar

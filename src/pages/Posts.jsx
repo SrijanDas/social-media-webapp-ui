@@ -13,7 +13,6 @@ export default function Posts() {
       await axios
         .get(`/posts/${postId}`)
         .then((response) => {
-          console.log(response);
           setPost(response.data);
         })
         .catch((error) => {
