@@ -16,7 +16,7 @@ import axios from "../../axios";
 import { format } from "timeago.js";
 import { useSelector } from "react-redux";
 import CommentForm from "../CommentForm/CommentForm";
-import AlertDialog from "../AlertDialogue";
+import AlertDialog from "../AlertDialog";
 
 export default function Comment({
   comment,

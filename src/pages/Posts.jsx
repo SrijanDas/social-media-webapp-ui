@@ -26,7 +26,11 @@ export default function Posts() {
 
   return (
     <div style={{ marginTop: "1rem" }}>
-      {isLoading ? <Loader size={36} /> : <Post post={post} showComments />}
+      {isLoading ? (
+        <Loader size={36} />
+      ) : (
+        <Post post={post} showComments disableActionArea />
+      )}
     </div>
   );
 }

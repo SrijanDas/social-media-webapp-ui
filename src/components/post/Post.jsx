@@ -10,6 +10,7 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import LinkIcon from "@mui/icons-material/Link";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
 // firebase imports
 import { ref, getDownloadURL, deleteObject } from "firebase/storage";
@@ -43,9 +44,14 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import CommentSection from "../CommentSection/CommentSection";
-import AlertDialog from "../AlertDialogue";
+import AlertDialog from "../AlertDialog";
+import ReportDialog from "../ReportDialog/ReportDialog";
 
-export default function Post({ post, showComments = false }) {
+export default function Post({
+  post,
+  showComments = false,
+  disableActionArea = false,
+}) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
@@ -68,6 +74,16 @@ export default function Post({ post, showComments = false }) {
   const [alertOpen, setAlertOpen] = useState(false);
 
   const postLink = `${window.location.host}/posts/${post._id}`;
+
+  // report post
+  const [reportDialogOpen, setReportDialogOpen] = useState(false);
+  const handleReportDialogOpen = () => {
+    setAnchorEl(null);
+    setReportDialogOpen(true);
+  };
+  const handleReportDialogClose = () => {
+    setReportDialogOpen(false);
+  };
 
   // copy post link to clipboard
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -229,6 +245,12 @@ export default function Post({ post, showComments = false }) {
           </ListItemIcon>
           <ListItemText>Delete</ListItemText>
         </MenuItem>
+        <MenuItem onClick={handleReportDialogOpen}>
+          <ListItemIcon>
+            <ReportGmailerrorredIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Report post</ListItemText>
+        </MenuItem>
 
         {copyLinkBtn}
       </MenuList>
@@ -308,7 +330,10 @@ export default function Post({ post, showComments = false }) {
               title={user?.username}
               subheader={format(post.createdAt)}
             />
-            <CardActionArea onClick={() => history.push("/posts/" + post._id)}>
+            <CardActionArea
+              disabled={disableActionArea}
+              onClick={() => history.push("/posts/" + post._id)}
+            >
               {post.desc ? (
                 <CardContent>
                   <Typography variant="body2" color="text.primary">
@@ -377,6 +402,8 @@ export default function Post({ post, showComments = false }) {
           </Card>
         </>
       )}
+
+      {/* delete post dialog */}
       <AlertDialog
         open={alertOpen}
         setOpen={setAlertOpen}
@@ -385,6 +412,13 @@ export default function Post({ post, showComments = false }) {
           deletePost();
         }}
       />
+
+      {/* report post dialog */}
+      <ReportDialog
+        open={reportDialogOpen}
+        handleClose={handleReportDialogClose}
+      />
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
