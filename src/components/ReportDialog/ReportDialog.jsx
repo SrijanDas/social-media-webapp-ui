@@ -85,7 +85,6 @@ export default function ReportDialog({ open, handleClose }) {
         <form className="report__form" onSubmit={handleSubmit}>
           <TextareaAutosize
             type="text"
-            placeholder="Type here..."
             minRows={5}
             onChange={(e) => setDesc(e.target.value)}
           />
