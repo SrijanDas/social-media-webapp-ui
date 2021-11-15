@@ -1,5 +1,6 @@
 // icons
 import ReplyIcon from "@mui/icons-material/Reply";
+import LikeIcon from "../../assets/like.png";
 
 // firebase imports
 import { ref, getDownloadURL } from "firebase/storage";
@@ -17,6 +18,7 @@ import { format } from "timeago.js";
 import { useSelector } from "react-redux";
 import CommentForm from "../CommentForm/CommentForm";
 import AlertDialog from "../AlertDialog";
+import LikesDialog from "../LikesDialog/LikesDialog";
 
 export default function Comment({
   comment,
@@ -48,6 +50,15 @@ export default function Comment({
   const [showReplies, setShowReplies] = useState(false);
 
   const [alertOpen, setAlertOpen] = useState(false);
+
+  // likes dialog
+  const [likesDialogOpen, setLikesDialogOpen] = useState(false);
+  const handleLikesDialogOpen = () => {
+    setLikesDialogOpen(true);
+  };
+  const handleLikesDialogClose = () => {
+    setLikesDialogOpen(false);
+  };
 
   // getting profile pic from firebase storage
   useEffect(() => {
@@ -84,7 +95,7 @@ export default function Comment({
     if (time === "just") return format(dateTime);
     else {
       const suffix = format(dateTime).split(" ")[1][0];
-      return time + " " + suffix;
+      return time + suffix;
     }
   };
 
@@ -152,7 +163,6 @@ export default function Comment({
                 onClick={handleLike}
               >
                 {isLiked ? "Liked" : "Like"}
-                {likes.length > 0 && `(${likes.length})`}
               </Button>
               <Button
                 variant="text"
@@ -186,7 +196,7 @@ export default function Comment({
                 </>
               ) : null}
 
-              <div className="comment__date">
+              <div className="comment__info">
                 <Typography variant="caption">
                   {formatDateTime(comment.createdAt)}
                 </Typography>
@@ -194,6 +204,17 @@ export default function Comment({
                   <Typography variant="caption" className="comment__dateEdit">
                     &#9679; Edited {formatDateTime(comment.updatedAt)}
                   </Typography>
+                )}
+                {likes.length > 0 && (
+                  <div
+                    onClick={handleLikesDialogOpen}
+                    className="comment__likes"
+                  >
+                    <img className="comment__likeIcon" src={LikeIcon} alt="" />
+                    <Typography variant="caption" className="comment__dateEdit">
+                      {likes.length}
+                    </Typography>
+                  </div>
                 )}
               </div>
             </div>
@@ -244,6 +265,12 @@ export default function Comment({
         open={alertOpen}
         setOpen={setAlertOpen}
         handleConfirm={handleDeleteConfirm}
+      />
+      {/* likes dialog */}
+      <LikesDialog
+        open={likesDialogOpen}
+        handleClose={handleLikesDialogClose}
+        likes={likes}
       />
     </>
   );

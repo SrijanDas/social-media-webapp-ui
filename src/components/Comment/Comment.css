@@ -28,12 +28,28 @@
   display: flex;
   align-items: center;
 }
-.comment__date {
-  margin-left: 0.5rem;
+.comment__info {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 .comment__dateEdit {
-  margin-left: 0.6rem !important;
+  margin-left: 0.1rem !important;
 }
 .comment__replies button {
   text-transform: capitalize;
+}
+.comment__likes {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+}
+.comment__likeIcon {
+  width: 18px;
+  height: 18px;
+}
+.comment__likes:hover {
+  cursor: pointer;
+  border-bottom: 1px solid #000;
 }

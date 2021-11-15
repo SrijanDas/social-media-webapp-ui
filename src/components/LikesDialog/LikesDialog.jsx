@@ -16,7 +16,7 @@ const LikesDialog = ({ open, handleClose, likes }) => {
       fullWidth
     >
       <DialogTitle id="alert-dialog-title">
-        {`${likes.length} People liked this post`}
+        {`${likes.length} people liked it`}
         <IconButton
           aria-label="close"
           onClick={handleClose}
