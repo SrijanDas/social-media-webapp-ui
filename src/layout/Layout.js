@@ -15,8 +15,9 @@ function Layout({ children }) {
   const user = useSelector((state) => state.auth.user);
   const isFetching = useSelector((state) => state.auth.isFetching);
   const [isLoading, setIsLoading] = useState(true);
-
+  const showSidebar = isMobile ? false : true;
   const timer = useRef();
+
   useEffect(() => {
     dispatch(checkAuthenticated());
     timer.current = window.setTimeout(() => {
@@ -37,9 +38,9 @@ function Layout({ children }) {
           <ScrollToTop />
           <div className="pageContainer">
             <div className="page">
-              {!isMobile && <Sidebar />}
+              {showSidebar && <Sidebar />}
               <div className="pageContent">{children}</div>
-              {!isMobile && <Rightbar />}
+              {showSidebar && <Rightbar />}
             </div>
           </div>
         </>

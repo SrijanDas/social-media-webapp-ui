@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,10 +12,20 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutCall } from "../../store/actions/authActions";
 import { Link } from "react-router-dom";
+import Feedback from "../FeedbackForm/FeedbackForm";
 
 export default function DropdownMenu({ anchorEl, open, handleClose }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+
+  // feedback form dialog
+  const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
+  const handleFeedbackDialogOpen = () => {
+    setFeedbackDialogOpen(true);
+  };
+  const handleFeedbackDialogClose = () => {
+    setFeedbackDialogOpen(false);
+  };
 
   return (
     <div>
@@ -58,7 +68,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
           <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem onClick={handleFeedbackDialogOpen}>
           <ListItemIcon>
             <FeedbackIcon fontSize="medium" />
           </ListItemIcon>
@@ -88,6 +98,11 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
           Logout
         </MenuItem>
       </Menu>
+
+      <Feedback
+        open={feedbackDialogOpen}
+        handleClose={handleFeedbackDialogClose}
+      />
     </div>
   );
 }
