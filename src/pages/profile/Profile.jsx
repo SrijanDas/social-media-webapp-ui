@@ -30,8 +30,10 @@ export default function Profile() {
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
     };
-    if (user._id !== currentUser._id) getImages();
-    else {
+    if (user._id !== currentUser._id) {
+      if (user.profilePicture) getImages();
+      else setProfilePic(DefaultProfilePic);
+    } else {
       setProfilePic(currentUser.profilePicture);
       return;
     }
