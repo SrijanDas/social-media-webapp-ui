@@ -23,6 +23,9 @@ function Layout({ children }) {
     timer.current = window.setTimeout(() => {
       setIsLoading(false);
     }, 2000);
+    return () => {
+      clearTimeout(timer.current);
+    };
   }, [dispatch]);
 
   return isLoading && isFetching ? (

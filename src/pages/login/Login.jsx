@@ -43,6 +43,7 @@ export default function Login() {
                 required
                 autoFocus
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
               />
               <TextField
                 id="password-input"
@@ -51,6 +52,7 @@ export default function Login() {
                 required
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
               />
 
               <Button
