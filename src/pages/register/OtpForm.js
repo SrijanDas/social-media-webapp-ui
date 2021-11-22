@@ -14,10 +14,11 @@ export default function OtpForm({
   otp,
   verificationToken,
   email,
-  resendOtp,
+  sendOTP,
 }) {
   const [counter, setCounter] = React.useState(59);
   const [error, setError] = React.useState(null);
+  // const timer = React.useRef(null)
 
   const handleSubmit = async () => {
     setError(null);
@@ -33,11 +34,12 @@ export default function OtpForm({
       .then((res) => {
         if (res.data.Status === "Success") {
           handleNext();
+        } else {
+          setError(res.data.Details);
         }
       })
       .catch((err) => {
         console.log(err);
-        setError("Something went wrong! Please try again.");
       });
   };
 
@@ -49,6 +51,12 @@ export default function OtpForm({
       }, 1000);
     return () => clearInterval(timer);
   }, [counter]);
+
+  const resendOtp = () => {
+    setError(null);
+    setCounter(59);
+    sendOTP();
+  };
 
   return (
     <React.Fragment>
@@ -97,7 +105,7 @@ export default function OtpForm({
           sx={{ mt: 3, ml: 1 }}
           onClick={handleSubmit}
         >
-          Next
+          Verify
         </Button>
       </Box>
     </React.Fragment>

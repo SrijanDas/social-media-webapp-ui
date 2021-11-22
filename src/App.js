@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
-import Registerr from "./pages/Registerr/Registerr";
+import Register from "./pages/Register/Register";
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,7 +53,7 @@ function App() {
           {/*  -------------- auth routes --------------- */}
           <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
           <Route path="/register">
-            {user ? <Redirect to="/" /> : <Registerr />}
+            {user ? <Redirect to="/" /> : <Register />}
           </Route>
         </Layout>
       </Switch>

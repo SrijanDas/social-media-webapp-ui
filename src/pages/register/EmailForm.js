@@ -12,6 +12,7 @@ import axios from "../../axios";
 export default function EmailForm({
   handleEmailChange,
   email,
+  setEmail,
   isLoading,
   setIsLoading,
   sendOTP,
@@ -25,6 +26,7 @@ export default function EmailForm({
     try {
       const res = await axios.post("/auth/check-email", { email });
       if (res.data === "available") {
+        setEmail(email);
         sendOTP();
       } else {
         setShowAlert(true);
@@ -69,7 +71,6 @@ export default function EmailForm({
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
             onChange={onChange}
           />
-          ,
         </Grid>
       </Grid>
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

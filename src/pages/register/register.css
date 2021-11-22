@@ -1,8 +1,10 @@
-.register__loginLink {
-  text-align: center;
-  text-decoration: none;
-  color: #1775ee;
+.register__otpInput {
+  width: 100% !important;
 }
-.register__loginLinkContainer {
-  margin-top: 1rem;
+.register__otpInput input {
+  width: 100% !important;
+  height: 4rem !important;
+}
+.register__successLoginLink {
+  text-decoration: none !important;
 }
