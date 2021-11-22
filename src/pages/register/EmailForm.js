@@ -8,6 +8,7 @@ import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "../../axios";
+import { Link } from "react-router-dom";
 
 export default function EmailForm({
   handleEmailChange,
@@ -74,6 +75,11 @@ export default function EmailForm({
         </Grid>
       </Grid>
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Link className="register__loginLink" to="/login">
+          <Button disabled={isLoading} sx={{ mt: 3 }}>
+            Log in to your account
+          </Button>
+        </Link>
         <Button
           variant="contained"
           sx={{ mt: 3, ml: 1 }}

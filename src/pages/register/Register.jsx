@@ -145,7 +145,7 @@ function Registerr() {
                 </Alert>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Box sx={{ flex: "1 1 auto" }} />
-                  <Link className="register__successLoginLink" to="/login">
+                  <Link className="register__loginLink" to="/login">
                     <Button>Log In</Button>
                   </Link>
                 </Box>
