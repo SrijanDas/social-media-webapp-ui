@@ -13,25 +13,28 @@ import DefaultCoverPic from "../../assets/cover.jpg";
 import EditProfile from "../../components/EditProfile/EditProfile";
 import { useSelector } from "react-redux";
 import Follow from "../../components/Follow/Follow";
-import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import ProfileCard from "./ProfileCard";
 
 export default function Profile() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const currentUser = useSelector((state) => state.auth.user);
   const userId = useParams().userId;
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const coverPic = DefaultCoverPic;
 
   useEffect(() => {
-    const getImages = async () => {
+    const getImages = async (givenUser) => {
       await getDownloadURL(
-        ref(storage, `${user.email}/profile/${user.profilePicture}`)
+        ref(storage, `${givenUser.email}/profile/${givenUser.profilePicture}`)
       )
         .then((url) => setProfilePic(url))
         .catch((e) => console.log(e));
     };
-    if (user._id !== currentUser._id) {
-      if (user.profilePicture) getImages();
+
+    if (user?._id !== currentUser._id) {
+      if (user?.profilePicture) getImages(user);
       else setProfilePic(DefaultProfilePic);
     } else {
       setProfilePic(currentUser.profilePicture);
@@ -55,16 +58,8 @@ export default function Profile() {
           <img className="profileUserImg" src={profilePic} alt="" />
         </div>
         <div className="profileInfo">
-          <h4 className="profileInfoName">{user.username}</h4>
-          <span className="profileInfoDesc">{user.desc}</span>
-          <div className="profile__InfoFollowersContainer">
-            <Link className="profile__InfoFollowers" to="/">
-              <b>{user.followers?.length}</b> Followers
-            </Link>
-            <Link className="profile__InfoFollowing" to="/">
-              <b>{user.following?.length}</b> Following
-            </Link>
-          </div>
+          <h4 className="profileInfoName">{user?.username}</h4>
+          <span className="profileInfoDesc">{user?.desc}</span>
 
           {currentUser._id === userId ? (
             <EditProfile />
@@ -72,6 +67,23 @@ export default function Profile() {
             <Follow user={user} />
           )}
         </div>
+        {user?.connections.length && (
+          <div style={{ margin: "0.8rem 0" }}>
+            <Divider />
+            <div className="profile__connectionsContainer">
+              <Typography variant="h6">Connections</Typography>
+              <Typography variant="subtitle1">
+                {user?.connections.length} connections
+              </Typography>
+              <div className="profile__connections">
+                {user?.connections.map((connection) => (
+                  <ProfileCard key={connection} userId={connection} />
+                ))}
+              </div>
+            </div>
+            <Divider />
+          </div>
+        )}
       </div>
 
       <Feed userId={userId} />

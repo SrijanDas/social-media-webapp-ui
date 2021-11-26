@@ -1,29 +1,65 @@
 import * as actionTypes from "./followActionTypes";
 import axios from "../../axios";
 
-export const followUser = (userId, currentUserId) => async (dispatch) => {
+export const sendConnectionRequest =
+  (userId, currentUserId) => async (dispatch) => {
+    try {
+      const res = await axios.put(`/users/${userId}/connect`, {
+        userId: currentUserId,
+      });
+      if (res.status === 200)
+        dispatch({
+          type: actionTypes.CONNECTION_REQUEST_SENT,
+          payload: userId,
+        });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: actionTypes.CONNECTION_REQUEST_SEND_FAILED });
+    }
+  };
+export const disconnectUser = (userId, currentUserId) => async (dispatch) => {
   try {
-    const res = await axios.put(`/users/${userId}/follow`, {
+    const res = await axios.put(`/users/${userId}/disconnect`, {
       userId: currentUserId,
     });
     if (res.status === 200)
-      dispatch({ type: actionTypes.FOLLOWED, payload: userId });
-    else dispatch({ type: actionTypes.FOLLOW_FAIL });
+      dispatch({ type: actionTypes.DISCONNECTED_USER, payload: userId });
   } catch (error) {
     console.log(error);
-    dispatch({ type: actionTypes.FOLLOW_FAIL });
+    dispatch({ type: actionTypes.DISCONNECTED_USER_FAIL });
   }
 };
-export const unFollowUser = (userId, currentUserId) => async (dispatch) => {
-  try {
-    const res = await axios.put(`/users/${userId}/unfollow`, {
-      userId: currentUserId,
-    });
-    if (res.status === 200)
-      dispatch({ type: actionTypes.UNFOLLOWED, payload: userId });
-    else dispatch({ type: actionTypes.UNFOLLOW_FAIL });
-  } catch (error) {
-    console.log(error);
-    dispatch({ type: actionTypes.UNFOLLOW_FAIL });
-  }
-};
+
+export const acceptConnectionRequest =
+  (userId, currentUserId) => async (dispatch) => {
+    try {
+      const res = await axios.put(`/users/${currentUserId}/accept`, {
+        userId,
+      });
+      if (res.status === 200)
+        dispatch({
+          type: actionTypes.CONNECTION_REQUEST_ACCEPTED,
+          payload: userId,
+        });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: actionTypes.CONNECTION_REQUEST_ACCEPT_FAILED });
+    }
+  };
+
+export const rejectConnectionRequest =
+  (userId, currentUserId) => async (dispatch) => {
+    try {
+      const res = await axios.put(`/users/${currentUserId}/reject`, {
+        userId,
+      });
+      if (res.status === 200)
+        dispatch({
+          type: actionTypes.CONNECTION_REQUEST_REJECT,
+          payload: userId,
+        });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: actionTypes.CONNECTION_REQUEST_REJECT_FAILED });
+    }
+  };

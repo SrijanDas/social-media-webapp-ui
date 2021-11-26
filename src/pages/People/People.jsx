@@ -1,39 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./People.css";
-import ProfileBanner from "../../components/ProfileBanner/ProfileBanner";
 import Loader from "../../components/Loader/Loader";
-import axios from "../../axios";
 import { useSelector } from "react-redux";
+import Request from "./Request";
 
 export default function People() {
   const [loading, setLoading] = useState(true);
   const timer = useRef(null);
-  const [users, setUsers] = useState([]);
-  const token = localStorage.getItem("access");
 
-  const currentUser = useSelector((state) => state.auth.user);
+  const connectRequests = useSelector(
+    (state) => state.auth.user.connectRequests
+  );
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await axios.get("/users/suggest", {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        setUsers(res.data);
-        console.log(res.data);
-        return;
-      } catch (error) {
-        console.log(error);
-        return;
-      }
-    };
     timer.current = window.setTimeout(() => {
-      fetchUsers();
       setLoading(false);
     }, 1000);
-  }, [currentUser._id, token]);
+  }, []);
 
   return (
     <div className="people">
@@ -41,9 +24,9 @@ export default function People() {
         <Loader />
       ) : (
         <>
-          <h1>People you may know</h1>
-          {users.map((u) => (
-            <ProfileBanner key={u._id} user={u} />
+          <h1>Requests</h1>
+          {connectRequests.map((u) => (
+            <Request key={u} userId={u} />
           ))}
         </>
       )}
