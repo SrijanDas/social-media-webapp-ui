@@ -74,21 +74,25 @@ const authReducer = (state = initialState, action) => {
         user: null,
       };
 
-    case followActionTypes.FOLLOWED:
+    case followActionTypes.CONNECTION_REQUEST_ACCEPTED:
       return {
         ...state,
         user: {
           ...state.user,
-          following: [...state.user.following, payload],
+          connections: [...state.user.connections, payload],
+          connectRequests: state.user.connectRequests.filter(
+            (userId) => userId !== payload
+          ),
         },
       };
-    case followActionTypes.UNFOLLOWED:
+
+    case followActionTypes.DISCONNECTED_USER:
       return {
         ...state,
         user: {
           ...state.user,
-          following: state.user.following.filter(
-            (following) => following !== payload
+          connections: state.user.connections.filter(
+            (userId) => userId !== payload
           ),
         },
       };

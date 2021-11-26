@@ -14,16 +14,11 @@
 .profileBanner__username {
   color: grey;
 }
+.profileBanner__btnContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 .profileBanner__btn {
   text-transform: capitalize !important;
 }
-/* @media (max-width: 20px) {
-  .profileBanner {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.3rem;
-  }
-  .profileBanner {
-    padding: 0.2rem;
-  }
-} */
