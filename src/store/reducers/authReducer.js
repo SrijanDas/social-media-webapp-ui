@@ -3,12 +3,10 @@ import * as followActionTypes from "../actions/followActionTypes";
 import * as imgActionTypes from "../actions/imgActionTypes";
 
 const initialState = {
-  access: localStorage.getItem("access"),
-  refresh: localStorage.getItem("refresh"),
   isAuthenticated: false,
   user: null,
   isFetching: false,
-  error: false,
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -37,7 +35,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        error: false,
+        error: null,
       };
 
     case actionTypes.AUTH_SUCCESS:
@@ -49,16 +47,12 @@ const authReducer = (state = initialState, action) => {
       };
 
     case actionTypes.LOGIN_SUCCESS:
-      const access = payload.accessToken;
-      const refresh = payload.refreshToken;
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
+      localStorage.setItem("access", payload.accessToken);
+      localStorage.setItem("refresh", payload.refreshToken);
       return {
         ...state,
         isAuthenticated: true,
-        access: access,
-        refresh: refresh,
-        error: false,
+        error: null,
       };
 
     case actionTypes.LOGIN_FAIL:
@@ -68,8 +62,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         error: payload,
         isFetching: false,
-        access: null,
-        refresh: null,
         isAuthenticated: false,
         user: null,
       };
