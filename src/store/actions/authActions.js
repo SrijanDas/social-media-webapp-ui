@@ -36,13 +36,16 @@ export const load_user = () => async (dispatch) => {
 
 export const loginCall = (userCredential) => async (dispatch) => {
   dispatch({ type: actionTypes.LOGIN_START });
-  try {
-    const res = await axios.post("/auth/login", userCredential);
-    dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: res.data });
-    dispatch(load_user());
-  } catch (err) {
-    dispatch({ type: actionTypes.LOGIN_FAIL, payload: err });
-  }
+  await axios
+    .post("/auth/login", userCredential)
+    .then((res) => {
+      dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: res.data });
+      dispatch(load_user());
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.LOGIN_FAIL, payload: err.response.data });
+      console.log(err.response.data);
+    });
 };
 
 export const checkAuthenticated = () => async (dispatch) => {

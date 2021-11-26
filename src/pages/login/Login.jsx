@@ -69,7 +69,7 @@ export default function Login() {
                   "Log In"
                 )}
               </Button>
-              {error && <Alert severity="error">{error.message}</Alert>}
+              {error && <Alert severity="error">{error}</Alert>}
               <span className="login__Forgot">Forgot Password?</span>
             </form>
           </div>
