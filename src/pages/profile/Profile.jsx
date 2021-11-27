@@ -16,6 +16,7 @@ import Follow from "../../components/Follow/Follow";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ProfileCard from "./ProfileCard";
+import Loader from "../../components/Loader/Loader";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -23,6 +24,7 @@ export default function Profile() {
   const userId = useParams().userId;
   const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const coverPic = DefaultCoverPic;
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getImages = async (givenUser) => {
@@ -43,50 +45,52 @@ export default function Profile() {
   }, [user, currentUser]);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchUser = async () => {
       const res = await axios.get(`/users?userId=${userId}`);
       setUser(res.data);
     };
     fetchUser();
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
   }, [userId]);
 
   return (
     <div className="profile">
-      <div className="profileRightTop">
-        <div className="profileCover">
-          <img className="profileCoverImg" src={coverPic} alt="" />
-          <img className="profileUserImg" src={profilePic} alt="" />
-        </div>
-        <div className="profileInfo">
-          <h4 className="profileInfoName">{user?.username}</h4>
-          <span className="profileInfoDesc">{user?.desc}</span>
-
-          {currentUser._id === userId ? (
-            <EditProfile />
-          ) : (
-            <Follow user={user} />
-          )}
-        </div>
-        {user?.connections.length && (
-          <div style={{ margin: "0.8rem 0" }}>
-            <Divider />
-            <div className="profile__connectionsContainer">
-              <Typography variant="h6">Connections</Typography>
-              <Typography variant="subtitle1">
-                {user?.connections.length} connections
-              </Typography>
-              <div className="profile__connections">
-                {user?.connections.map((connection) => (
-                  <ProfileCard key={connection} userId={connection} />
-                ))}
-              </div>
-            </div>
-            <Divider />
-          </div>
-        )}
+      <div className="profileCover">
+        <img className="profileCoverImg" src={coverPic} alt="" />
+        <img className="profileUserImg" src={profilePic} alt="" />
       </div>
+      <div className="profileInfo">
+        <h4 className="profileInfoName">{user?.username}</h4>
+        <span className="profileInfoDesc">{user?.desc}</span>
 
-      <Feed userId={userId} />
+        {currentUser._id === userId ? <EditProfile /> : <Follow user={user} />}
+      </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {user?.connections.length && (
+            <div style={{ margin: "0.8rem 0" }}>
+              <Divider />
+              <div className="profile__connectionsContainer">
+                <Typography variant="h6">Connections</Typography>
+                <Typography variant="subtitle1">
+                  {user?.connections.length} connections
+                </Typography>
+                <div className="profile__connections">
+                  {user?.connections.map((connection) => (
+                    <ProfileCard key={connection} userId={connection} />
+                  ))}
+                </div>
+              </div>
+              <Divider />
+            </div>
+          )}
+          <Feed userId={userId} />
+        </>
+      )}
     </div>
   );
 }

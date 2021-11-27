@@ -14,6 +14,7 @@ import {
   acceptConnectionRequest,
   rejectConnectionRequest,
 } from "../../store/actions/followActions";
+import Loader from "../Loader/Loader";
 
 export default function Follow({ user }) {
   const [followed, setFollowed] = useState(false);
@@ -22,6 +23,7 @@ export default function Follow({ user }) {
 
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleFollow = () => {
     if (followed) {
@@ -43,9 +45,16 @@ export default function Follow({ user }) {
     setRequestReceived(
       currentUser.connectRequests.find((userId) => userId === user?._id)
     );
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [currentUser, user]);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="follow">
       {requestSent && (
         <Button
