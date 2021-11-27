@@ -27,10 +27,8 @@ export default function Login() {
     <div className="loginPage">
       <div className="login">
         <div className="loginLeft">
-          <h3 className="loginLogo">Socials</h3>
-          <span className="loginDesc">
-            Connect with friends and the world around you on Socials.
-          </span>
+          <h3 className="loginLogo">SIU</h3>
+          <span className="loginDesc">start It UP</span>
         </div>
         <div className="loginRight">
           <div className="login__formContainer">
