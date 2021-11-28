@@ -43,7 +43,6 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        access: payload,
       };
 
     case actionTypes.LOGIN_SUCCESS:
