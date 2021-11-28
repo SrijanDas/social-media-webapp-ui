@@ -43,9 +43,9 @@ function ProfileCard({ userId }) {
   };
 
   return (
-    <Card sx={{ width: 200 }}>
+    <Card sx={{ width: 150 }}>
       <CardActionArea onClick={handleClick}>
-        <CardMedia component="img" height="140" image={profilePic} />
+        <CardMedia component="img" height="110" image={profilePic} />
         <CardContent>
           <h2 className="">{user.username}</h2>
         </CardContent>

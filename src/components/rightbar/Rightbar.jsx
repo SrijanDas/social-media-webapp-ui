@@ -13,7 +13,7 @@ export default function Rightbar() {
   const [users, setUsers] = useState([]);
 
   const currentUser = useSelector((state) => state.auth.user);
-  const token = useSelector((state) => state.auth.access);
+  const token = localStorage.getItem("access");
 
   useEffect(() => {
     const fetchUsers = async () => {

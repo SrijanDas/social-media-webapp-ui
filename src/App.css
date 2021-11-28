@@ -46,6 +46,10 @@ link {
   background-color: #1976d2 !important;
 }
 
+.bg-grey {
+  background-color: #f5f5f5 !important;
+}
+
 .text-primary {
   color: #1976d2 !important;
 }
