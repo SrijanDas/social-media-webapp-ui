@@ -18,6 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import { useSelector } from "react-redux";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
+import useProfilePic from "../../helpers/useProfilePicture";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -40,6 +41,7 @@ export default function Navbar() {
   };
 
   const user = useSelector((state) => state.auth.user);
+  const profilePic = useProfilePic(user);
 
   return (
     <div>
@@ -110,10 +112,7 @@ export default function Navbar() {
             </IconButton>
 
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-              <Avatar
-                sx={{ width: 32, height: 32 }}
-                src={user.profilePicture}
-              />
+              <Avatar sx={{ width: 32, height: 32 }} src={profilePic} />
             </IconButton>
           </Box>
         </Toolbar>

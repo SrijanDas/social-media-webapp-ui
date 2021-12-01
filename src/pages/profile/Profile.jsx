@@ -1,14 +1,10 @@
 import "./profile.css";
-// firebase imports
-import { storage } from "../../config/firebaseConfig";
-import { ref, getDownloadURL } from "firebase/storage";
 
 import Feed from "../../components/Feed/Feed";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router";
 
-import DefaultProfilePic from "../../assets/profile.png";
 import DefaultCoverPic from "../../assets/cover.jpg";
 import EditProfile from "../../components/EditProfile/EditProfile";
 import { useSelector } from "react-redux";
@@ -17,43 +13,36 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ProfileCard from "./ProfileCard";
 import Loader from "../../components/Loader/Loader";
+import useProfilePic from "../../helpers/useProfilePicture";
 
 export default function Profile() {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const currentUser = useSelector((state) => state.auth.user);
   const userId = useParams().userId;
-  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
-  const coverPic = DefaultCoverPic;
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const getImages = async (givenUser) => {
-      await getDownloadURL(
-        ref(storage, `${givenUser.email}/profile/${givenUser.profilePicture}`)
-      )
-        .then((url) => setProfilePic(url))
-        .catch((e) => console.log(e));
-    };
-
-    if (user?._id !== currentUser._id) {
-      if (user?.profilePicture) getImages(user);
-      else setProfilePic(DefaultProfilePic);
-    } else {
-      setProfilePic(currentUser.profilePicture);
-      return;
-    }
-  }, [user, currentUser]);
 
   useEffect(() => {
     setIsLoading(true);
+
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${userId}`);
-      setUser(res.data);
+      if (userId === currentUser._id) {
+        setUser(currentUser);
+      } else {
+        const res = await axios.get(`/users?userId=${userId}`);
+        setUser(res.data);
+      }
     };
+
     fetchUser();
+
     const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, [userId]);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [userId, currentUser]);
+
+  const coverPic = DefaultCoverPic;
+  const profilePic = useProfilePic(user);
 
   return (
     <div className="profile">

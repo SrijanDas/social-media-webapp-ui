@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import Alert from "@mui/material/Alert";
 import InfiniteScroll from "react-infinite-scroll-component";
+import useIsMountedRef from "../../helpers/useIsMountedRef";
 
 export default function Feed({ userId }) {
   const [posts, setPosts] = useState([]);
@@ -16,6 +17,7 @@ export default function Feed({ userId }) {
   const [page, setPage] = useState(2);
   const [hasMore, setHasMore] = useState(true);
   const limit = 1;
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
     // console.log(res.data);
@@ -39,8 +41,8 @@ export default function Feed({ userId }) {
         setIsLoading(false);
       }
     };
-    fetchPosts();
-  }, [userId, currentUser]);
+    if (isMountedRef.current) fetchPosts();
+  }, [userId, currentUser, isMountedRef]);
 
   const fetchMorePosts = async () => {
     setPage(page + 1);

@@ -20,7 +20,6 @@ import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { format } from "timeago.js";
 import { Link, useHistory } from "react-router-dom";
-import DefaultProfilePic from "../../assets/profile.png";
 import LikeIcon from "../../assets/like.png";
 import {
   Avatar,
@@ -47,18 +46,36 @@ import CommentSection from "../CommentSection/CommentSection";
 import AlertDialog from "../AlertDialog";
 import ReportDialog from "../ReportDialog/ReportDialog";
 import LikesDialog from "../LikesDialog/LikesDialog";
+import useProfilePic from "../../helpers/useProfilePicture";
 
 export default function Post({
   post,
   showComments = false,
   disableActionArea = false,
 }) {
+  const currentUser = useSelector((state) => state.auth.user);
+
+  // fetching user
+  useEffect(() => {
+    const fetchUser = async () => {
+      await axios
+        .get(`/users?userId=${post.userId}`)
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    fetchUser();
+  }, [post.userId, currentUser]);
+
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const [postDeleted, setPostDeleted] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(showComments);
-  const currentUser = useSelector((state) => state.auth.user);
 
   const history = useHistory();
 
@@ -67,7 +84,6 @@ export default function Post({
   const [shareMenuAnchorEl, setShareMenuAnchorEl] = useState(null);
   const shareMenuOpen = Boolean(shareMenuAnchorEl);
 
-  const [profilePic, setProfilePic] = useState(DefaultProfilePic);
   const [postImg, setPostImg] = useState();
   const [noOfComments, setNoOfComments] = useState(0);
 
@@ -75,6 +91,7 @@ export default function Post({
   const [alertOpen, setAlertOpen] = useState(false);
 
   const postLink = `${window.location.host}/posts/${post._id}`;
+  const profilePic = useProfilePic(user);
 
   // report post
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
@@ -121,35 +138,6 @@ export default function Post({
       getPostImage(post.img);
     }
   }, [currentUser._id, post.likes, post.img]);
-
-  // getting profile pic from firebase storage
-  useEffect(() => {
-    const getImages = async (user) => {
-      if (user._id === currentUser._id) {
-        setProfilePic(currentUser.profilePicture);
-      } else if (user.profilePicture) {
-        await getDownloadURL(
-          ref(storage, `${user.email}/profile/${user.profilePicture}`)
-        )
-          .then((url) => setProfilePic(url))
-          .catch((e) => console.log(e));
-      }
-    };
-
-    const fetchUser = async () => {
-      await axios
-        .get(`/users?userId=${post.userId}`)
-        .then((res) => {
-          setUser(res.data);
-          getImages(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
-    fetchUser();
-  }, [post.userId, currentUser]);
 
   const likeHandler = () => {
     try {

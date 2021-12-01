@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/authActionTypes";
 import * as followActionTypes from "../actions/followActionTypes";
-import * as imgActionTypes from "../actions/imgActionTypes";
 
 const initialState = {
   isAuthenticated: false,
@@ -85,21 +84,6 @@ const authReducer = (state = initialState, action) => {
           connections: state.user.connections.filter(
             (userId) => userId !== payload
           ),
-        },
-      };
-
-    case imgActionTypes.PROFILE_PHOTO_LOADED_FAIL:
-      return {
-        ...state,
-        error: payload,
-      };
-
-    case imgActionTypes.PROFILE_PHOTO_LOADED:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          profilePicture: payload,
         },
       };
 

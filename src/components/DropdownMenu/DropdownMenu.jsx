@@ -13,10 +13,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutCall } from "../../store/actions/authActions";
 import { Link } from "react-router-dom";
 import Feedback from "../FeedbackForm/FeedbackForm";
+import useProfilePicture from "../../helpers/useProfilePicture";
 
 export default function DropdownMenu({ anchorEl, open, handleClose }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const profilePicture = useProfilePicture(user);
 
   // feedback form dialog
   const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
@@ -64,7 +66,7 @@ export default function DropdownMenu({ anchorEl, open, handleClose }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem component={Link} to={`/profile/${user._id}`}>
-          <Avatar src={user.profilePicture} alt="" />
+          <Avatar src={profilePicture} alt="" />
           <ListItemText primary={user.username} secondary="View your profile" />
         </MenuItem>
         <Divider />

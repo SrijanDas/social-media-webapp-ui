@@ -17,11 +17,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LinearProgress from "@mui/material/LinearProgress";
 import Card from "@mui/material/Card";
-
 import { useSelector } from "react-redux";
+import useProfilePic from "../../helpers/useProfilePicture";
 
 export default function Share() {
   const user = useSelector((state) => state.auth.user);
+  const profilePic = useProfilePic(user);
   const [postCaption, setPostCaption] = useState("");
   const [file, setFile] = useState(null);
   const [postUploaded, setPostUploaded] = useState(false);
@@ -81,7 +82,7 @@ export default function Share() {
       <Card className="share" sx={{ boxShadow: 2 }}>
         <div className="shareTop">
           <Link to={`/profile/${user._id}`}>
-            <Avatar className="shareProfileImg" src={user.profilePicture} />
+            <Avatar className="shareProfileImg" src={profilePic} />
           </Link>
           <input
             placeholder={`What's in your mind ${user.username}?`}

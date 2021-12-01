@@ -1,6 +1,5 @@
 import axios from "../../axios";
 import * as actionTypes from "./authActionTypes";
-import { loadProfilePhoto } from "./imgActions";
 
 export const load_user = () => async (dispatch) => {
   if (localStorage.getItem("access")) {
@@ -19,7 +18,6 @@ export const load_user = () => async (dispatch) => {
         type: actionTypes.USER_LOADED_SUCCESS,
         payload: user,
       });
-      dispatch(loadProfilePhoto(user));
     } catch (error) {
       dispatch({
         type: actionTypes.USER_LOADED_FAIL,
