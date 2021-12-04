@@ -14,32 +14,30 @@ import Divider from "@material-ui/core/Divider";
 import ProfileCard from "./ProfileCard";
 import Loader from "../../components/Loader/Loader";
 import useProfilePic from "../../helpers/useProfilePicture";
+import useIsMountedRef from "../../helpers/useIsMountedRef";
 
 export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const currentUser = useSelector((state) => state.auth.user);
   const userId = useParams().userId;
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
     setIsLoading(true);
 
     const fetchUser = async () => {
-      if (userId === currentUser._id) {
-        setUser(currentUser);
-      } else {
-        const res = await axios.get(`/users?userId=${userId}`);
-        setUser(res.data);
-      }
+      const res = await axios.get(`/users?userId=${userId}`);
+      setUser(res.data);
     };
 
-    fetchUser();
+    if (isMountedRef.current) fetchUser();
 
     const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => {
       clearTimeout(timer);
     };
-  }, [userId, currentUser]);
+  }, [userId, isMountedRef]);
 
   const coverPic = DefaultCoverPic;
   const profilePic = useProfilePic(user);

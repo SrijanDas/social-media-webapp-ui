@@ -10,13 +10,13 @@ const useProfilePic = (user) => {
   // getting profile pic from firebase storage
   useEffect(() => {
     const getProfilePic = async () => {
-      if (user.profilePicture) {
-        await getDownloadURL(
-          ref(storage, `${user.email}/profile/${user.profilePicture}`)
-        )
-          .then((url) => setProfilePic(url))
-          .catch((e) => console.log(e));
-      }
+      if (!user.profilePicture) return setProfilePic(DefaultProfilePic);
+
+      await getDownloadURL(
+        ref(storage, `${user.email}/profile/${user.profilePicture}`)
+      )
+        .then((url) => setProfilePic(url))
+        .catch((e) => console.log(e));
     };
     if (user) getProfilePic();
   }, [user]);

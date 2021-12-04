@@ -21,14 +21,14 @@ function Layout({ children }) {
   useEffect(() => {
     dispatch(checkAuthenticated());
     timer.current = window.setTimeout(() => {
-      if (!isFetching) setIsLoading(false);
+      setIsLoading(false);
     }, 2000);
     return () => {
       clearTimeout(timer.current);
     };
   }, [dispatch]);
 
-  return isLoading ? (
+  return isLoading && isFetching ? (
     <div className={classes.layoutLoader}>
       <h1 className={classes.logoText}>siu</h1>
       <Loader size={50} />
