@@ -1,4 +1,4 @@
-# [start It UP](https://socials-2bccb.web.app/)
+# [Social Media Web App](https://socials-2bccb.web.app/)
 
 
  ## Demo
