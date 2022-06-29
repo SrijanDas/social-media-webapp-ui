@@ -9,17 +9,25 @@
   justify-content: center;
 }
 .page {
-  display: flex;
+  /* display: flex;
   margin: auto;
   max-width: 1440px;
   flex-direction: row;
   justify-content: center;
   width: 95%;
-  gap: 1rem;
+  gap: 1rem; */
 }
 
 .pageContent {
-  width: 70%;
+  /* width: 70%; */
+ 
+  margin-left: 15rem;
+  margin-right: 25rem;
+}
+@media (max-width: 1020px) {
+  .pageContent {
+    margin-right: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -31,7 +39,8 @@
     width: 100%;
   }
   .pageContent {
-    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
   }
 }
 

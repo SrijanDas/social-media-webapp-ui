@@ -1,11 +1,13 @@
 .feed {
-  display: flex;
+  /* display: flex;
   flex: 8;
-  justify-content: center;
+  justify-content: center; */
+  /* width: 32rem; */
+  margin-top: 5rem;
 }
 
 .feedWrapper {
-  width: 85%;
+  /* width: 85%; */
 }
 
 .feed__msg {
@@ -15,5 +17,16 @@
 @media (max-width: 990px) {
   .feedWrapper {
     width: 98%;
+  }
+}
+
+@media (max-width: 768px) {
+  .feed {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
   }
 }

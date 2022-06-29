@@ -1,8 +1,9 @@
 .rightbar {
-  width: 25rem;
+  width: 22rem;
   height: calc(100vh - 50px);
-  position: sticky;
+  position: fixed;
   top: 5rem;
+  right: 1rem;
 }
 
 .rightbar__userListHeader {
@@ -32,12 +33,12 @@
   color: #1877f2;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1020px) {
   .rightbar {
     display: none;
   }
 }
-
+/* 
 @media (max-width: 986px) {
   .rightbar {
     width: 20%;
@@ -47,4 +48,4 @@
     display: flex;
     padding: 0.25rem;
   }
-}
+} */

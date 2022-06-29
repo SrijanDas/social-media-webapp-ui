@@ -1,8 +1,10 @@
 .sidebar {
-  width: 15rem;
-  height: calc(100vh - 50px);
-  position: sticky;
+  width: 12rem;
+  height: 100%;
+  position: fixed;
   top: 50px;
+  left: 0;
+  padding: 1rem;
 }
 
 .sidebarWrapper {
