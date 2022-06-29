@@ -30,7 +30,7 @@ function Layout({ children }) {
 
   return isLoading ? (
     <div className={classes.layoutLoader}>
-      <h1 className={classes.logoText}>siu</h1>
+      <h1 className={classes.logoText}>RS</h1>
       <Loader size={50} />
     </div>
   ) : (

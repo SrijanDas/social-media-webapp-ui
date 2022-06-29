@@ -364,7 +364,7 @@ export default function Post({
                 <img className="likeIcon" src={LikeIcon} alt="" />
                 <span
                   className="postLikeCounter"
-                  onClick={handleLikesDialogOpen}
+                  // onClick={handleLikesDialogOpen}
                 >
                   {like} people liked it
                 </span>

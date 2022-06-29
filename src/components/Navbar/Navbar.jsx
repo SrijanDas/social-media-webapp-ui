@@ -52,7 +52,7 @@ export default function Navbar() {
             component={Link}
             to="/"
           >
-            siu
+            RS
           </Typography>
           <div className="navbar__searchContainer">
             <div className="navbar__searchForm">
